@@ -1,35 +1,28 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/services/auth_service.dart';
-import 'package:meau/views/auth/sign_up_screen.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+  final passwordConfirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final authService = context.watch<AuthService>();
     return Scaffold(
       appBar: AppBarComponent(
-        title: "LOGIN",
+        title: "CADASTRO",
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
@@ -51,57 +44,67 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 80,
             ),
             Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+              child: TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Nome',
+                    hintText: 'Digite um nome válido, EX: João da Silva'),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
               child: TextField(
                 controller: emailController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Email',
                     hintText: 'Digite um e-mail válido, EX: abc@gmail.com'),
               ),
             ),
             Padding(
-              padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
               child: TextField(
                 obscureText: true,
                 controller: passwordController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Password',
+                    labelText: 'Senha',
                     hintText: 'Digite uma senha segura'),
               ),
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text(
-                'Esqueci minha senha.',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  decoration: TextDecoration.underline,
-                ),
+            Padding(
+              padding:
+              EdgeInsets.only(left: 15.0, right: 15.0, bottom: 50),
+              //padding: EdgeInsets.symmetric(horizontal: 15),
+              child: TextField(
+                obscureText: true,
+                controller: passwordConfirmController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Confirmação de senha',
+                    hintText: 'Digite uma senha segura'),
               ),
             ),
             Container(
               height: 50,
               width: 250,
               decoration: BoxDecoration(
-                  color: Color(0xffF5A900),
+                  color: const Color(0xffF5A900),
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () {
-                  Map login = {
+                  print("indo");
+                  Map register = {
                     "email": emailController.text,
                     "password": passwordController.text,
                     "returnSecureToken": true
                   };
-                  authService.auth(login);
+                  authService.register(register);
                 },
                 child: const Text(
-                  'Login',
+                  'Cadastrar',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 25,
@@ -110,21 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 130,
-            ),
-            GestureDetector(
-              child: const Text(
-                'Não tem conta? Crie uma!',
-                style: TextStyle(decoration: TextDecoration.underline),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignUpScreen()),
-                );
-              },
-            )
           ],
         ),
       ),

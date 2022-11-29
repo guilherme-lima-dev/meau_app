@@ -1,6 +1,10 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:meau/http_clients/dio_client.dart';
+import 'package:meau/interfaces/http_client_interface.dart';
+import 'package:meau/services/auth_service.dart';
 import 'package:meau/views/home/home_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +16,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Meau',
-      theme: ThemeData(
-        primarySwatch: buildMaterialColor(const Color(0xffF5A900)),
+    return MultiProvider(
+      providers: [
+        Provider<IHttpClient>(create: (_) => DioClient()),
+        Provider<AuthService>(create: (context) => AuthService(context.read())),
+      ],
+      child: MaterialApp(
+        title: 'Meau',
+        theme: ThemeData(
+          primarySwatch: buildMaterialColor(const Color(0xffF5A900)),
+        ),
+        home: const MyHomePage(title: 'Hello World!'),
       ),
-      home: const MyHomePage(title: 'Hello World!'),
     );
   }
 }

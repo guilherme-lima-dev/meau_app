@@ -8,6 +8,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
