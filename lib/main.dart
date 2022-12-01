@@ -1,5 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:meau/controllers/auth_controller.dart';
 import 'package:meau/http_clients/dio_client.dart';
 import 'package:meau/interfaces/http_client_interface.dart';
 import 'package:meau/services/auth_service.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<IHttpClient>(create: (_) => DioClient()),
         Provider<AuthService>(create: (context) => AuthService(context.read())),
+        ChangeNotifierProvider<AuthController>(create: (context) => AuthController(context.read())),
       ],
       child: MaterialApp(
         title: 'Meau',

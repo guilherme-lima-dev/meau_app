@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
+import 'package:meau/controllers/auth_controller.dart';
 import 'package:meau/services/auth_service.dart';
 import 'package:meau/views/auth/sign_up_screen.dart';
+import 'package:meau/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -26,106 +30,144 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = context.watch<AuthService>();
+    final authController = context.watch<AuthController>();
     return Scaffold(
       appBar: AppBarComponent(
         title: "LOGIN",
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Center(
-                child: SizedBox(
-                    width: 200,
-                    height: 150,
-                    /*decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(50.0)),*/
-                    child: Image.asset('assets/logos/Meau_Icone.png')),
-              ),
-            ),
-            Container(
-              height: 80,
-            ),
-            Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                    hintText: 'Digite um e-mail válido, EX: abc@gmail.com'),
-              ),
-            ),
-            Padding(
-              padding:
-                  EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Digite uma senha segura'),
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: const Text(
-                'Esqueci minha senha.',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  decoration: TextDecoration.underline,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 60.0),
+                child: Center(
+                  child: SizedBox(
+                      width: 200,
+                      height: 150,
+                      /*decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(50.0)),*/
+                      child: Image.asset('assets/logos/Meau_Icone.png')),
                 ),
               ),
-            ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: Color(0xffF5A900),
-                  borderRadius: BorderRadius.circular(20)),
-              child: TextButton(
-                onPressed: () {
-                  Map login = {
-                    "email": emailController.text,
-                    "password": passwordController.text,
-                    "returnSecureToken": true
-                  };
-                  authService.auth(login);
-                },
+              Container(
+                height: 80,
+              ),
+              Padding(
+                //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: TextField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email',
+                      hintText: 'Digite um e-mail válido, EX: abc@gmail.com'),
+                ),
+              ),
+              Padding(
+                padding:
+                    EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+                //padding: EdgeInsets.symmetric(horizontal: 15),
+                child: TextField(
+                  obscureText: true,
+                  controller: passwordController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                      hintText: 'Digite uma senha segura'),
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
                 child: const Text(
-                  'Login',
+                  'Esqueci minha senha.',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 15,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 130,
-            ),
-            GestureDetector(
-              child: const Text(
-                'Não tem conta? Crie uma!',
-                style: TextStyle(decoration: TextDecoration.underline),
+              Container(
+                height: 50,
+                width: 250,
+                decoration: BoxDecoration(
+                    color: Color(0xffF5A900),
+                    borderRadius: BorderRadius.circular(20)),
+                child: TextButton(
+                  onPressed: () async{
+                    Map login = {
+                      "email": emailController.text,
+                      "password": passwordController.text,
+                      "returnSecureToken": true
+                    };
+                    authController.setLoading();
+                    var res = await authController.auth(login);
+                    authController.setLoading();
+                    if(res != null){
+                      _formKey.currentState?.reset();
+                      Timer(const Duration(seconds: 0), (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const HomeScreen())
+                        );
+                      });
+                    }else{
+                      print("oi");
+                      showDialog(context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Não autorizado'),
+                            content: const Text('Usuário ou senha incorretos!'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'Cancel'),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          )
+                      );
+
+                    }
+                  },
+                  child: authController.loading
+                      ? const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    strokeWidth: 3,
+                  )
+                      : const Text(
+                    "Login",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25),
+                  ),
+                ),
               ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignUpScreen()),
-                );
-              },
-            )
-          ],
+              const SizedBox(
+                height: 130,
+              ),
+              GestureDetector(
+                child: const Text(
+                  'Não tem conta? Crie uma!',
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

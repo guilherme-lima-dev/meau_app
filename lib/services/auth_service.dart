@@ -9,10 +9,10 @@ class AuthService{
 
   AuthService(this.client);
 
-  Future<String?> auth(Map login) async{
+  Future<dynamic> auth(Map login) async{
     try{
       final body = await client.post(Endpoints.urlAuth, login);
-      return body['idToken'];
+      return body;
     }catch(e){
       return null;
     }
