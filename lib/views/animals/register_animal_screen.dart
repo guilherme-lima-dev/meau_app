@@ -2,12 +2,21 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/controllers/auth_controller.dart';
 import 'package:meau/services/auth_service.dart';
 import 'package:meau/views/auth/login_screen.dart';
 import 'package:meau/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
+
+enum Especie { cachorro, gato }
+
+enum Sexo { macho, femea }
+
+enum Porte { pequeno, medio, grande }
+
+enum Idade { filhote, adulto, idoso }
 
 class RegisterAnimalScreen extends StatefulWidget {
   const RegisterAnimalScreen({Key? key}) : super(key: key);
@@ -19,11 +28,38 @@ class RegisterAnimalScreen extends StatefulWidget {
 class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final passwordConfirmController = TextEditingController();
+  final diseaseController = TextEditingController();
+  final medicineController = TextEditingController();
+  final objectsController = TextEditingController();
+  final aboutanimalController = TextEditingController();
 
   int value = 0;
+
+  Especie especie = Especie.cachorro;
+  Sexo sexo = Sexo.macho;
+  Porte porte = Porte.pequeno;
+  Idade idade = Idade.filhote;
+
+  bool brincalhaoValue = false;
+  bool timidoValue = false;
+  bool calmoValue = false;
+  bool guardaValue = false;
+  bool amorosoValue = false;
+  bool preguicosoValue = false;
+
+  bool vacinadoValue = false;
+  bool vermifugadoValue = false;
+  bool castradoValue = false;
+  bool doenteValue = false;
+
+  bool termoValue = false;
+  bool fotosValue = false;
+  bool visitaValue = false;
+  bool acompanhamentoValue = false;
+
+  bool tempo1Acompanhamento = false;
+  bool tempo3Acompanhamento = false;
+  bool tempo6Acompanhamento = false;
 
   Widget CustomRadioButton(String text, int index) {
     return Padding(
@@ -120,20 +156,32 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
-                            }),
-                        const Text("Cachorro"),
-                        Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
-                            }),
-                        const Text("Gato"),
+                        Row(
+                          children: [
+                            Radio(
+                                value: Especie.cachorro,
+                                groupValue: especie,
+                                onChanged: (Especie? especieSelected) {
+                                  setState(() {
+                                    especie = especieSelected!;
+                                  });
+                                }),
+                            const Text("Cachorro"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Radio(
+                                value: Especie.gato,
+                                groupValue: especie,
+                                onChanged: (Especie? especieSelected) {
+                                  setState(() {
+                                    especie = especieSelected!;
+                                  });
+                                }),
+                            const Text("Gato"),
+                          ],
+                        ),
                       ],
                     ),
                     Container(
@@ -146,20 +194,32 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
-                            }),
-                        const Text("Macho"),
-                        Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
-                            }),
-                        const Text("Fêmea"),
+                        Row(
+                          children: [
+                            Radio(
+                                value: Sexo.macho,
+                                groupValue: sexo,
+                                onChanged: (Sexo? sexoSelected) {
+                                  setState(() {
+                                    sexo = sexoSelected!;
+                                  });
+                                }),
+                            const Text("Macho"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Radio(
+                                value: Sexo.femea,
+                                groupValue: sexo,
+                                onChanged: (Sexo? sexoSelected) {
+                                  setState(() {
+                                    sexo = sexoSelected!;
+                                  });
+                                }),
+                            const Text("Fêmea"),
+                          ],
+                        ),
                       ],
                     ),
                     Container(
@@ -173,27 +233,45 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
-                            }),
-                        const Text("Pequeno"),
-                        Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
-                            }),
-                        const Text("Médio"),
-                        Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
-                            }),
-                        const Text("Grande"),
+                        Row(
+                          children: [
+                            Radio(
+                                value: Porte.pequeno,
+                                groupValue: porte,
+                                onChanged: (Porte? porteSelected) {
+                                  setState(() {
+                                    porte = porteSelected!;
+                                  });
+                                }),
+                            const Text("Pequeno"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Radio(
+                                value: Porte.medio,
+                                groupValue: porte,
+                                onChanged: (Porte? porteSelected) {
+                                  setState(() {
+                                    porte = porteSelected!;
+                                  });
+                                }),
+                            const Text("Médio"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Radio(
+                                value: Porte.grande,
+                                groupValue: porte,
+                                onChanged: (Porte? porteSelected) {
+                                  setState(() {
+                                    porte = porteSelected!;
+                                  });
+                                }),
+                            const Text("Grande"),
+                          ],
+                        ),
                       ],
                     ),
                     Container(
@@ -208,24 +286,30 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
+                            value: Idade.filhote,
+                            groupValue: idade,
+                            onChanged: (Idade? idadeSelected) {
+                              setState(() {
+                                idade = idadeSelected!;
+                              });
                             }),
                         const Text("Filhote"),
                         Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
+                            value: Idade.adulto,
+                            groupValue: idade,
+                            onChanged: (Idade? idadeSelected) {
+                              setState(() {
+                                idade = idadeSelected!;
+                              });
                             }),
                         const Text("Adulto"),
                         Radio(
-                            value: "radio value",
-                            groupValue: "group value",
-                            onChanged: (value) {
-                              print(value); //selected value
+                            value: Idade.idoso,
+                            groupValue: idade,
+                            onChanged: (Idade? idadeSelected) {
+                              setState(() {
+                                idade = idadeSelected!;
+                              });
                             }),
                         const Text("Idoso"),
                       ],
@@ -241,66 +325,101 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: brincalhaoValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  brincalhaoValue = value!;
+                                });
+                              },
+                            ),
+                            const Text("Brincalhão"),
+                          ],
                         ),
-                        const Text("Brincalhão"),
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: timidoValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  timidoValue = value!;
+                                });
+                              },
+                            ),
+                            const Text("Tímido"),
+                          ],
                         ),
-                        const Text("Tímido"),
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: calmoValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  calmoValue = value!;
+                                });
+                              },
+                            ),
+                            const Text("Calmo"),
+                          ],
                         ),
-                        const Text("Calmo"),
                       ],
                     ),
                     Row(
                       //Aqui pode ser usado o Wrap
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                                checkColor: Colors.white,
+                                activeColor: Color(0xfff4a800),
+                                value: guardaValue,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    guardaValue = value!;
+                                  });
+                                }),
+                            const Text("Guarda"),
+                          ],
                         ),
-                        const Text("Guarda"),
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: amorosoValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  amorosoValue = value!;
+                                });
+                              },
+                            ),
+                            const Text("Amoroso"),
+                          ],
                         ),
-                        const Text("Amoroso"),
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: preguicosoValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  preguicosoValue = value!;
+                                });
+                              },
+                            ),
+                            const Text("Preguiçoso"),
+                          ],
                         ),
-                        const Text("Preguiçoso"),
                       ],
                     ),
                     Container(
@@ -314,54 +433,87 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: vacinadoValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  vacinadoValue = value!;
+                                });
+                              },
+                            ),
+                            const Text("Vacinado"),
+                          ],
                         ),
-                        const Text("Vacinado"),
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: vermifugadoValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  vermifugadoValue = value!;
+                                });
+                              },
+                            ),
+                            const Text("Vermifugado"),
+                          ],
                         ),
-                        const Text("Vermifugado"),
                       ],
                     ),
                     Row(
                       //Aqui pode ser usado o Wrap
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: castradoValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  castradoValue = value!;
+                                });
+                              },
+                            ),
+                            const Text("Castrado"),
+                          ],
                         ),
-                        const Text("Castrado"),
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Color(0xfff4a800),
-                          value: false,
-                          onChanged: (value) {
-                            print(value);
-                          },
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: doenteValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  doenteValue = value!;
+                                });
+                              },
+                            ),
+                            const Text("Doente"),
+                          ],
                         ),
-                        const Text("Doente"),
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 15),
+                      child: TextField(
+                        controller: diseaseController,
+                        decoration: const InputDecoration(
+                            labelText: 'Doenças do Animal'),
+                      ),
                     ),
                     Container(
                       alignment: Alignment.topLeft,
                       padding: const EdgeInsets.only(left: 15),
-                      child: const Text("Necessidades do Animal",
+                      child: const Text("Exigências para adoção",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Color(0xfff7a800)),
                           selectionColor: Color(0Xff434343)),
@@ -373,47 +525,105 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                             Checkbox(
                               checkColor: Colors.white,
                               activeColor: Color(0xfff4a800),
-                              value: false,
-                              onChanged: (value) {
-                                print(value);
+                              value: termoValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  termoValue = value!;
+                                });
                               },
                             ),
-                            const Text("Alimento"),
+                            const Text("Termo de Adoção"),
                           ]),
                           Row(children: [
                             Checkbox(
                               checkColor: Colors.white,
                               activeColor: Color(0xfff4a800),
-                              value: false,
-                              onChanged: (value) {
-                                print(value);
+                              value: fotosValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  fotosValue = value!;
+                                });
                               },
                             ),
-                            const Text("Auxílio financeiro"),
+                            const Text("Fotos da casa"),
                           ]),
                           Row(children: [
                             Checkbox(
                               checkColor: Colors.white,
                               activeColor: Color(0xfff4a800),
-                              value: false,
-                              onChanged: (value) {
-                                print(value);
+                              value: visitaValue,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  visitaValue = value!;
+                                });
                               },
                             ),
-                            const Text("Medicamento"),
+                            const Text("Visita prévia ao animal"),
                           ]),
-                          Row(children: [
-                            Checkbox(
-                              checkColor: Colors.white,
-                              activeColor: Color(0xfff4a800),
-                              value: false,
-                              onChanged: (value) {
-                                print(value);
-                              },
-                            ),
-                            const Text("Objetos"),
-                          ]),
+                          Row(
+                            children: [
+                              Checkbox(
+                                checkColor: Colors.white,
+                                activeColor: Color(0xfff4a800),
+                                value: acompanhamentoValue,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    acompanhamentoValue = value!;
+                                  });
+                                },
+                              ),
+                              const Text("Acompanhamento pós adoção"),
+                            ],
+                          ),
                         ]),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(children: [
+                          Checkbox(
+                            checkColor: Colors.white,
+                            activeColor: Color(0xfff4a800),
+                            value: tempo1Acompanhamento,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                tempo1Acompanhamento = value!;
+                              });
+                            },
+                          ),
+                          const Text("1 mês"),
+                        ]),
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: tempo3Acompanhamento,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  tempo3Acompanhamento = value!;
+                                });
+                              },
+                            ),
+                            const Text("3 meses"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: Color(0xfff4a800),
+                              value: tempo6Acompanhamento,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  tempo6Acompanhamento = value!;
+                                });
+                              },
+                            ),
+                            const Text("6 meses"),
+                          ],
+                        )
+                      ],
+                    ),
                     Container(
                       alignment: Alignment.topLeft,
                       padding: const EdgeInsets.only(left: 15),
@@ -422,17 +632,15 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                           style: TextStyle(color: Color(0xfff7a800)),
                           selectionColor: Color(0Xff434343)),
                     ),
-                    // Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    //   Checkbox(
-                    //     checkColor: Colors.white,
-                    //     activeColor: Color(0xfff4a800),
-                    //     value: false,
-                    //     onChanged: (value) {
-                    //       print(value);
-                    //     },
-                    //   ),
-                    //   const Text("Vacinado"),
-                    // ]),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 15),
+                      child: TextField(
+                        controller: aboutanimalController,
+                        decoration: const InputDecoration(
+                            labelText: 'Compartilhe a história do animal'),
+                      ),
+                    ),
                   ],
                 ),
             ],
