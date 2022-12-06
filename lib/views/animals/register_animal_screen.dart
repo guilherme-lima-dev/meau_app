@@ -148,6 +148,39 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     Container(
                       alignment: Alignment.topLeft,
                       padding: const EdgeInsets.only(left: 15),
+                      child: const Text("Fotos do animal",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Color(0xfff7a800)),
+                          selectionColor: Color(0Xff434343)),
+                    ),
+                    Container(
+                      height: 150,
+                      width: 380,
+                      decoration: BoxDecoration(
+                        color: const Color(0xfff1f2f2),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                print("add image");
+                              },
+                              icon: const Icon(Icons.control_point,
+                                  color: Color(0Xff434343))),
+                          const Text(
+                            "Adicionar fotos",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Color(0Xff434343)),
+                          ),
+                        ],
+                        // Icon(Icons.control_point, color: Color(0xff757575)),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(left: 15),
                       child: const Text("Espécie",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Color(0xfff7a800)),
@@ -641,6 +674,26 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                             labelText: 'Compartilhe a história do animal'),
                       ),
                     ),
+                    Container(
+                        height: 60,
+                        width: 320,
+                        decoration: BoxDecoration(
+                          color: const Color(0xffffd358),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            print("button - colocar para adocao");
+                          },
+                          child: const Text(
+                            "Colocar para adoção",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Color(0Xff434343),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                        )),
                   ],
                 ),
             ],
