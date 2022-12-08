@@ -10,6 +10,7 @@ import 'package:meau/controllers/auth_controller.dart';
 import 'package:meau/helpers/build_material_color_helper.dart';
 import 'package:meau/model/animal.dart';
 import 'package:meau/services/auth_service.dart';
+import 'package:meau/views/animals/success_register_screen.dart';
 import 'package:meau/views/auth/login_screen.dart';
 import 'package:meau/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +47,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
   Porte porte = Porte.pequeno;
   Idade idade = Idade.filhote;
   Accompaniment accompaniment = Accompaniment.not;
+  bool loadingButtonRegister = false;
 
   String temperamentText = "";
   bool brincalhaoValue = false;
@@ -155,6 +157,41 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                           border: OutlineInputBorder(),
                           labelText: 'NOME DO ANIMAL',
                           hintText: 'Digite um nome válido, Ex: Belinha'),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    alignment: Alignment.topLeft,
+                    padding: const EdgeInsets.only(left: 15),
+                    child: const Text(
+                      "Fotos do animal",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Color(0xfff7a800)),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    width: 380,
+                    decoration: BoxDecoration(
+                      color: const Color(0xfff1f2f2),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              print("add image");
+                            },
+                            icon: const Icon(Icons.control_point,
+                                color: Color(0Xff434343))),
+                        const Text(
+                          "Adicionar fotos",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Color(0Xff434343)),
+                        ),
+                      ],
+                      // Icon(Icons.control_point, color: Color(0xff757575)),
                     ),
                   ),
                   Container(
@@ -354,8 +391,8 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (brincalhaoValue) {
                                   temperamentText += "Brincalhão;";
                                 } else {
-                                  temperamentText =
-                                      temperamentText.replaceAll("Brincalhão;", "");
+                                  temperamentText = temperamentText.replaceAll(
+                                      "Brincalhão;", "");
                                 }
                               });
                             },
@@ -423,8 +460,8 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                   if (guardaValue) {
                                     temperamentText += "Guarda;";
                                   } else {
-                                    temperamentText =
-                                        temperamentText.replaceAll("Guarda;", "");
+                                    temperamentText = temperamentText
+                                        .replaceAll("Guarda;", "");
                                   }
                                 });
                               }),
@@ -443,8 +480,8 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (amorosoValue) {
                                   temperamentText += "Amoroso;";
                                 } else {
-                                  temperamentText =
-                                      temperamentText.replaceAll("Amoroso;", "");
+                                  temperamentText = temperamentText.replaceAll(
+                                      "Amoroso;", "");
                                 }
                               });
                             },
@@ -464,8 +501,8 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (preguicosoValue) {
                                   temperamentText += "Preguiçoso;";
                                 } else {
-                                  temperamentText =
-                                      temperamentText.replaceAll("Preguiçoso;", "");
+                                  temperamentText = temperamentText.replaceAll(
+                                      "Preguiçoso;", "");
                                 }
                               });
                             },
@@ -742,31 +779,42 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                   onPressed: () async {
                     final docAnimal =
                         FirebaseFirestore.instance.collection('animal').doc();
-
+                    setState(() {
+                      loadingButtonRegister = true;
+                    });
                     this.animal = Animal(
-                      id: docAnimal.id,
-                      about: this.aboutanimalController.value.text,
-                      age: this.idade.name,
-                      carry: this.porte.name,
-                      health: this.healthText,
-                      illness: diseaseController.value.text,
-                      name: nameController.value.text,
-                      objective: interest,
-                      porte: porte.name,
-                      sex: sexo.name,
-                      species: especie.name,
-                      requirements: Requirements(
-                          accompaniment: accompaniment.name,
-                          pictureHouse: fotosValue,
-                          term: termoValue,
-                          visit: visitaValue),
-                      temperament: temperamentText
-                    );
+                        id: docAnimal.id,
+                        about: this.aboutanimalController.value.text,
+                        age: this.idade.name,
+                        carry: this.porte.name,
+                        health: this.healthText,
+                        illness: diseaseController.value.text,
+                        name: nameController.value.text,
+                        objective: interest,
+                        porte: porte.name,
+                        sex: sexo.name,
+                        species: especie.name,
+                        requirements: Requirements(
+                            accompaniment: accompaniment.name,
+                            pictureHouse: fotosValue,
+                            term: termoValue,
+                            visit: visitaValue),
+                        temperament: temperamentText);
                     print(animal.toJson());
                     await docAnimal.set(animal.toJson());
-                    print("oi");
+                    _formKey.currentState?.reset();
+                    setState(() {
+                      loadingButtonRegister = false;
+                    });
+                    Timer(const Duration(seconds: 0), (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SuccessRegisterScreen())
+                      );
+                    });
+
                   },
-                  child: authController.loading
+                  child: loadingButtonRegister
                       ? const CircularProgressIndicator(
                           valueColor:
                               AlwaysStoppedAnimation<Color>(Colors.white),
