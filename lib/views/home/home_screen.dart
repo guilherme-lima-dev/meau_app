@@ -15,23 +15,28 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       drawer: authController.authenticated ? const CustomDrawer() : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: authController.authenticated ? null : FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-            );
-          },
-          backgroundColor: Color(0xffF5A900),
-          label: const Text(
-            "LOGIN",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-          icon: const Icon(Icons.person_sharp, color: Colors.white,)),
+      floatingActionButton: authController.authenticated
+          ? null
+          : FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              },
+              backgroundColor: const Color(0xffF5A900),
+              label: const Text(
+                "LOGIN",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              icon: const Icon(
+                Icons.person_sharp,
+                color: Colors.white,
+              )),
       appBar: AppBarComponent(
         title: "MEAU",
         appBar: AppBar(),

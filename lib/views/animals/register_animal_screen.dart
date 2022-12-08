@@ -72,7 +72,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
   bool tempo3Acompanhamento = false;
   bool tempo6Acompanhamento = false;
 
-  Widget CustomRadioButton(String text, int index) {
+  Widget customRadioButton(String text, int index) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: OutlinedButton(
@@ -125,9 +125,9 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomRadioButton("ADOÇÃO", 0),
-                  CustomRadioButton("APADRINHAR", 1),
-                  CustomRadioButton("AJUDA", 2),
+                  customRadioButton("ADOÇÃO", 0),
+                  customRadioButton("APADRINHAR", 1),
+                  customRadioButton("AJUDA", 2),
                 ],
               ),
               Container(
@@ -145,7 +145,8 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                               ? "Apadrinhar"
                               : "Ajuda",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 21, color: Color(0xff434343)),
+                      style: const TextStyle(
+                          fontSize: 21, color: Color(0xff434343)),
                     ),
                   ),
                   Padding(
@@ -160,7 +161,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: 10),
                     alignment: Alignment.topLeft,
                     padding: const EdgeInsets.only(left: 15),
                     child: const Text(
@@ -383,7 +384,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: brincalhaoValue,
                             onChanged: (bool? value) {
                               setState(() {
@@ -404,7 +405,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: timidoValue,
                             onChanged: (bool? value) {
                               setState(() {
@@ -425,7 +426,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: calmoValue,
                             onChanged: (bool? value) {
                               setState(() {
@@ -452,7 +453,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                               checkColor: Colors.white,
-                              activeColor: Color(0xfff4a800),
+                              activeColor: const Color(0xfff4a800),
                               value: guardaValue,
                               onChanged: (bool? value) {
                                 setState(() {
@@ -472,7 +473,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: amorosoValue,
                             onChanged: (bool? value) {
                               setState(() {
@@ -493,7 +494,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: preguicosoValue,
                             onChanged: (bool? value) {
                               setState(() {
@@ -528,7 +529,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: vacinadoValue,
                             onChanged: (bool? value) {
                               setState(() {
@@ -549,7 +550,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: vermifugadoValue,
                             onChanged: (bool? value) {
                               setState(() {
@@ -576,7 +577,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: castradoValue,
                             onChanged: (bool? value) {
                               setState(() {
@@ -597,7 +598,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         children: [
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: doenteValue,
                             onChanged: (bool? value) {
                               setState(() {
@@ -638,7 +639,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     Row(children: [
                       Checkbox(
                         checkColor: Colors.white,
-                        activeColor: Color(0xfff4a800),
+                        activeColor: const Color(0xfff4a800),
                         value: termoValue,
                         onChanged: (bool? value) {
                           setState(() {
@@ -651,7 +652,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     Row(children: [
                       Checkbox(
                         checkColor: Colors.white,
-                        activeColor: Color(0xfff4a800),
+                        activeColor: const Color(0xfff4a800),
                         value: fotosValue,
                         onChanged: (bool? value) {
                           setState(() {
@@ -664,7 +665,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     Row(children: [
                       Checkbox(
                         checkColor: Colors.white,
-                        activeColor: Color(0xfff4a800),
+                        activeColor: const Color(0xfff4a800),
                         value: visitaValue,
                         onChanged: (bool? value) {
                           setState(() {
@@ -689,7 +690,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     children: [
                       Row(children: [
                         Radio(
-                          activeColor: Color(0xfff4a800),
+                          activeColor: const Color(0xfff4a800),
                           value: Accompaniment.one,
                           groupValue: accompaniment,
                           onChanged: (Accompaniment? value) {
@@ -703,7 +704,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                       Row(
                         children: [
                           Radio(
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: Accompaniment.three,
                             groupValue: accompaniment,
                             onChanged: (Accompaniment? value) {
@@ -718,7 +719,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                       Row(
                         children: [
                           Radio(
-                            activeColor: Color(0xfff4a800),
+                            activeColor: const Color(0xfff4a800),
                             value: Accompaniment.six,
                             groupValue: accompaniment,
                             onChanged: (Accompaniment? value) {
@@ -772,9 +773,9 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                 height: 50,
                 width: 250,
                 decoration: BoxDecoration(
-                    color: Color(0xffF5A900),
+                    color: const Color(0xffF5A900),
                     borderRadius: BorderRadius.circular(20)),
-                margin: EdgeInsets.only(bottom: 15),
+                margin: const EdgeInsets.only(bottom: 15),
                 child: TextButton(
                   onPressed: () async {
                     final docAnimal =
@@ -806,13 +807,13 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     setState(() {
                       loadingButtonRegister = false;
                     });
-                    Timer(const Duration(seconds: 0), (){
+                    Timer(const Duration(seconds: 0), () {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SuccessRegisterScreen())
-                      );
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const SuccessRegisterScreen()));
                     });
-
                   },
                   child: loadingButtonRegister
                       ? const CircularProgressIndicator(

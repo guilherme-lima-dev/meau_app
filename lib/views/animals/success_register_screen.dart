@@ -21,7 +21,7 @@ class _SuccessRegisterScreenState extends State<SuccessRegisterScreen> {
           children: <Widget>[
             Container(
               height: 170,
-              padding: EdgeInsets.all(35),
+              padding: const EdgeInsets.all(35),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
                 shape: BoxShape.circle,
@@ -41,7 +41,7 @@ class _SuccessRegisterScreenState extends State<SuccessRegisterScreen> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-            Text(
+            const Text(
               "Seu bichinho já está esperando por um amigo!",
               style: TextStyle(
                 color: Colors.black87,
@@ -50,7 +50,7 @@ class _SuccessRegisterScreenState extends State<SuccessRegisterScreen> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            Text(
+            const Text(
               "Você será redirecionado para a nossa página inicial \npara que possa continuar sua navegação!",
               textAlign: TextAlign.center,
               style: TextStyle(

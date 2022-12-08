@@ -16,7 +16,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -55,40 +54,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
                 child: TextField(
                   controller: nameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Nome',
                       hintText: 'Digite um nome válido, EX: João da Silva'),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                 child: TextField(
                   controller: emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Email',
                       hintText: 'Digite um e-mail válido, EX: abc@gmail.com'),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                 child: TextField(
                   obscureText: true,
                   controller: passwordController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Senha',
                       hintText: 'Digite uma senha segura'),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 50),
+                padding:
+                    const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 50),
                 //padding: EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   obscureText: true,
                   controller: passwordConfirmController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Confirmação de senha',
                       hintText: 'Digite uma senha segura'),
@@ -111,36 +111,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     authController.setLoading();
                     var res = await authController.register(register);
                     authController.setLoading();
-                    if(res != null){
+                    if (res != null) {
                       _formKey.currentState?.reset();
-                      Timer(const Duration(seconds: 0), (){
+                      Timer(const Duration(seconds: 0), () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const HomeScreen())
-                        );
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()));
                       });
-                    }else{
-                      showDialog(context: context,
+                    } else {
+                      showDialog(
+                          context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('Não concluido'),
-                            content: const Text('O e-mail já existe em nossa base!'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, 'Cancel'),
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, 'OK'),
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          )
-                      );
+                                title: const Text('Não concluido'),
+                                content: const Text(
+                                    'O e-mail já existe em nossa base!'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'OK'),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ));
                     }
                   },
                   child: authController.loading
                       ? const CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
                           strokeWidth: 3,
                         )
                       : const Text(

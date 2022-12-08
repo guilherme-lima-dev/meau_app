@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Padding(
                 //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   controller: emailController,
                   decoration: const InputDecoration(
@@ -68,8 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: 0),
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 15, bottom: 0),
                 //padding: EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   obscureText: true,
@@ -95,10 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 50,
                 width: 250,
                 decoration: BoxDecoration(
-                    color: Color(0xffF5A900),
+                    color: const Color(0xffF5A900),
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
-                  onPressed: () async{
+                  onPressed: () async {
                     Map login = {
                       "email": emailController.text,
                       "password": passwordController.text,
@@ -107,48 +107,51 @@ class _LoginScreenState extends State<LoginScreen> {
                     authController.setLoading();
                     var res = await authController.auth(login);
                     authController.setLoading();
-                    if(res != null){
+                    if (res != null) {
                       _formKey.currentState?.reset();
-                      Timer(const Duration(seconds: 0), (){
+                      Timer(const Duration(seconds: 0), () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const HomeScreen())
-                        );
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()));
                       });
-                    }else{
+                    } else {
                       print("oi");
-                      showDialog(context: context,
+                      showDialog(
+                          context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('Não autorizado'),
-                            content: const Text('Usuário ou senha incorretos!'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, 'Cancel'),
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, 'OK'),
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          )
-                      );
-
+                                title: const Text('Não autorizado'),
+                                content:
+                                    const Text('Usuário ou senha incorretos!'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'OK'),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ));
                     }
                   },
                   child: authController.loading
                       ? const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    strokeWidth: 3,
-                  )
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                          strokeWidth: 3,
+                        )
                       : const Text(
-                    "Login",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
-                  ),
+                          "Login",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25),
+                        ),
                 ),
               ),
               const SizedBox(
@@ -162,7 +165,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const SignUpScreen()),
                   );
                 },
               )
