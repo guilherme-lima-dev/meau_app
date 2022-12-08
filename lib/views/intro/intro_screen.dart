@@ -40,7 +40,7 @@ class IntroScreen extends StatelessWidget {
           splashTransition: SplashTransition.slideTransition,
           backgroundColor: const Color(0xffF5A900)),
       Scaffold(
-        backgroundColor: const Color(0xff88c9bf),
+        backgroundColor: const Color(0xffF5A900),
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
