@@ -6,10 +6,11 @@ import 'package:meau/http_clients/dio_client.dart';
 import 'package:meau/interfaces/http_client_interface.dart';
 import 'package:meau/services/auth_service.dart';
 import 'package:meau/views/home/home_screen.dart';
+import 'package:meau/views/intro/intro_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-Future main() async{
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -25,12 +26,14 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<IHttpClient>(create: (_) => DioClient()),
         Provider<AuthService>(create: (context) => AuthService(context.read())),
-        ChangeNotifierProvider<AuthController>(create: (context) => AuthController(context.read())),
+        ChangeNotifierProvider<AuthController>(
+            create: (context) => AuthController(context.read())),
       ],
       child: MaterialApp(
         title: 'Meau',
         theme: ThemeData(
-          primarySwatch: BuildMaterialColorHelper.buildMaterialColor(const Color(0xffF5A900)),
+          primarySwatch: BuildMaterialColorHelper.buildMaterialColor(
+              const Color(0xffF5A900)),
         ),
         home: const MyHomePage(title: 'Hello World!'),
       ),
@@ -39,7 +42,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key ?key, this.title}) : super(key: key);
+  const MyHomePage({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
@@ -50,42 +53,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return _introScreen();
+    return const IntroScreen();
   }
-}
-
-Widget _introScreen() {
-  return Stack(
-    children: <Widget>[
-      AnimatedSplashScreen(
-          duration: 3500,
-          centered: true,
-          splash: Container(),
-          nextScreen: const HomeScreen(),
-          splashTransition: SplashTransition.fadeTransition,
-          backgroundColor: Color(0xffF5A900)
-      ),
-      Column(
-        children: [
-          SizedBox(
-            height: 250,
-          ),
-          SizedBox(
-              width: 500,
-              height: 300,
-              /*decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(50.0)),*/
-              child: Image.asset('assets/logos/Meau_Icone.png')
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 170),
-            child: const CircularProgressIndicator(
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
 }
