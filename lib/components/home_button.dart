@@ -14,13 +14,13 @@ class HomeButton extends StatelessWidget {
         height: 50,
         width: 200,
         decoration: BoxDecoration(
-          color: Color(0xffF5A900),
+          color: const Color(0xffF5A900),
           borderRadius: BorderRadius.circular(22),
         ),
         child: Center(
           child: Text(
             title ?? '',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w500,
               fontSize: 20,

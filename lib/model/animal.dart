@@ -14,20 +14,19 @@ class Animal {
   String? temperament;
 
   Animal(
-      {
-        this.id,
-        this.about,
-        this.age,
-        this.carry,
-        this.health,
-        this.illness,
-        this.name,
-        this.objective,
-        this.porte,
-        this.requirements,
-        this.sex,
-        this.species,
-        this.temperament});
+      {this.id,
+      this.about,
+      this.age,
+      this.carry,
+      this.health,
+      this.illness,
+      this.name,
+      this.objective,
+      this.porte,
+      this.requirements,
+      this.sex,
+      this.species,
+      this.temperament});
 
   Animal.fromJson(Map<String, dynamic> json) {
     about = json['about'];
@@ -66,21 +65,20 @@ class Animal {
     return data;
   }
 
-  Animal copyWith({
-    String? id,
-    String? about,
-    String? age,
-    String? carry,
-    String? health,
-    String? illness,
-    String? name,
-    String? objective,
-    String? porte,
-    Requirements? requirements,
-    String? sex,
-    String? species,
-    String? temperament
-  }) {
+  Animal copyWith(
+      {String? id,
+      String? about,
+      String? age,
+      String? carry,
+      String? health,
+      String? illness,
+      String? name,
+      String? objective,
+      String? porte,
+      Requirements? requirements,
+      String? sex,
+      String? species,
+      String? temperament}) {
     return Animal(
         id: this.id,
         about: this.about,
@@ -94,8 +92,7 @@ class Animal {
         requirements: this.requirements,
         sex: this.sex,
         species: this.species,
-        temperament: this.temperament
-    );
+        temperament: this.temperament);
   }
 }
 
