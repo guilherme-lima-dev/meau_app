@@ -1,39 +1,37 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
-import 'package:meau/controllers/auth_controller.dart';
+import 'package:meau/controllers/user/auth_controller.dart';
+import 'package:meau/controllers/photo/photo_controller.dart';
+import 'package:meau/model/user.dart';
 import 'package:meau/services/auth_service.dart';
-import 'package:meau/views/auth/sign_up_screen.dart';
+import 'package:meau/views/user/auth/login_screen.dart';
 import 'package:meau/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+  final passwordConfirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final authController = context.watch<AuthController>();
+    final photoController = context.watch<PhotoController>();
     return Scaffold(
       appBar: AppBarComponent(
-        title: "LOGIN",
+        title: "CADASTRO",
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
@@ -57,8 +55,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 80,
               ),
               Padding(
-                //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                child: TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Nome',
+                      hintText: 'Digite um nome válido, EX: João da Silva'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                 child: TextField(
                   controller: emailController,
                   decoration: const InputDecoration(
@@ -68,27 +75,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 15, bottom: 0),
-                //padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                 child: TextField(
                   obscureText: true,
                   controller: passwordController,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Password',
+                      labelText: 'Senha',
                       hintText: 'Digite uma senha segura'),
                 ),
               ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Esqueci minha senha.',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    decoration: TextDecoration.underline,
-                  ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 50),
+                //padding: EdgeInsets.symmetric(horizontal: 15),
+                child: TextField(
+                  obscureText: true,
+                  controller: passwordConfirmController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Confirmação de senha',
+                      hintText: 'Digite uma senha segura'),
                 ),
               ),
               Container(
@@ -99,15 +106,36 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
                   onPressed: () async {
-                    Map login = {
+                    print("indo");
+                    Map register = {
                       "email": emailController.text,
                       "password": passwordController.text,
                       "returnSecureToken": true
                     };
                     authController.setLoading();
-                    var res = await authController.auth(login);
+                    var res = await authController.register(register);
+
                     authController.setLoading();
                     if (res != null) {
+                      final docUser = FirebaseFirestore.instance.collection('user').doc();
+                      var dataUser = {
+                        "name": nameController.text,
+                        "photo": null,
+                        "uid_user": res['localId']
+                      };
+                      await docUser.set(dataUser);
+
+                      var user = User(
+                        token: authController.user.token,
+                        uid: authController.user.uid,
+                        name: nameController.text,
+                        email: authController.user.email,
+                        docID: docUser.id,
+                      );
+
+                      authController.setUser(user);
+                      photoController.setUser(user);
+
                       _formKey.currentState?.reset();
                       Timer(const Duration(seconds: 0), () {
                         Navigator.push(
@@ -116,13 +144,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 builder: (context) => const HomeScreen()));
                       });
                     } else {
-                      print("oi");
                       showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                                title: const Text('Não autorizado'),
-                                content:
-                                    const Text('Usuário ou senha incorretos!'),
+                                title: const Text('Não concluido'),
+                                content: const Text(
+                                    'Existe algo errado no cadastro!'),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () =>
@@ -145,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           strokeWidth: 3,
                         )
                       : const Text(
-                          "Login",
+                          "CADASTRAR",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,
@@ -154,22 +181,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                 ),
               ),
-              const SizedBox(
-                height: 130,
-              ),
-              GestureDetector(
-                child: const Text(
-                  'Não tem conta? Crie uma!',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignUpScreen()),
-                  );
-                },
-              )
             ],
           ),
         ),

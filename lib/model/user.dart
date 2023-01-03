@@ -1,14 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 @immutable
 class User {
   final String token;
-  // final String name;
+  final String uid;
+  final String docID;
+  final String name;
+  final File? image;
   late final String email;
   final String password;
 
   User({
     this.token = '',
+    this.uid = '',
+    this.docID = '',
+    this.name = '',
+    this.image,
     this.email = '',
     this.password = '',
   });
@@ -17,6 +26,7 @@ class User {
     return User(
       token: json['idToken'],
       email: json['email'],
+      uid: json['localId']
     );
   }
 
@@ -34,4 +44,5 @@ class User {
       password: password ?? this.password,
     );
   }
+
 }

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/components/custom_drawer_menu.dart';
-import 'package:meau/controllers/auth_controller.dart';
-import 'package:meau/views/auth/login_screen.dart';
+import 'package:meau/controllers/user/auth_controller.dart';
+import 'package:meau/views/user/auth/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -41,9 +41,9 @@ class HomeScreen extends StatelessWidget {
         title: "MEAU",
         appBar: AppBar(),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
-          "Hello World!",
+          "Bem vindo(a) \n ${authController.user.name}",
           style: TextStyle(fontSize: 40),
         ),
       ),

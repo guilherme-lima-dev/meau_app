@@ -5,14 +5,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meau/components/app_bar_component.dart';
-import 'package:meau/controllers/auth_controller.dart';
+import 'package:meau/controllers/user/auth_controller.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:meau/controllers/photo/photo_controller.dart';
 import 'package:meau/helpers/build_material_color_helper.dart';
 import 'package:meau/model/animal.dart';
 import 'package:meau/services/auth_service.dart';
 import 'package:meau/views/animals/success_register_screen.dart';
-import 'package:meau/views/auth/login_screen.dart';
+import 'package:meau/views/user/auth/login_screen.dart';
 import 'package:meau/views/home/home_screen.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 enum Especie { cachorro, gato }
@@ -98,9 +103,36 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
     );
   }
 
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+
+  final ImagePicker _picker = ImagePicker();
+
+  Future imgFromGallery(PhotoController photoController) async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      photoController.setPhotoAnimal(File(pickedFile.path));
+      photoController.uploadFileAnimal();
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  Future imgFromCamera(PhotoController photoController) async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      photoController.setPhotoAnimal(File(pickedFile.path));
+      photoController.uploadFileAnimal();
+    } else {
+      print('No image selected.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authController = context.watch<AuthController>();
+    final photoController = context.watch<PhotoController>();
     return Scaffold(
       appBar: AppBarComponent(
         title: "Cadastro de Pet",
@@ -170,29 +202,39 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                       style: TextStyle(color: Color(0xfff7a800)),
                     ),
                   ),
-                  Container(
-                    height: 150,
-                    width: 380,
-                    decoration: BoxDecoration(
-                      color: const Color(0xfff1f2f2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              print("add image");
-                            },
-                            icon: const Icon(Icons.control_point,
-                                color: Color(0Xff434343))),
-                        const Text(
-                          "Adicionar fotos",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Color(0Xff434343)),
-                        ),
-                      ],
-                      // Icon(Icons.control_point, color: Color(0xff757575)),
+                  GestureDetector(
+                    onTap: () {
+                      _showPicker(context, photoController);
+                    },
+                    child: Container(
+                      height: 150,
+                      width: 380,
+                      decoration: BoxDecoration(
+                        color: const Color(0xfff1f2f2),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: photoController.photoAnimal == null
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      _showPicker(context, photoController);
+                                    },
+                                    icon: const Icon(Icons.control_point,
+                                        color: Color(0Xff434343))),
+                                const Text(
+                                  "Adicionar fotos",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Color(0Xff434343)),
+                                ),
+                              ],
+                              // Icon(Icons.control_point, color: Color(0xff757575)),
+                            )
+                          : Image.file(
+                              photoController.photoAnimal!,
+                              fit: BoxFit.fitHeight,
+                            ),
                     ),
                   ),
                   Container(
@@ -784,23 +826,26 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                       loadingButtonRegister = true;
                     });
                     this.animal = Animal(
-                        id: docAnimal.id,
-                        about: this.aboutanimalController.value.text,
-                        age: this.idade.name,
-                        carry: this.porte.name,
-                        health: this.healthText,
-                        illness: diseaseController.value.text,
-                        name: nameController.value.text,
-                        objective: interest,
-                        porte: porte.name,
-                        sex: sexo.name,
-                        species: especie.name,
-                        requirements: Requirements(
-                            accompaniment: accompaniment.name,
-                            pictureHouse: fotosValue,
-                            term: termoValue,
-                            visit: visitaValue),
-                        temperament: temperamentText);
+                      id: docAnimal.id,
+                      about: this.aboutanimalController.value.text,
+                      age: this.idade.name,
+                      carry: this.porte.name,
+                      health: this.healthText,
+                      illness: diseaseController.value.text,
+                      name: nameController.value.text,
+                      objective: interest,
+                      porte: porte.name,
+                      sex: sexo.name,
+                      species: especie.name,
+                      requirements: Requirements(
+                          accompaniment: accompaniment.name,
+                          pictureHouse: fotosValue,
+                          term: termoValue,
+                          visit: visitaValue),
+                      temperament: temperamentText,
+                      photo: basename(photoController.photoAnimal!.path),
+                      user: "user/${authController.user.docID}"
+                    );
                     print(animal.toJson());
                     await docAnimal.set(animal.toJson());
                     _formKey.currentState?.reset();
@@ -836,5 +881,35 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
         ),
       ),
     );
+  }
+
+  void _showPicker(context, PhotoController photoController) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Gallery'),
+                      onTap: () {
+                        imgFromGallery(photoController);
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      imgFromCamera(photoController);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

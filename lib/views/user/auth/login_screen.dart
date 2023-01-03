@@ -1,33 +1,42 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
-import 'package:meau/controllers/auth_controller.dart';
+import 'package:meau/controllers/user/auth_controller.dart';
+import 'package:meau/controllers/photo/photo_controller.dart';
 import 'package:meau/services/auth_service.dart';
-import 'package:meau/views/auth/login_screen.dart';
+import 'package:meau/views/user/auth/sign_up_screen.dart';
 import 'package:meau/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final passwordConfirmController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final authController = context.watch<AuthController>();
+    final photoController = context.watch<PhotoController>();
     return Scaffold(
       appBar: AppBarComponent(
-        title: "CADASTRO",
+        title: "LOGIN",
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
@@ -41,9 +50,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: SizedBox(
                       width: 200,
                       height: 150,
-                      /*decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(50.0)),*/
                       child: Image.asset('assets/logos/Meau_Icone.png')),
                 ),
               ),
@@ -51,17 +57,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 80,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                child: TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Nome',
-                      hintText: 'Digite um nome válido, EX: João da Silva'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   controller: emailController,
                   decoration: const InputDecoration(
@@ -71,27 +67,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 15, bottom: 0),
+                //padding: EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   obscureText: true,
                   controller: passwordController,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Senha',
+                      labelText: 'Password',
                       hintText: 'Digite uma senha segura'),
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 50),
-                //padding: EdgeInsets.symmetric(horizontal: 15),
-                child: TextField(
-                  obscureText: true,
-                  controller: passwordConfirmController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Confirmação de senha',
-                      hintText: 'Digite uma senha segura'),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'Esqueci minha senha.',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
               Container(
@@ -102,14 +98,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
                   onPressed: () async {
-                    print("indo");
-                    Map register = {
+                    Map login = {
                       "email": emailController.text,
                       "password": passwordController.text,
                       "returnSecureToken": true
                     };
                     authController.setLoading();
-                    var res = await authController.register(register);
+                    var res = await authController.auth(login);
+                    photoController.setPhotoUser(authController.user.image);
+                    photoController.setUser(authController.user);
                     authController.setLoading();
                     if (res != null) {
                       _formKey.currentState?.reset();
@@ -122,10 +119,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     } else {
                       showDialog(
                           context: context,
-                          builder: (context) => AlertDialog(
-                                title: const Text('Não concluido'),
-                                content: const Text(
-                                    'O e-mail já existe em nossa base!'),
+                          builder: (context) =>
+                              AlertDialog(
+                                title: const Text('Não autorizado'),
+                                content:
+                                const Text('Usuário ou senha incorretos!'),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () =>
@@ -143,20 +141,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   child: authController.loading
                       ? const CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                          strokeWidth: 3,
-                        )
+                    valueColor:
+                    AlwaysStoppedAnimation<Color>(Colors.white),
+                    strokeWidth: 3,
+                  )
                       : const Text(
-                          "CADASTRAR",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25),
-                        ),
+                    "Login",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25),
+                  ),
                 ),
               ),
+              const SizedBox(
+                height: 130,
+              ),
+              GestureDetector(
+                child: const Text(
+                  'Não tem conta? Crie uma!',
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SignUpScreen()),
+                  );
+                },
+              )
             ],
           ),
         ),

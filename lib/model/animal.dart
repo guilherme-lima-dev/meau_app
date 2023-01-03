@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class Animal {
   String? id;
   String? about;
@@ -12,6 +14,8 @@ class Animal {
   String? sex;
   String? species;
   String? temperament;
+  String? photo;
+  String? user;
 
   Animal(
       {
@@ -27,9 +31,12 @@ class Animal {
         this.requirements,
         this.sex,
         this.species,
-        this.temperament});
+        this.temperament,
+        this.photo,
+        this.user
+      });
 
-  Animal.fromJson(Map<String, dynamic> json) {
+  Animal.fromJson(Map<dynamic, dynamic> json) {
     about = json['about'];
     age = json['age'];
     carry = json['carry'];
@@ -44,6 +51,8 @@ class Animal {
     sex = json['sex'];
     species = json['species'];
     temperament = json['temperament'];
+    photo = json['photo'];
+    user = json['user'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +72,8 @@ class Animal {
     data['sex'] = this.sex;
     data['species'] = this.species;
     data['temperament'] = this.temperament;
+    data['photo'] = this.photo;
+    data['user'] = this.user;
     return data;
   }
 

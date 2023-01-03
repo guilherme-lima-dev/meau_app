@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meau/views/animals/list_all_animals_screen.dart';
 import 'package:meau/views/animals/register_animal_screen.dart';
+import 'package:meau/views/user/profile_screen.dart';
 import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -27,6 +29,24 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('Inicio'),
             onTap: () {
               Navigator.of(context).popUntil((route) => route.isFirst);
+            },
+          ),
+          ListTile(
+            title: const Text('Meu perfil'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AddPersonalData()));
+            },
+          ),
+          ListTile(
+            title: const Text('Lista de animais'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ListAllAnimalsScreen()));
             },
           ),
           ListTile(

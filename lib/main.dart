@@ -1,6 +1,8 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:meau/controllers/auth_controller.dart';
+import 'package:meau/controllers/animal/animal_controller.dart';
+import 'package:meau/controllers/user/auth_controller.dart';
+import 'package:meau/controllers/photo/photo_controller.dart';
 import 'package:meau/helpers/build_material_color_helper.dart';
 import 'package:meau/http_clients/dio_client.dart';
 import 'package:meau/interfaces/http_client_interface.dart';
@@ -28,6 +30,10 @@ class MyApp extends StatelessWidget {
         Provider<AuthService>(create: (context) => AuthService(context.read())),
         ChangeNotifierProvider<AuthController>(
             create: (context) => AuthController(context.read())),
+        ChangeNotifierProvider<PhotoController>(
+            create: (context) => PhotoController()),
+        ChangeNotifierProvider<AnimalController>(
+            create: (context) => AnimalController()),
       ],
       child: MaterialApp(
         title: 'Meau',
