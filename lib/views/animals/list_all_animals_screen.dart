@@ -6,6 +6,7 @@ import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/controllers/animal/animal_controller.dart';
 import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/model/animal.dart';
+import 'package:meau/views/animals/show_animal_screen.dart';
 import 'package:provider/provider.dart';
 
 class ListAllAnimalsScreen extends StatefulWidget {
@@ -36,16 +37,16 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
         title: animalController.todos ? "Todos os animais" : "Meus animais",
       ),
       body: animalController.loading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : ListView.builder(
               itemCount: animalController.animals.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                  contentPadding: EdgeInsets.all(10.0),
+                  contentPadding: const EdgeInsets.all(10.0),
                   leading: ConstrainedBox(
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         minWidth: 44,
                         minHeight: 44,
                         maxWidth: 64,
@@ -55,14 +56,26 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
                           ? Image.network(
                               "https://img.lovepik.com/free_png/32/23/59/70358PIC95iAmhU4dc0VY_PIC2018.png_860.png",
                               fit: BoxFit.cover)
-                          : FutureBuilder<File>(
-                              future: animalController.getFile(
-                                  animalController.animals[index].photo),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData)
-                                  return Container(); // or some other placeholder
-                                return new Image.file(snapshot.data!);
+                          : GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ShowAnimal(
+                                          animal:
+                                              animalController.animals[index])),
+                                );
+                                print(animalController.animals[index].name);
                               },
+                              child: FutureBuilder<File>(
+                                future: animalController.getFile(
+                                    animalController.animals[index].photo),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData)
+                                    return Container(); // or some other placeholder
+                                  return new Image.file(snapshot.data!);
+                                },
+                              ),
                             )),
                   title: Text(animalController.animals[index].name ?? ""),
                 );
@@ -86,7 +99,7 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
                 size: MediaQuery.of(context).size.width * 0.08,
                 color: Colors.white,
               ),
-              onPressed: () async{
+              onPressed: () async {
                 animalController.setLoading();
                 await animalController.getAnimals();
                 animalController.setLoading();
@@ -105,9 +118,10 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
                 size: MediaQuery.of(context).size.width * 0.1,
                 color: Colors.white,
               ),
-              onPressed: () async{
+              onPressed: () async {
                 animalController.setLoading();
-                await animalController.getUserAnimals(authController.user.docID);
+                await animalController
+                    .getUserAnimals(authController.user.docID);
                 animalController.setLoading();
                 animalController.setTodos(false);
               },
