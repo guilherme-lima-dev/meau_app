@@ -46,10 +46,10 @@ class AuthController extends ChangeNotifier {
           .get()
           .then((QuerySnapshot querySnapshot) {
         name = querySnapshot.docs.first.get('name');
-        image = querySnapshot.docs.first.get('photo');
+        image = querySnapshot.docs.first.get('photo')??"";
         docId = querySnapshot.docs.first.id;
       });
-      print(image);
+
       final gsReference =
           FirebaseStorage.instance.ref("files/${image}").child("file/");
 

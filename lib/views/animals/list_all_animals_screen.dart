@@ -20,6 +20,7 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
   void initState() {
     final animalcontroller =
         Provider.of<AnimalController>(context, listen: false);
+    animalcontroller.setLoading();
     animalcontroller.getAnimals();
     animalcontroller.setLoading();
     super.initState();

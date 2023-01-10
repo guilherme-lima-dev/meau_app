@@ -12,7 +12,7 @@ import 'package:path_provider/path_provider.dart';
 
 class AnimalController extends ChangeNotifier {
   List<dynamic> animals = [];
-  bool loading = true;
+  bool loading = false;
   bool todos = true;
 
   setTodos(value){
@@ -36,7 +36,7 @@ class AnimalController extends ChangeNotifier {
   }
 
   setLoading(){
-    this.loading = !this.loading;
+    loading = !loading;
     notifyListeners();
   }
 
