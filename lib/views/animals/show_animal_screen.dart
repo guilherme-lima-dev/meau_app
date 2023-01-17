@@ -1,4 +1,6 @@
 import 'dart:async';
+
+//import 'dart:html';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -89,27 +91,26 @@ class ShowAnimal extends StatelessWidget {
             Container(
               alignment: Alignment.topLeft,
               margin: const EdgeInsets.only(bottom: 10, top: 10, right: 20),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Castrado", style: TextStyle(fontSize: 16)),
-                        Text(animal.illness ?? "",
-                            style: const TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Vermifugado",
-                            style: TextStyle(fontSize: 16)),
-                        Text(animal.illness ?? "",
-                            style: const TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                  ]),
+                    const Text("Castrado", style: TextStyle(fontSize: 16)),
+                    animal.health?.contains("Castrado") == true
+                        ? const Text("Sim", style: TextStyle(fontSize: 16))
+                        : const Text("Não", style: TextStyle(fontSize: 16)),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Vermifugado", style: TextStyle(fontSize: 16)),
+                    animal.health?.contains("Vermifugado") == true
+                        ? const Text("Sim", style: TextStyle(fontSize: 16))
+                        : const Text("Não", style: TextStyle(fontSize: 16)),
+                  ],
+                ),
+              ]),
             ),
             Container(
               alignment: Alignment.topLeft,
@@ -121,8 +122,9 @@ class ShowAnimal extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text("Vacinado", style: TextStyle(fontSize: 16)),
-                        Text(animal.illness ?? "",
-                            style: const TextStyle(fontSize: 16)),
+                        animal.health?.contains("Vacinado") == true
+                            ? const Text("Sim", style: TextStyle(fontSize: 16))
+                            : const Text("Não", style: TextStyle(fontSize: 16)),
                       ],
                     ),
                     Column(
@@ -140,10 +142,18 @@ class ShowAnimal extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20),
               alignment: Alignment.topLeft,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Temperamento"),
-                  Text(animal.temperament ?? ""),
+                  const Text("Temperamento", style: TextStyle(fontSize: 16)),
+                  if (animal.temperament?.contains("Brincalhão") == true)
+                    const Text("Brincalhão", style: TextStyle(fontSize: 16)),
+                  if (animal.temperament?.contains("Guarda") == true)
+                    const Text("Guarda", style: TextStyle(fontSize: 16)),
+                  if (animal.temperament?.contains("Amoroso") == true)
+                    const Text("Amoroso", style: TextStyle(fontSize: 16)),
+                  if (animal.temperament?.contains("Preguiçoso") == true)
+                    const Text("Preguiçoso", style: TextStyle(fontSize: 16)),
                 ],
               ),
             ),
@@ -154,12 +164,11 @@ class ShowAnimal extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("O ${animal.name} precisa de",
+                  Text("O ${animal.name} precisa de ${animal.objective}",
                       style: const TextStyle(
                         color: Color(0xff434343),
-                        fontSize: 15,
+                        fontSize: 16,
                       )),
-                  Text(animal.objective ?? ""),
                 ],
               ),
             ),
@@ -168,10 +177,26 @@ class ShowAnimal extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20),
               alignment: Alignment.topLeft,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text("Exigências do doador", style: TextStyle(fontSize: 16)),
-                  Text(""),
+                children: [
+                  const Text("Exigências do doador",
+                      style: TextStyle(fontSize: 16)),
+                  if (animal.requirements?.accompaniment != '')
+                    Text(
+                      "Tempo de acompanhamento: ${animal.requirements?.accompaniment}",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  if (animal.requirements?.pictureHouse == true)
+                    const Text(
+                      "Fotos da Casa",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  if (animal.requirements?.term == true)
+                    const Text(
+                      "Assinatura do termo",
+                      style: TextStyle(fontSize: 16),
+                    ),
                 ],
               ),
             ),
