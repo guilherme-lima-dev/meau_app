@@ -7,6 +7,8 @@ import 'package:meau/helpers/build_material_color_helper.dart';
 import 'package:meau/http_clients/dio_client.dart';
 import 'package:meau/interfaces/http_client_interface.dart';
 import 'package:meau/services/auth_service.dart';
+import 'package:meau/services/firebase_messaging_service.dart';
+import 'package:meau/services/notification_service.dart';
 import 'package:meau/views/home/home_screen.dart';
 import 'package:meau/views/intro/intro_screen.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +36,12 @@ class MyApp extends StatelessWidget {
             create: (context) => PhotoController()),
         ChangeNotifierProvider<AnimalController>(
             create: (context) => AnimalController()),
+        Provider<NotificationService>(
+          create: (context) => NotificationService(),
+        ),
+        Provider<FirebaseMessagingService>(
+          create: (context) => FirebaseMessagingService(context.read<NotificationService>()),
+        ),
       ],
       child: MaterialApp(
         title: 'Meau',
@@ -57,6 +65,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initilizeFirebaseMessaging();
+    checkNotifications();
+  }
+
+  initilizeFirebaseMessaging() async {
+    await Provider.of<FirebaseMessagingService>(context, listen: false).initialize();
+  }
+
+  checkNotifications() async {
+    await Provider.of<NotificationService>(context, listen: false).checkForNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     return const IntroScreen();
