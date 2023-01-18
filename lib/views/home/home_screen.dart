@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/components/custom_drawer_menu.dart';
@@ -44,7 +43,7 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Text(
           "Bem vindo(a) \n ${authController.user.name}",
-          style: TextStyle(fontSize: 40),
+          style: const TextStyle(fontSize: 40),
         ),
       ),
     );

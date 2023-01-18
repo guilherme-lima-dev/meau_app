@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/controllers/photo/photo_controller.dart';
-import 'package:meau/services/auth_service.dart';
 import 'package:meau/views/user/auth/sign_up_screen.dart';
 import 'package:meau/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -119,11 +115,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     } else {
                       showDialog(
                           context: context,
-                          builder: (context) =>
-                              AlertDialog(
+                          builder: (context) => AlertDialog(
                                 title: const Text('Não autorizado'),
                                 content:
-                                const Text('Usuário ou senha incorretos!'),
+                                    const Text('Usuário ou senha incorretos!'),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () =>
@@ -141,18 +136,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: authController.loading
                       ? const CircularProgressIndicator(
-                    valueColor:
-                    AlwaysStoppedAnimation<Color>(Colors.white),
-                    strokeWidth: 3,
-                  )
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                          strokeWidth: 3,
+                        )
                       : const Text(
-                    "Login",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
-                  ),
+                          "Login",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25),
+                        ),
                 ),
               ),
               const SizedBox(

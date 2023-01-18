@@ -1,11 +1,8 @@
-import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/controllers/animal/animal_controller.dart';
 import 'package:meau/controllers/user/auth_controller.dart';
-import 'package:meau/model/animal.dart';
 import 'package:meau/views/animals/show_animal_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -77,9 +74,10 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
                                 future: animalController.getFile(
                                     animalController.animals[index].photo),
                                 builder: (context, snapshot) {
-                                  if (!snapshot.hasData)
-                                    return Container(); // or some other placeholder
-                                  return new Image.file(snapshot.data!);
+                                  if (!snapshot.hasData) {
+                                    return Container();
+                                  } // or some other placeholder
+                                  return Image.file(snapshot.data!);
                                 },
                               ),
                             )),

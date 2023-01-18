@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 @immutable
@@ -9,10 +8,10 @@ class User {
   final String docID;
   final String name;
   final File? image;
-  late final String email;
+  final String email;
   final String password;
 
-  User({
+  const User({
     this.token = '',
     this.uid = '',
     this.docID = '',
@@ -24,16 +23,13 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      token: json['idToken'],
-      email: json['email'],
-      uid: json['localId']
-    );
+        token: json['idToken'], email: json['email'], uid: json['localId']);
   }
 
   Map<String, dynamic> toJson() => {
-    'email': email,
-    'password': password,
-  };
+        'email': email,
+        'password': password,
+      };
 
   User copyWith({
     String? email,
@@ -44,5 +40,4 @@ class User {
       password: password ?? this.password,
     );
   }
-
 }

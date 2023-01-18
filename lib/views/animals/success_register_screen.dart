@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/components/home_button.dart';
 import 'package:meau/views/home/home_screen.dart';
 

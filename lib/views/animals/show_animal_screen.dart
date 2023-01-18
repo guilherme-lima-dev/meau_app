@@ -35,9 +35,10 @@ class ShowAnimal extends StatelessWidget {
               child: FutureBuilder<File>(
                 future: animalController.getFile(animal.photo),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return Container(); // or some other placeholder
-                  return new Image.file(snapshot.data!);
+                  if (!snapshot.hasData) {
+                    return Container();
+                  } // or some other placeholder
+                  return Image.file(snapshot.data!);
                 },
               ),
             ),
