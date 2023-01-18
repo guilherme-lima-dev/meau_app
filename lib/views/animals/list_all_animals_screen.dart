@@ -31,6 +31,7 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
   Widget build(BuildContext context) {
     final animalController = context.watch<AnimalController>();
     final authController = context.watch<AuthController>();
+    const IconData pets = IconData(0xe4a1, fontFamily: 'MaterialIcons');
     return Scaffold(
       appBar: AppBarComponent(
         appBar: AppBar(),
@@ -53,9 +54,14 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
                         maxHeight: 64,
                       ),
                       child: animalController.animals[index].photo == null
-                          ? Image.network(
-                              "https://img.lovepik.com/free_png/32/23/59/70358PIC95iAmhU4dc0VY_PIC2018.png_860.png",
-                              fit: BoxFit.cover)
+                          ? Container(
+                              height: 200,
+                              width: 380,
+                              decoration: BoxDecoration(
+                                color: const Color(0xfff1f2f2),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: const Icon(pets))
                           : GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -90,7 +96,7 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
             child: FloatingActionButton.extended(
               // backgroundColor: Colors.red,
               isExtended: true,
-              label: Text(
+              label: const Text(
                 "Todos",
                 style: TextStyle(color: Colors.white),
               ),
@@ -112,7 +118,8 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
                 right: MediaQuery.of(context).size.width * 0.02),
             child: FloatingActionButton.extended(
               // backgroundColor: Colors.green,
-              label: Text("Meus pets", style: TextStyle(color: Colors.white)),
+              label: const Text("Meus pets",
+                  style: TextStyle(color: Colors.white)),
               icon: Icon(
                 Icons.pets,
                 size: MediaQuery.of(context).size.width * 0.1,
