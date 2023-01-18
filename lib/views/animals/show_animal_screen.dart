@@ -1,11 +1,9 @@
-import 'dart:async';
-
-//import 'dart:html';
+//import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+//import 'package:flutter/src/foundation/key.dart';
+//import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:meau/controllers/animal/animal_controller.dart';
 import '../../components/app_bar_component.dart';
@@ -15,7 +13,7 @@ class ShowAnimal extends StatelessWidget {
   ShowAnimal({Key? key, required this.animal}) : super(key: key);
   final animalController = AnimalController();
   final Animal animal;
-  bool loadingButtonRegister = false;
+  final bool loadingButtonRegister = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,7 @@ class ShowAnimal extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              height: 200,
+              height: 285,
               width: 380,
               decoration: BoxDecoration(
                 color: const Color(0xfff1f2f2),
@@ -46,7 +44,7 @@ class ShowAnimal extends StatelessWidget {
             Container(
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.only(left: 15),
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 10, top: 10),
               child: Text(
                 animal.name ?? "",
                 textAlign: TextAlign.center,
@@ -57,40 +55,61 @@ class ShowAnimal extends StatelessWidget {
               ),
             ),
             Container(
-              alignment: Alignment.topLeft,
               margin: const EdgeInsets.only(bottom: 10, top: 10, right: 20),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Sexo", style: TextStyle(fontSize: 16)),
-                        Text(animal.sex ?? "",
-                            style: const TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Porte", style: TextStyle(fontSize: 16)),
-                        Text(animal.porte ?? "",
-                            style: const TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Idade", style: TextStyle(fontSize: 16)),
-                        Text(animal.age ?? "",
-                            style: const TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                  ]),
+              padding: const EdgeInsets.only(left: 20),
+              alignment: Alignment.topLeft,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("${animal.name} precisa de ${animal.objective}",
+                      style: const TextStyle(
+                        color: Color(0xff434343),
+                        fontSize: 16,
+                      )),
+                ],
+              ),
             ),
             Container(
               alignment: Alignment.topLeft,
-              margin: const EdgeInsets.only(bottom: 10, top: 10, right: 20),
+              margin: const EdgeInsets.only(
+                  bottom: 10, top: 10, right: 20, left: 20),
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Sexo", style: TextStyle(fontSize: 16)),
+                    Text(animal.sex ?? "",
+                        style: const TextStyle(fontSize: 16)),
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.only(right: 80),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Porte", style: TextStyle(fontSize: 16)),
+                    Text(animal.porte ?? "",
+                        style: const TextStyle(fontSize: 16)),
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.only(right: 80),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Idade", style: TextStyle(fontSize: 16)),
+                    Text(animal.age ?? "",
+                        style: const TextStyle(fontSize: 16)),
+                  ],
+                ),
+              ]),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              margin: const EdgeInsets.only(
+                  bottom: 10, top: 10, right: 20, left: 20),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,6 +120,9 @@ class ShowAnimal extends StatelessWidget {
                         : const Text("Não", style: TextStyle(fontSize: 16)),
                   ],
                 ),
+                Container(
+                  margin: const EdgeInsets.only(right: 60),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -110,32 +132,36 @@ class ShowAnimal extends StatelessWidget {
                         : const Text("Não", style: TextStyle(fontSize: 16)),
                   ],
                 ),
+                Container(
+                  margin: const EdgeInsets.only(right: 35),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Vacinado", style: TextStyle(fontSize: 16)),
+                    animal.health?.contains("Vacinado") == true
+                        ? const Text("Sim", style: TextStyle(fontSize: 16))
+                        : const Text("Não", style: TextStyle(fontSize: 16)),
+                  ],
+                ),
               ]),
             ),
             Container(
               alignment: Alignment.topLeft,
-              margin: const EdgeInsets.only(bottom: 10, top: 10, right: 20),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              margin: const EdgeInsets.only(
+                  bottom: 10, top: 10, right: 20, left: 20),
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Vacinado", style: TextStyle(fontSize: 16)),
-                        animal.health?.contains("Vacinado") == true
-                            ? const Text("Sim", style: TextStyle(fontSize: 16))
-                            : const Text("Não", style: TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Doenças", style: TextStyle(fontSize: 16)),
-                        Text(animal.illness ?? "",
-                            style: const TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                  ]),
+                    const Text("Doenças", style: TextStyle(fontSize: 16)),
+                    animal.illness != ''
+                        ? Text(animal.illness ?? "",
+                            style: const TextStyle(fontSize: 16))
+                        : const Text("Nenhuma", style: TextStyle(fontSize: 16))
+                  ],
+                ),
+              ]),
             ),
             Container(
               margin: const EdgeInsets.only(bottom: 10, top: 10, right: 20),
@@ -162,29 +188,29 @@ class ShowAnimal extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20),
               alignment: Alignment.topLeft,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("O ${animal.name} precisa de ${animal.objective}",
-                      style: const TextStyle(
-                        color: Color(0xff434343),
-                        fontSize: 16,
-                      )),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 10, top: 10, right: 20),
-              padding: const EdgeInsets.only(left: 20),
-              alignment: Alignment.topLeft,
-              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Exigências do doador",
                       style: TextStyle(fontSize: 16)),
-                  if (animal.requirements?.accompaniment != '')
-                    Text(
-                      "Tempo de acompanhamento: ${animal.requirements?.accompaniment}",
+                  if (animal.requirements?.accompaniment == 'one')
+                    const Text(
+                      "Tempo de acompanhamento: Um mês",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  if (animal.requirements?.accompaniment == 'three')
+                    const Text(
+                      "Tempo de acompanhamento: Três meses",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  if (animal.requirements?.accompaniment == 'six')
+                    const Text(
+                      "Tempo de acompanhamento: Seis meses",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  if (animal.requirements?.accompaniment == 'not')
+                    const Text(
+                      "Não é necessário tempo de acompanhamento",
                       style: TextStyle(fontSize: 16),
                     ),
                   if (animal.requirements?.pictureHouse == true)
