@@ -41,47 +41,82 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
           : ListView.builder(
               itemCount: animalController.animals.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  contentPadding: const EdgeInsets.all(10.0),
-                  leading: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        minWidth: 44,
-                        minHeight: 44,
-                        maxWidth: 64,
-                        maxHeight: 64,
+                return Container(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  margin: const EdgeInsets.only(bottom: 10, top: 10),
+                  color: const Color(0xfffee29b),
+                  child: Column(children: <Widget>[
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        animalController.animals[index].name ?? "",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Color(0xff434343),
+                          fontSize: 25,
+                        ),
                       ),
-                      child: animalController.animals[index].photo == null
-                          ? Container(
-                              height: 200,
-                              width: 380,
-                              decoration: BoxDecoration(
-                                color: const Color(0xfff1f2f2),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: const Icon(pets))
-                          : GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ShowAnimal(
-                                          animal:
-                                              animalController.animals[index])),
-                                );
-                                print(animalController.animals[index].name);
-                              },
-                              child: FutureBuilder<File>(
-                                future: animalController.getFile(
-                                    animalController.animals[index].photo),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return Container();
-                                  } // or some other placeholder
-                                  return Image.file(snapshot.data!);
+                    ),
+                    Container(
+                        alignment: Alignment.center,
+                        height: 260,
+                        width: 380,
+                        decoration: BoxDecoration(
+                          color: const Color(0xfffee29b),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: animalController.animals[index].photo == null
+                            ? Container(
+                                height: 200,
+                                width: 380,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xfff1f2f2),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: const Icon(pets))
+                            : GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ShowAnimal(
+                                            animal: animalController
+                                                .animals[index])),
+                                  );
+                                  print(animalController.animals[index].name);
                                 },
-                              ),
-                            )),
-                  title: Text(animalController.animals[index].name ?? ""),
+                                child: FutureBuilder<File>(
+                                  future: animalController.getFile(
+                                      animalController.animals[index].photo),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Container();
+                                    } // or some other placeholder
+                                    return Image.file(snapshot.data!);
+                                  },
+                                ),
+                              )),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      margin: const EdgeInsets.only(bottom: 5),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(animalController.animals[index].sex ?? "",
+                                style: const TextStyle(fontSize: 16)),
+                            Container(
+                              margin: const EdgeInsets.only(right: 80),
+                            ),
+                            Text(animalController.animals[index].porte ?? "",
+                                style: const TextStyle(fontSize: 16)),
+                            Container(
+                              margin: const EdgeInsets.only(right: 80),
+                            ),
+                            Text(animalController.animals[index].age ?? "",
+                                style: const TextStyle(fontSize: 16)),
+                          ]),
+                    ),
+                  ]),
                 );
               }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
