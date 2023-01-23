@@ -21,13 +21,14 @@ class _SuccessRegisterScreenState extends State<SuccessRegisterScreen> {
             Container(
               height: 170,
               padding: const EdgeInsets.all(35),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                "assets/card.png",
-                fit: BoxFit.contain,
+              child: const Text(
+                "Eba!",
+                style: TextStyle(
+                  color: Color(0xfff7a800),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 90,
+                  fontFamily: 'Courgette',
+                ),
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
