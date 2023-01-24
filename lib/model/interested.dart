@@ -1,21 +1,21 @@
 class Interested {
-  String? animalid;
-  String? ownerid;
-  String? interestedid;
+  String? animalId;
+  String? ownerId;
+  String? interestedId;
 
-  Interested({this.animalid, this.ownerid, this.interestedid});
+  Interested({this.animalId, this.ownerId, this.interestedId});
 
   Interested.fromJson(Map<String, dynamic> json) {
-    animalid = json['animalid'];
-    ownerid = json['ownerid'];
-    interestedid = json['interestedid'];
+    animalId = json['animalId'];
+    ownerId = json['ownerId'];
+    interestedId = json['interestedId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['animalid'] = animalid;
-    data['ownerid'] = ownerid;
-    data['interestedid'] = interestedid;
+    data['animalId'] = animalId;
+    data['ownerId'] = ownerId;
+    data['interestedId'] = interestedId;
     return data;
   }
 }

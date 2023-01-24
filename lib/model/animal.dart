@@ -33,6 +33,7 @@ class Animal {
       this.user});
 
   Animal.fromJson(Map<dynamic, dynamic> json) {
+    id = json['id'];
     about = json['about'];
     age = json['age'];
     carry = json['carry'];
