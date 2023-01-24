@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 @immutable
 class User {
   final String token;
+  final String tokenNotification;
   final String uid;
   final String docID;
   final String name;
@@ -13,6 +14,7 @@ class User {
 
   const User({
     this.token = '',
+    this.tokenNotification = '',
     this.uid = '',
     this.docID = '',
     this.name = '',

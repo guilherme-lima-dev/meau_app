@@ -71,8 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   initilizeFirebaseMessaging() async {
-    await Provider.of<FirebaseMessagingService>(context, listen: false)
+    var token = await Provider.of<FirebaseMessagingService>(context, listen: false)
         .initialize();
+    Provider.of<AuthController>(context, listen: false).setTokenNotification(token);
+
+
   }
 
   checkNotifications() async {

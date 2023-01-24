@@ -12,6 +12,7 @@ class AuthController extends ChangeNotifier {
   final AuthService service;
   var user = const User();
   var token = '';
+  var tokenNotification = '';
   var authenticated = false;
   var loading = false;
 
@@ -24,6 +25,11 @@ class AuthController extends ChangeNotifier {
 
   setLoading() {
     loading = !loading;
+    notifyListeners();
+  }
+
+  setTokenNotification(token){
+    tokenNotification = token;
     notifyListeners();
   }
 
@@ -76,7 +82,14 @@ class AuthController extends ChangeNotifier {
           name: name,
           uid: user.uid,
           token: user.token,
-          image: file);
+          image: file,
+          tokenNotification: tokenNotification);
+
+      debugPrint("TOKEN IN MODEL");
+      debugPrint(user.tokenNotification);
+      debugPrint("============================================================");
+      var doc = FirebaseFirestore.instance.collection('user').doc(user.docID);
+      await doc.update({"token_notification": user.tokenNotification});
 
       authenticated = true;
     } else {
