@@ -10,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 
 class AuthController extends ChangeNotifier {
   final AuthService service;
-  var user = const User();
+  var user = User();
   var token = '';
   var tokenNotification = '';
   var authenticated = false;

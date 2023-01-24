@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meau/controllers/animal/animal_controller.dart';
+import 'package:meau/controllers/interested/interested_controller.dart';
 import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/controllers/photo/photo_controller.dart';
 import 'package:meau/helpers/build_material_color_helper.dart';
@@ -40,6 +41,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<AnimalController>(
             create: (context) => AnimalController(context.read())),
+        ChangeNotifierProvider<InterestedController>(
+            create: (context) => InterestedController()),
       ],
       child: MaterialApp(
         title: 'Meau',
