@@ -1,22 +1,29 @@
-//import 'dart:async';
 import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/src/foundation/key.dart';
-//import 'package:flutter/src/widgets/framework.dart';
-
 import 'package:meau/controllers/animal/animal_controller.dart';
+import 'package:meau/controllers/user/auth_controller.dart';
+import 'package:meau/model/interested.dart';
+import 'package:provider/provider.dart';
 import '../../components/app_bar_component.dart';
 import '../../model/animal.dart';
 
-class ShowAnimal extends StatelessWidget {
-  ShowAnimal({Key? key, required this.animal}) : super(key: key);
+class ShowAnimal extends StatefulWidget {
+  const ShowAnimal({Key? key, required animal}) : super(key: key);
+
+  @override
+  State<ShowAnimal> createState() => _ShowAnimalState();
+}
+
+class _ShowAnimalState extends State<ShowAnimal> {
   final animalController = AnimalController();
-  final Animal animal;
-  final bool loadingButtonRegister = false;
+  final animal = Animal();
+  Interested interested = Interested();
+  bool loadingButtonAdopt = false;
 
   @override
   Widget build(BuildContext context) {
+    final authController = context.watch<AuthController>();
     return Scaffold(
       appBar: AppBarComponent(
         appBar: AppBar(),
@@ -255,10 +262,27 @@ class ShowAnimal extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20)),
               margin: const EdgeInsets.only(top: 15, bottom: 15),
               child: TextButton(
-                onPressed: () {
-                  print('Apertou');
+                onPressed: () async {
+                  final docInterested =
+                      FirebaseFirestore.instance.collection('interested').doc();
+                  setState(() {
+                    loadingButtonAdopt = true;
+                  });
+                  interested = Interested(
+                    animalid: animal.id,
+                    ownerid: animal.user,
+                    interestedid: "user/${authController.user.docID}",
+                  );
+                  await docInterested.set(interested.toJson());
+                  setState(() {
+                    loadingButtonAdopt = false;
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text(
+                        'Informamos o dono do animal, em breve vocês estarão em contato'),
+                  ));
                 },
-                child: loadingButtonRegister
+                child: loadingButtonAdopt
                     ? const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                         strokeWidth: 3,
