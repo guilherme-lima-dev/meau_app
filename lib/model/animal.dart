@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class Animal {
   String? id;
   String? about;
@@ -18,23 +16,21 @@ class Animal {
   String? user;
 
   Animal(
-      {
-        this.id,
-        this.about,
-        this.age,
-        this.carry,
-        this.health,
-        this.illness,
-        this.name,
-        this.objective,
-        this.porte,
-        this.requirements,
-        this.sex,
-        this.species,
-        this.temperament,
-        this.photo,
-        this.user
-      });
+      {this.id,
+      this.about,
+      this.age,
+      this.carry,
+      this.health,
+      this.illness,
+      this.name,
+      this.objective,
+      this.porte,
+      this.requirements,
+      this.sex,
+      this.species,
+      this.temperament,
+      this.photo,
+      this.user});
 
   Animal.fromJson(Map<dynamic, dynamic> json) {
     about = json['about'];
@@ -46,7 +42,7 @@ class Animal {
     objective = json['objective'];
     porte = json['porte'];
     requirements = json['requirements'] != null
-        ? new Requirements.fromJson(json['requirements'])
+        ? Requirements.fromJson(json['requirements'])
         : null;
     sex = json['sex'];
     species = json['species'];
@@ -56,42 +52,41 @@ class Animal {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['about'] = this.about;
-    data['age'] = this.age;
-    data['carry'] = this.carry;
-    data['health'] = this.health;
-    data['illness'] = this.illness;
-    data['name'] = this.name;
-    data['objective'] = this.objective;
-    data['porte'] = this.porte;
-    if (this.requirements != null) {
-      data['requirements'] = this.requirements!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['about'] = about;
+    data['age'] = age;
+    data['carry'] = carry;
+    data['health'] = health;
+    data['illness'] = illness;
+    data['name'] = name;
+    data['objective'] = objective;
+    data['porte'] = porte;
+    if (requirements != null) {
+      data['requirements'] = requirements!.toJson();
     }
-    data['sex'] = this.sex;
-    data['species'] = this.species;
-    data['temperament'] = this.temperament;
-    data['photo'] = this.photo;
-    data['user'] = this.user;
+    data['sex'] = sex;
+    data['species'] = species;
+    data['temperament'] = temperament;
+    data['photo'] = photo;
+    data['user'] = user;
     return data;
   }
 
-  Animal copyWith({
-    String? id,
-    String? about,
-    String? age,
-    String? carry,
-    String? health,
-    String? illness,
-    String? name,
-    String? objective,
-    String? porte,
-    Requirements? requirements,
-    String? sex,
-    String? species,
-    String? temperament
-  }) {
+  Animal copyWith(
+      {String? id,
+      String? about,
+      String? age,
+      String? carry,
+      String? health,
+      String? illness,
+      String? name,
+      String? objective,
+      String? porte,
+      Requirements? requirements,
+      String? sex,
+      String? species,
+      String? temperament}) {
     return Animal(
         id: this.id,
         about: this.about,
@@ -105,8 +100,7 @@ class Animal {
         requirements: this.requirements,
         sex: this.sex,
         species: this.species,
-        temperament: this.temperament
-    );
+        temperament: this.temperament);
   }
 }
 
@@ -126,11 +120,11 @@ class Requirements {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['accompaniment'] = this.accompaniment;
-    data['picture_house'] = this.pictureHouse;
-    data['term'] = this.term;
-    data['visit'] = this.visit;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['accompaniment'] = accompaniment;
+    data['picture_house'] = pictureHouse;
+    data['term'] = term;
+    data['visit'] = visit;
     return data;
   }
 }

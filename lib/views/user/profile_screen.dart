@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/controllers/photo/photo_controller.dart';
-import 'package:meau/model/user.dart';
-import 'package:meau/views/home/home_screen.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -20,7 +16,7 @@ class AddPersonalData extends StatefulWidget {
 }
 
 class _AddPersonalDataState extends State<AddPersonalData> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -70,9 +66,9 @@ class _AddPersonalDataState extends State<AddPersonalData> {
         children: <Widget>[
           Container(
             height: 250,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [const Color(0xffF5A900), Color(0xfffabf3b)],
+                colors: [Color(0xffF5A900), Color(0xfffabf3b)],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 stops: [0.4, 0.7],
@@ -126,20 +122,12 @@ class _AddPersonalDataState extends State<AddPersonalData> {
                                 _showPicker(context, photoController);
                               },
                               child: Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Icon(
-                                    Icons.edit,
-                                    color: Colors.black,
-                                    size: 20,
-                                  ),
-                                ),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                       width: 1,
                                       color: Colors.white,
                                     ),
-                                    borderRadius: BorderRadius.all(
+                                    borderRadius: const BorderRadius.all(
                                       Radius.circular(
                                         50,
                                       ),
@@ -147,13 +135,21 @@ class _AddPersonalDataState extends State<AddPersonalData> {
                                     color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
-                                        offset: Offset(2, 4),
+                                        offset: const Offset(2, 4),
                                         color: Colors.black.withOpacity(
                                           0.3,
                                         ),
                                         blurRadius: 3,
                                       ),
                                     ]),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(2.0),
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: Colors.black,
+                                    size: 20,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -162,12 +158,12 @@ class _AddPersonalDataState extends State<AddPersonalData> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
                   authController.user.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -186,26 +182,24 @@ class _AddPersonalDataState extends State<AddPersonalData> {
         context: context,
         builder: (BuildContext bc) {
           return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library),
-                      title: new Text('Gallery'),
-                      onTap: () {
-                        imgFromGallery(photoController);
-                        Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera),
-                    title: new Text('Camera'),
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Gallery'),
                     onTap: () {
-                      imgFromCamera(photoController);
+                      imgFromGallery(photoController);
                       Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.photo_camera),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    imgFromCamera(photoController);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
           );
         });

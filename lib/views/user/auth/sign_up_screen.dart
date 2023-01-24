@@ -1,13 +1,10 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/controllers/photo/photo_controller.dart';
 import 'package:meau/model/user.dart';
-import 'package:meau/services/auth_service.dart';
-import 'package:meau/views/user/auth/login_screen.dart';
 import 'package:meau/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -117,7 +114,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     authController.setLoading();
                     if (res != null) {
-                      final docUser = FirebaseFirestore.instance.collection('user').doc();
+                      final docUser =
+                          FirebaseFirestore.instance.collection('user').doc();
                       var dataUser = {
                         "name": nameController.text,
                         "photo": null,

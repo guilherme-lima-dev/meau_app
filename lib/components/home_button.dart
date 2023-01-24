@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class HomeButton extends StatelessWidget {
-  HomeButton({Key? key, this.title, this.onTap}) : super(key: key);
+  const HomeButton({Key? key, this.title, this.onTap}) : super(key: key);
 
-  String? title;
-  VoidCallback? onTap;
+  final String? title;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +14,13 @@ class HomeButton extends StatelessWidget {
         height: 50,
         width: 200,
         decoration: BoxDecoration(
-          color: Color(0xffF5A900),
+          color: const Color(0xffF5A900),
           borderRadius: BorderRadius.circular(22),
         ),
         child: Center(
           child: Text(
             title ?? '',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w500,
               fontSize: 20,

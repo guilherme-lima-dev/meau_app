@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meau/views/animals/list_all_animals_screen.dart';
 import 'package:meau/views/animals/register_animal_screen.dart';
 import 'package:meau/views/user/profile_screen.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({

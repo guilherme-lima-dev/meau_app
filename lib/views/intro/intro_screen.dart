@@ -3,29 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:meau/views/home/home_screen.dart';
 
-Widget _openScreen() {
-  return Stack(
-    children: <Widget>[
-      AnimatedSplashScreen(
-          duration: 1500,
-          centered: true,
-          splash: Container(),
-          nextScreen: const IntroScreen(),
-          splashTransition: SplashTransition.slideTransition,
-          backgroundColor: const Color(0xffF5A900)),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-              width: 500,
-              height: 300,
-              child: Image.asset('assets/logos/Meau_Icone.png')),
-        ],
-      ),
-    ],
-  );
-}
-
 class IntroScreen extends StatelessWidget {
   const IntroScreen({super.key});
 

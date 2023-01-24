@@ -1,28 +1,35 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/services/notification_service.dart';
+import 'package:provider/provider.dart';
 
 class FirebaseMessagingService {
   final NotificationService _notificationService;
 
   FirebaseMessagingService(this._notificationService);
 
-  Future<void> initialize() async {
+  Future<dynamic> initialize() async {
     await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       badge: true,
       sound: true,
       alert: true,
     );
-    getDeviceFirebaseToken();
+    var token = getDeviceFirebaseToken();
     _onMessage();
     _onMessageOpenedApp();
+
+    return token;
   }
 
   getDeviceFirebaseToken() async {
+
     final token = await FirebaseMessaging.instance.getToken();
     debugPrint('=======================================');
     debugPrint('TOKEN FIREBASE: $token');
     debugPrint('=======================================');
+
+    return token;
   }
 
   _onMessage() {
