@@ -17,12 +17,12 @@ class ShowAnimal extends StatefulWidget {
 }
 
 class _ShowAnimalState extends State<ShowAnimal> {
-  final animalController = AnimalController();
   Interested interested = Interested();
   bool loadingButtonAdopt = false;
 
   @override
   Widget build(BuildContext context) {
+    final animalController = context.watch<AnimalController>();
     final authController = context.watch<AuthController>();
     return Scaffold(
       appBar: AppBarComponent(
@@ -275,6 +275,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                   );
                   print(interested.toJson());
                   await docInterested.set(interested.toJson());
+                  await animalController.sendNotification(widget.animal.user, widget.animal);
                   setState(() {
                     loadingButtonAdopt = false;
                   });
@@ -282,6 +283,8 @@ class _ShowAnimalState extends State<ShowAnimal> {
                     content: Text(
                         'Informamos o dono do animal, em breve vocês estarão em contato'),
                   ));
+
+
                 },
                 child: loadingButtonAdopt
                     ? const CircularProgressIndicator(
