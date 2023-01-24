@@ -112,22 +112,24 @@ class NotificationService {
     }
   }
 
-  sendNotification(String title, String message, String tokenNotification) async {
+  sendNotification(
+      String title, String message, String tokenNotification) async {
     //Esse token fica localizado em: config do projeto -> cloud messaging -> chave do servidor
-    String token = "AAAAgDdzT0I:APA91bF1eJdwLIBETqdB-6FT12Fv80uI5PthNxUvEk0Now7OZyWxaPhd9f2LEV2SGsfhT7yyEekKjDoERXmnCqVijK1hxQaAd7JdMP16I1QiO_JznftoJ2HZwgIhMOuIqMmykOEYbpFR";
+    String token =
+        "AAAAX7EDEcM:APA91bE_KwHBPyOizo9C7YWIUY4XBoAFqZlbBEV-7K7yO3baRbNC7rmhmR2Lc6pcjlXt4dN_GrFdRvvgcPadUQCO2fszQfNKcmhoCFcnwUkk3zvJaM93aPTJsiVc2W8gk8rbMOVIP_AY";
 
-    var res = await dioClient.post("https://fcm.googleapis.com/fcm/send", {
-        'notification': <String, dynamic>{
-          'body': message,
-          'title': title
+    var res = await dioClient.post(
+        "https://fcm.googleapis.com/fcm/send",
+        {
+          'notification': <String, dynamic>{'body': message, 'title': title},
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'id': '1',
+            'status': 'done'
+          },
+          "to": tokenNotification,
         },
-        'priority': 'high',
-        'data': <String, dynamic>{
-          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-          'id': '1',
-          'status': 'done'
-        },
-        "to": tokenNotification,
-      }, token);
+        token);
   }
 }
