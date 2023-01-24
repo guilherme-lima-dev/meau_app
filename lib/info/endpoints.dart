@@ -1,6 +1,7 @@
 class Endpoints {
+  static const key = "AIzaSyAGdwCd272mx-7uHVs7CLhrb3qGRQJ-AFw";
   static const urlAuth =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCwlIf_shZlYIDlf8x3ooW-Y-29S0TslHI";
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}";
   static const urlRegister =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCwlIf_shZlYIDlf8x3ooW-Y-29S0TslHI";
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}";
 }
