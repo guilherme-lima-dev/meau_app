@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meau/controllers/animal/animal_controller.dart';
+import 'package:meau/controllers/interested/interested_controller.dart';
 import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/controllers/photo/photo_controller.dart';
 import 'package:meau/helpers/build_material_color_helper.dart';
@@ -27,19 +28,21 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<IHttpClient>(create: (_) => DioClient()),
         Provider<AuthService>(create: (context) => AuthService(context.read())),
+        Provider<NotificationService>(
+          create: (context) => NotificationService(context.read()),
+        ),
         ChangeNotifierProvider<AuthController>(
             create: (context) => AuthController(context.read())),
         ChangeNotifierProvider<PhotoController>(
             create: (context) => PhotoController()),
-        ChangeNotifierProvider<AnimalController>(
-            create: (context) => AnimalController()),
-        Provider<NotificationService>(
-          create: (context) => NotificationService(),
-        ),
         Provider<FirebaseMessagingService>(
           create: (context) =>
               FirebaseMessagingService(context.read<NotificationService>()),
         ),
+        ChangeNotifierProvider<AnimalController>(
+            create: (context) => AnimalController(context.read())),
+        ChangeNotifierProvider<InterestedController>(
+            create: (context) => InterestedController()),
       ],
       child: MaterialApp(
         title: 'Meau',

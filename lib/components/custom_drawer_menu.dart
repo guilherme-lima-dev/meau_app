@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meau/views/animals/list_all_animals_screen.dart';
+import 'package:meau/views/animals/list_interested_screen.dart';
 import 'package:meau/views/animals/register_animal_screen.dart';
 import 'package:meau/views/user/profile_screen.dart';
-//import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -47,6 +47,15 @@ class CustomDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const ListAllAnimalsScreen()));
+            },
+          ),
+          ListTile(
+            title: const Text('Interessados'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ListInterestedSreen()));
             },
           ),
           ListTile(

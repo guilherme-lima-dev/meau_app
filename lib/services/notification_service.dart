@@ -1,6 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:meau/http_clients/dio_client.dart';
+import 'package:meau/interfaces/http_client_interface.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
@@ -23,8 +25,10 @@ class CustomNotification {
 class NotificationService {
   late FlutterLocalNotificationsPlugin localNotificationsPlugin;
   late AndroidNotificationDetails androidDetails;
+  final IHttpClient client;
+  final DioClient dioClient = new DioClient();
 
-  NotificationService() {
+  NotificationService(this.client) {
     localNotificationsPlugin = FlutterLocalNotificationsPlugin();
     _setupAndroidDetails();
     _setupNotifications();
@@ -106,5 +110,26 @@ class NotificationService {
     if (details != null && details.didNotificationLaunchApp) {
       _onSelectNotification(details.notificationResponse!.payload);
     }
+  }
+
+  sendNotification(
+      String title, String message, String tokenNotification) async {
+    //Esse token fica localizado em: config do projeto -> cloud messaging -> chave do servidor
+    String token =
+        "AAAA5ibyiPw:APA91bFh1yABxQdHATPDqJiikgVFJ4q-Fr3vPoj4vyLJufdkxc6JbZoC1JGNZ-Adp8ooS-ipy6efItxEl7MbzZd31hlv-imc6U0PV59AtwSttrUq2GWhs_YwHQDZ4rpvnkIligcIkuv2";
+
+    var res = await dioClient.post(
+        "https://fcm.googleapis.com/fcm/send",
+        {
+          'notification': <String, dynamic>{'body': message, 'title': title},
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'id': '1',
+            'status': 'done'
+          },
+          "to": tokenNotification,
+        },
+        token);
   }
 }

@@ -1,26 +1,33 @@
-//import 'dart:async';
 import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/src/foundation/key.dart';
-//import 'package:flutter/src/widgets/framework.dart';
-
 import 'package:meau/controllers/animal/animal_controller.dart';
+import 'package:meau/controllers/user/auth_controller.dart';
+import 'package:meau/model/interested.dart';
+import 'package:provider/provider.dart';
 import '../../components/app_bar_component.dart';
 import '../../model/animal.dart';
 
-class ShowAnimal extends StatelessWidget {
-  ShowAnimal({Key? key, required this.animal}) : super(key: key);
-  final animalController = AnimalController();
+class ShowAnimal extends StatefulWidget {
   final Animal animal;
-  final bool loadingButtonRegister = false;
+  const ShowAnimal({Key? key, required this.animal}) : super(key: key);
+
+  @override
+  State<ShowAnimal> createState() => _ShowAnimalState();
+}
+
+class _ShowAnimalState extends State<ShowAnimal> {
+  Interested interested = Interested();
+  bool loadingButtonAdopt = false;
 
   @override
   Widget build(BuildContext context) {
+    final animalController = context.watch<AnimalController>();
+    final authController = context.watch<AuthController>();
     return Scaffold(
       appBar: AppBarComponent(
         appBar: AppBar(),
-        title: "${animal.name}",
+        title: "${widget.animal.name}",
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -33,7 +40,7 @@ class ShowAnimal extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: FutureBuilder<File>(
-                future: animalController.getFile(animal.photo),
+                future: animalController.getFile(widget.animal.photo),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Container();
@@ -47,7 +54,7 @@ class ShowAnimal extends StatelessWidget {
               padding: const EdgeInsets.only(left: 15),
               margin: const EdgeInsets.only(bottom: 10, top: 10),
               child: Text(
-                animal.name ?? "",
+                widget.animal.name ?? "",
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xff434343),
@@ -62,7 +69,7 @@ class ShowAnimal extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("${animal.name} precisa de ${animal.objective}",
+                  Text("${widget.animal.name} precisa de ${widget.animal.objective}",
                       style: const TextStyle(
                         color: Color(0xff434343),
                         fontSize: 16,
@@ -79,7 +86,7 @@ class ShowAnimal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Sexo", style: TextStyle(fontSize: 16)),
-                    Text(animal.sex ?? "",
+                    Text(widget.animal.sex ?? "",
                         style: const TextStyle(fontSize: 16)),
                   ],
                 ),
@@ -90,7 +97,7 @@ class ShowAnimal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Porte", style: TextStyle(fontSize: 16)),
-                    Text(animal.porte ?? "",
+                    Text(widget.animal.porte ?? "",
                         style: const TextStyle(fontSize: 16)),
                   ],
                 ),
@@ -101,7 +108,7 @@ class ShowAnimal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Idade", style: TextStyle(fontSize: 16)),
-                    Text(animal.age ?? "",
+                    Text(widget.animal.age ?? "",
                         style: const TextStyle(fontSize: 16)),
                   ],
                 ),
@@ -116,7 +123,7 @@ class ShowAnimal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Castrado", style: TextStyle(fontSize: 16)),
-                    animal.health?.contains("Castrado") == true
+                    widget.animal.health?.contains("Castrado") == true
                         ? const Text("Sim", style: TextStyle(fontSize: 16))
                         : const Text("Não", style: TextStyle(fontSize: 16)),
                   ],
@@ -128,7 +135,7 @@ class ShowAnimal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Vermifugado", style: TextStyle(fontSize: 16)),
-                    animal.health?.contains("Vermifugado") == true
+                    widget.animal.health?.contains("Vermifugado") == true
                         ? const Text("Sim", style: TextStyle(fontSize: 16))
                         : const Text("Não", style: TextStyle(fontSize: 16)),
                   ],
@@ -140,7 +147,7 @@ class ShowAnimal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Vacinado", style: TextStyle(fontSize: 16)),
-                    animal.health?.contains("Vacinado") == true
+                    widget.animal.health?.contains("Vacinado") == true
                         ? const Text("Sim", style: TextStyle(fontSize: 16))
                         : const Text("Não", style: TextStyle(fontSize: 16)),
                   ],
@@ -156,8 +163,8 @@ class ShowAnimal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Doenças", style: TextStyle(fontSize: 16)),
-                    animal.illness != ''
-                        ? Text(animal.illness ?? "",
+                    widget.animal.illness != ''
+                        ? Text(widget.animal.illness ?? "",
                             style: const TextStyle(fontSize: 16))
                         : const Text("Nenhuma", style: TextStyle(fontSize: 16))
                   ],
@@ -173,13 +180,13 @@ class ShowAnimal extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Temperamento", style: TextStyle(fontSize: 16)),
-                  if (animal.temperament?.contains("Brincalhão") == true)
+                  if (widget.animal.temperament?.contains("Brincalhão") == true)
                     const Text("Brincalhão", style: TextStyle(fontSize: 16)),
-                  if (animal.temperament?.contains("Guarda") == true)
+                  if (widget.animal.temperament?.contains("Guarda") == true)
                     const Text("Guarda", style: TextStyle(fontSize: 16)),
-                  if (animal.temperament?.contains("Amoroso") == true)
+                  if (widget.animal.temperament?.contains("Amoroso") == true)
                     const Text("Amoroso", style: TextStyle(fontSize: 16)),
-                  if (animal.temperament?.contains("Preguiçoso") == true)
+                  if (widget.animal.temperament?.contains("Preguiçoso") == true)
                     const Text("Preguiçoso", style: TextStyle(fontSize: 16)),
                 ],
               ),
@@ -194,32 +201,32 @@ class ShowAnimal extends StatelessWidget {
                 children: [
                   const Text("Exigências do doador",
                       style: TextStyle(fontSize: 16)),
-                  if (animal.requirements?.accompaniment == 'one')
+                  if (widget.animal.requirements?.accompaniment == 'one')
                     const Text(
                       "Tempo de acompanhamento: Um mês",
                       style: TextStyle(fontSize: 16),
                     ),
-                  if (animal.requirements?.accompaniment == 'three')
+                  if (widget.animal.requirements?.accompaniment == 'three')
                     const Text(
                       "Tempo de acompanhamento: Três meses",
                       style: TextStyle(fontSize: 16),
                     ),
-                  if (animal.requirements?.accompaniment == 'six')
+                  if (widget.animal.requirements?.accompaniment == 'six')
                     const Text(
                       "Tempo de acompanhamento: Seis meses",
                       style: TextStyle(fontSize: 16),
                     ),
-                  if (animal.requirements?.accompaniment == 'not')
+                  if (widget.animal.requirements?.accompaniment == 'not')
                     const Text(
                       "Não é necessário tempo de acompanhamento",
                       style: TextStyle(fontSize: 16),
                     ),
-                  if (animal.requirements?.pictureHouse == true)
+                  if (widget.animal.requirements?.pictureHouse == true)
                     const Text(
                       "Fotos da Casa",
                       style: TextStyle(fontSize: 16),
                     ),
-                  if (animal.requirements?.term == true)
+                  if (widget.animal.requirements?.term == true)
                     const Text(
                       "Assinatura do termo",
                       style: TextStyle(fontSize: 16),
@@ -235,13 +242,13 @@ class ShowAnimal extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Mais sobre o ${animal.name}:",
+                  Text("Mais sobre o ${widget.animal.name}:",
                       style: const TextStyle(
                         color: Color(0xff434343),
                         fontSize: 16,
                       )),
                   Text(
-                    animal.about ?? "",
+                    widget.animal.about ?? "",
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],
@@ -255,10 +262,31 @@ class ShowAnimal extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20)),
               margin: const EdgeInsets.only(top: 15, bottom: 15),
               child: TextButton(
-                onPressed: () {
-                  print('Apertou');
+                onPressed: () async {
+                  final docInterested =
+                      FirebaseFirestore.instance.collection('interested').doc();
+                  setState(() {
+                    loadingButtonAdopt = true;
+                  });
+                  interested = Interested(
+                    animalId: "animal/${widget.animal.id}",
+                    ownerId: widget.animal.user,
+                    interestedId: "user/${authController.user.docID}",
+                  );
+                  print(interested.toJson());
+                  await docInterested.set(interested.toJson());
+                  await animalController.sendNotification(widget.animal.user, widget.animal);
+                  setState(() {
+                    loadingButtonAdopt = false;
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text(
+                        'Informamos o dono do animal, em breve vocês estarão em contato'),
+                  ));
+
+
                 },
-                child: loadingButtonRegister
+                child: loadingButtonAdopt
                     ? const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                         strokeWidth: 3,

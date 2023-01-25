@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:meau/model/animal.dart';
+import 'package:meau/services/notification_service.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -11,6 +12,9 @@ class AnimalController extends ChangeNotifier {
   List<dynamic> animals = [];
   bool loading = false;
   bool todos = true;
+  NotificationService notificationService;
+
+  AnimalController(this.notificationService);
 
   setTodos(value) {
     todos = value;
@@ -85,4 +89,19 @@ class AnimalController extends ChangeNotifier {
 
     return file;
   }
+
+  sendNotification(String? docUser, Animal animal) async{
+    var splitDoc = docUser!.split('/');
+    var doc = FirebaseFirestore.instance.collection('user').doc(splitDoc[1]);
+    var querySnapshot = await doc.get();
+    final Map<String, dynamic>? allData = querySnapshot.data();
+
+    String tokenNotification = allData!["token_notification"];
+
+    String title = "Novo interessado!";
+    String message = "Existe uma pessoa interessada em adotar ${animal.name}!";
+
+    await notificationService.sendNotification(title, message, tokenNotification);
+  }
+
 }

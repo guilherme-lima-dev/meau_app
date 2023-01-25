@@ -25,6 +25,8 @@ class DioClient implements IHttpClient{
       dio.options.headers['Accept'] = 'application/json';
 
       final response = await dio.post(url, data: params);
+      print("response::::");
+      print(response);
       return response.data;
     }on DioError catch(error){
       return jsonDecode(error.response.toString());

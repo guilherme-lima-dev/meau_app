@@ -76,6 +76,8 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
                                 child: const Icon(pets))
                             : GestureDetector(
                                 onTap: () {
+                                  print(
+                                      animalController.animals[index].toJson());
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
