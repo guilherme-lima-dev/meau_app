@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/controllers/animal/animal_controller.dart';
@@ -43,8 +44,12 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   padding: const EdgeInsets.only(left: 15, right: 15),
-                  margin: const EdgeInsets.only(bottom: 10, top: 10),
-                  color: const Color(0xfffee29b),
+                  margin: const EdgeInsets.only(
+                      top: 5, bottom: 5, left: 15, right: 15),
+                  decoration: BoxDecoration(
+                    color: const Color(0xfffee29b),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   child: Column(children: <Widget>[
                     Container(
                       alignment: Alignment.topLeft,
@@ -53,22 +58,30 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: Color(0xff434343),
-                          fontSize: 25,
+                          fontSize: 22,
                         ),
                       ),
                     ),
                     Container(
                         alignment: Alignment.center,
-                        height: 260,
-                        width: 380,
+                        constraints: const BoxConstraints(
+                          minWidth: 100,
+                          minHeight: 100,
+                          maxWidth: double.infinity,
+                          maxHeight: 230,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xfffee29b),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: animalController.animals[index].photo == null
                             ? Container(
-                                height: 200,
-                                width: 380,
+                                constraints: const BoxConstraints(
+                                  minWidth: double.infinity,
+                                  minHeight: 230,
+                                  maxWidth: double.infinity,
+                                  maxHeight: double.infinity,
+                                ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xfff1f2f2),
                                   borderRadius: BorderRadius.circular(15),
