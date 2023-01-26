@@ -77,6 +77,8 @@ class InterestedController extends ChangeNotifier {
   }
 
   removeAllofthisanimal(docAnimal) async {
+    print("##########docAnimal###########");
+    print(docAnimal);
     var collectionRef = FirebaseFirestore.instance
         .collection('interested')
         .where('animalId', isEqualTo: "animal/$docAnimal");
@@ -89,6 +91,7 @@ class InterestedController extends ChangeNotifier {
     var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
 
     interestedsList.forEach((element) {
+      print(element.animalId);
       FirebaseFirestore.instance.collection('interested').doc(element.animalId).delete();
     });
   }
