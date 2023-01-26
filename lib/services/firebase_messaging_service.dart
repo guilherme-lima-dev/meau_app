@@ -10,7 +10,8 @@ class FirebaseMessagingService {
   FirebaseMessagingService(this._notificationService);
 
   Future<dynamic> initialize() async {
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       badge: true,
       sound: true,
       alert: true,
@@ -23,7 +24,6 @@ class FirebaseMessagingService {
   }
 
   getDeviceFirebaseToken() async {
-
     final token = await FirebaseMessaging.instance.getToken();
     debugPrint('=======================================');
     debugPrint('TOKEN FIREBASE: $token');
