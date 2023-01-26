@@ -5,8 +5,9 @@ import 'package:meau/controllers/animal/animal_controller.dart';
 import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/model/interested.dart';
 import 'package:provider/provider.dart';
-import '../../components/app_bar_component.dart';
-import '../../model/animal.dart';
+import 'package:meau/components/app_bar_component.dart';
+import 'package:meau/model/animal.dart';
+import 'package:meau/controllers/interested/interested_controller.dart';
 
 class ShowAnimal extends StatefulWidget {
   final Animal animal;
@@ -19,11 +20,29 @@ class ShowAnimal extends StatefulWidget {
 class _ShowAnimalState extends State<ShowAnimal> {
   Interested interested = Interested();
   bool loadingButtonAdopt = false;
+  // bool canAdopt = true;
+
+  @override
+  void initState() {
+    final interestedController = Provider.of<InterestedController>(context, listen: false);
+    final authController = Provider.of<AuthController>(context, listen: false);
+    final animalController = Provider.of<AnimalController>(context, listen: false);
+
+    interestedController.setLoading();
+
+    interestedController.verifyExistance(authController.user.docID, widget.animal.id);
+
+    interestedController.setLoading();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final animalController = context.watch<AnimalController>();
+    final interestedController = context.watch<InterestedController>();
     final authController = context.watch<AuthController>();
+
     return Scaffold(
       appBar: AppBarComponent(
         appBar: AppBar(),
@@ -69,8 +88,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                      "${widget.animal.name} precisa de ${widget.animal.objective}",
+                  Text("${widget.animal.name} precisa de ${widget.animal.objective}",
                       style: const TextStyle(
                         color: Color(0xff434343),
                         fontSize: 16,
@@ -80,15 +98,13 @@ class _ShowAnimalState extends State<ShowAnimal> {
             ),
             Container(
               alignment: Alignment.topLeft,
-              margin: const EdgeInsets.only(
-                  bottom: 10, top: 10, right: 20, left: 20),
+              margin: const EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Sexo", style: TextStyle(fontSize: 16)),
-                    Text(widget.animal.sex ?? "",
-                        style: const TextStyle(fontSize: 16)),
+                    Text(widget.animal.sex ?? "", style: const TextStyle(fontSize: 16)),
                   ],
                 ),
                 Container(
@@ -98,8 +114,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Porte", style: TextStyle(fontSize: 16)),
-                    Text(widget.animal.porte ?? "",
-                        style: const TextStyle(fontSize: 16)),
+                    Text(widget.animal.porte ?? "", style: const TextStyle(fontSize: 16)),
                   ],
                 ),
                 Container(
@@ -109,16 +124,14 @@ class _ShowAnimalState extends State<ShowAnimal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Idade", style: TextStyle(fontSize: 16)),
-                    Text(widget.animal.age ?? "",
-                        style: const TextStyle(fontSize: 16)),
+                    Text(widget.animal.age ?? "", style: const TextStyle(fontSize: 16)),
                   ],
                 ),
               ]),
             ),
             Container(
               alignment: Alignment.topLeft,
-              margin: const EdgeInsets.only(
-                  bottom: 10, top: 10, right: 20, left: 20),
+              margin: const EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,16 +170,14 @@ class _ShowAnimalState extends State<ShowAnimal> {
             ),
             Container(
               alignment: Alignment.topLeft,
-              margin: const EdgeInsets.only(
-                  bottom: 10, top: 10, right: 20, left: 20),
+              margin: const EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Doenças", style: TextStyle(fontSize: 16)),
                     widget.animal.illness != ''
-                        ? Text(widget.animal.illness ?? "",
-                            style: const TextStyle(fontSize: 16))
+                        ? Text(widget.animal.illness ?? "", style: const TextStyle(fontSize: 16))
                         : const Text("Nenhuma", style: TextStyle(fontSize: 16))
                   ],
                 ),
@@ -200,8 +211,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Exigências do doador",
-                      style: TextStyle(fontSize: 16)),
+                  const Text("Exigências do doador", style: TextStyle(fontSize: 16)),
                   if (widget.animal.requirements?.accompaniment == 'one')
                     const Text(
                       "Tempo de acompanhamento: Um mês",
@@ -258,48 +268,57 @@ class _ShowAnimalState extends State<ShowAnimal> {
             Container(
               height: 50,
               width: 250,
-              decoration: BoxDecoration(
-                  color: const Color(0xffF5A900),
-                  borderRadius: BorderRadius.circular(20)),
+              decoration: interestedController.canAdopt &&
+                      ("user/$widget.animal.user" == authController.user.docID)
+                  ? BoxDecoration(
+                      color: const Color(0xffF5A900), borderRadius: BorderRadius.circular(20))
+                  : BoxDecoration(
+                      color: const Color(0xff909090), borderRadius: BorderRadius.circular(20)),
               margin: const EdgeInsets.only(top: 15, bottom: 15),
-              child: TextButton(
-                onPressed: () async {
-                  final docInterested =
-                      FirebaseFirestore.instance.collection('interested').doc();
-                  setState(() {
-                    loadingButtonAdopt = true;
-                  });
-                  interested = Interested(
-                    animalId: "animal/${widget.animal.id}",
-                    ownerId: widget.animal.user,
-                    interestedId: "user/${authController.user.docID}",
-                  );
-                  print(interested.toJson());
-                  await docInterested.set(interested.toJson());
-                  await animalController.sendNotification(
-                      widget.animal.user, widget.animal);
-                  setState(() {
-                    loadingButtonAdopt = false;
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text(
-                        'Informamos o dono do animal, em breve vocês estarão em contato'),
-                  ));
-                },
-                child: loadingButtonAdopt
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        strokeWidth: 3,
-                      )
-                    : const Text(
-                        "Adotar",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25),
-                      ),
-              ),
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: interestedController.canAdopt &&
+                      ("user/$widget.animal.user" == authController.user.docID)
+                  ? TextButton(
+                      onPressed: () async {
+                        final docInterested =
+                            FirebaseFirestore.instance.collection('interested').doc();
+                        setState(() {
+                          loadingButtonAdopt = true;
+                        });
+                        interested = Interested(
+                          animalId: "animal/${widget.animal.id}",
+                          ownerId: widget.animal.user,
+                          interestedId: "user/${authController.user.docID}",
+                        );
+                        print(interested.toJson());
+                        await docInterested.set(interested.toJson());
+                        await animalController.sendNotification(widget.animal.user, widget.animal);
+                        setState(() {
+                          loadingButtonAdopt = false;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text(
+                              'Informamos o dono do animal, em breve vocês estarão em contato'),
+                        ));
+                      },
+                      child: loadingButtonAdopt
+                          ? const CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              strokeWidth: 3,
+                            )
+                          : const Text(
+                              "Adotar",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+                            ),
+                    )
+                  : const Text(
+                      "Você já sinalizou interesse por esse animal",
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
             )
           ],
         ),

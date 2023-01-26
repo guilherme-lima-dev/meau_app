@@ -22,8 +22,7 @@ class AnimalController extends ChangeNotifier {
   }
 
   Future<void> getAnimals() async {
-    CollectionReference collectionRef =
-        FirebaseFirestore.instance.collection('animal');
+    CollectionReference collectionRef = FirebaseFirestore.instance.collection('animal');
     // Get docs from collection reference
     QuerySnapshot querySnapshot = await collectionRef.get();
 
@@ -41,10 +40,16 @@ class AnimalController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserAnimals(docID) async {
-    var collectionRef = FirebaseFirestore.instance
+  changeOwner(docAnimal, docNewOwner) {
+    FirebaseFirestore.instance
         .collection('animal')
-        .where('user', isEqualTo: "user/$docID");
+        .doc(docAnimal)
+        .update({'user': "user/$docNewOwner"});
+  }
+
+  Future<void> getUserAnimals(docID) async {
+    var collectionRef =
+        FirebaseFirestore.instance.collection('animal').where('user', isEqualTo: "user/$docID");
     // Get docs from collection reference
     var querySnapshot = await collectionRef.get();
 
@@ -64,8 +69,7 @@ class AnimalController extends ChangeNotifier {
   }
 
   Future<File> getIMG(image) async {
-    final gsReference =
-        FirebaseStorage.instance.ref("files/$image").child("file/");
+    final gsReference = FirebaseStorage.instance.ref("files/$image").child("file/");
 
     var img = await gsReference.getDownloadURL();
 
@@ -90,7 +94,7 @@ class AnimalController extends ChangeNotifier {
     return file;
   }
 
-  sendNotification(String? docUser, Animal animal) async{
+  sendNotification(String? docUser, Animal animal) async {
     var splitDoc = docUser!.split('/');
     var doc = FirebaseFirestore.instance.collection('user').doc(splitDoc[1]);
     var querySnapshot = await doc.get();
@@ -103,5 +107,4 @@ class AnimalController extends ChangeNotifier {
 
     await notificationService.sendNotification(title, message, tokenNotification);
   }
-
 }
