@@ -69,7 +69,8 @@ class _ShowAnimalState extends State<ShowAnimal> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("${widget.animal.name} precisa de ${widget.animal.objective}",
+                  Text(
+                      "${widget.animal.name} precisa de ${widget.animal.objective}",
                       style: const TextStyle(
                         color: Color(0xff434343),
                         fontSize: 16,
@@ -275,7 +276,8 @@ class _ShowAnimalState extends State<ShowAnimal> {
                   );
                   print(interested.toJson());
                   await docInterested.set(interested.toJson());
-                  await animalController.sendNotification(widget.animal.user, widget.animal);
+                  await animalController.sendNotification(
+                      widget.animal.user, widget.animal);
                   setState(() {
                     loadingButtonAdopt = false;
                   });
@@ -283,8 +285,6 @@ class _ShowAnimalState extends State<ShowAnimal> {
                     content: Text(
                         'Informamos o dono do animal, em breve vocês estarão em contato'),
                   ));
-
-
                 },
                 child: loadingButtonAdopt
                     ? const CircularProgressIndicator(

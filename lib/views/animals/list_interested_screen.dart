@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meau/controllers/animal/animal_controller.dart';
 import 'package:meau/controllers/interested/interested_controller.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +38,12 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
   Widget build(BuildContext context) {
     final interestedController = context.watch<InterestedController>();
     final animalController = context.watch<AnimalController>();
+    bool loadingButtonAccept = false;
+    bool loadingButtonRefuse = false;
 
     const IconData pets = IconData(0xe4a1, fontFamily: 'MaterialIcons');
+    const IconData person = IconData(0xe252, fontFamily: 'MaterialIcons');
+
     return Scaffold(
       appBar: AppBarComponent(
         appBar: AppBar(),
@@ -52,94 +57,233 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
               itemCount: interestedController.interesteds.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
                   margin: const EdgeInsets.only(
                       bottom: 10, top: 10, left: 10, right: 10),
                   color: const Color(0xfffee29b),
                   child: Column(
                     children: [
-                      Row(children: <Widget>[
-                        Container(
-                            alignment: Alignment.center,
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              color: const Color(0xfffee29b),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: interestedController.interesteds[index].animal!.photo !=
-                                    null //Alterar aqui para == null
-                                ? Container(
-                                    height: 100,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xfff1f2f2),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: const Icon(pets))
-                                : Container(
-                                    height: 100,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xfff1f2f2),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: FutureBuilder<File>(
-                                      future: animalController.getFile(
-                                          interestedController.interesteds[index].animal!.photo),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return Container();
-                                        } // or some other placeholder
-                                        return Image.file(snapshot.data!);
-                                      },
-                                    ),
-                                  )),
-                        Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                interestedController.interesteds[index].animal!.name ?? "",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Color(0xff434343),
-                                  fontSize: 15,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                  alignment: Alignment.center,
+                                  height: 120,
+                                  width: 120,
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xfffee29b),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: interestedController.interesteds[index]
+                                              .animal!.photo !=
+                                          null //Alterar aqui para == null
+                                      ? Container(
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xfff1f2f2),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: const Icon(pets))
+                                      : Container(
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xfffee29b),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: FutureBuilder<File>(
+                                            future: animalController.getFile(
+                                                interestedController
+                                                    .interesteds[index]
+                                                    .animal!
+                                                    .photo),
+                                            builder: (context, snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return Container();
+                                              } // or some other placeholder
+                                              return Image.file(snapshot.data!);
+                                            },
+                                          ),
+                                        )),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  interestedController
+                                          .interesteds[index].animal!.name ??
+                                      "",
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Color(0xff434343),
+                                    fontSize: 15,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text("INTERESSADO: ",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Color(0xff434343),
-                                      fontSize: 15,
-                                    ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                  alignment: Alignment.center,
+                                  height: 120,
+                                  width: 120,
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xfffee29b),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: interestedController.interesteds[index]
+                                              .animal!.photo !=
+                                          null //Alterar aqui para == null
+                                      ? Container(
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xfff1f2f2),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: const Icon(person))
+                                      : Container(
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xfffee29b),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: FutureBuilder<File>(
+                                            future: animalController.getFile(
+                                                interestedController
+                                                    .interesteds[index]
+                                                    .interested!
+                                                    .photo),
+                                            builder: (context, snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return Container();
+                                              } // or some other placeholder
+                                              return Image.file(snapshot.data!);
+                                            },
+                                          ),
+                                        )),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  interestedController
+                                      .interesteds[index].interested!.name,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Color(0xff434343),
+                                    fontSize: 15,
                                   ),
                                 ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    interestedController.interesteds[index].interested!.name,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Color(0xff434343),
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ]),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF00FF00),
+                                  borderRadius: BorderRadius.circular(20)),
+                              margin:
+                                  const EdgeInsets.only(top: 15, bottom: 15),
+                              child: TextButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    loadingButtonAccept = true;
+                                  });
+                                  print("NOTIFICAR INTERESSADO");
+
+                                  print("TROCAR DONO");
+                                  print(
+                                      "APAGAR TODOS OS INTERESSADOS NESSE ANIMAL");
+
+                                  setState(() {
+                                    loadingButtonAccept = false;
+                                  });
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text(
+                                        'Já estamos finalizando o processo de adoção, aguarde!'),
+                                  ));
+                                },
+                                child: loadingButtonAccept
+                                    ? const CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.white),
+                                        strokeWidth: 3,
+                                      )
+                                    : const Text(
+                                        "Aceitar",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25),
+                                      ),
+                              ),
+                            ),
+                            Container(
+                              height: 50,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFFF0000),
+                                  borderRadius: BorderRadius.circular(20)),
+                              margin:
+                                  const EdgeInsets.only(top: 15, bottom: 15),
+                              child: TextButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    loadingButtonAccept = true;
+                                  });
+                                  print("NOTIFICAR INTERESSADO");
+                                  print("APAGAR ESSE REGISTRO DE INTERESSE");
+
+                                  setState(() {
+                                    loadingButtonAccept = false;
+                                  });
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text(
+                                        'Tudo bem, vamos continuar procurando!'),
+                                  ));
+                                },
+                                child: loadingButtonAccept
+                                    ? const CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.white),
+                                        strokeWidth: 3,
+                                      )
+                                    : const Text(
+                                        "Recusar",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25),
+                                      ),
+                              ),
+                            ),
+                          ])
                     ],
                   ),
                 );
-              }),
+              },
+            ),
     );
   }
 }
