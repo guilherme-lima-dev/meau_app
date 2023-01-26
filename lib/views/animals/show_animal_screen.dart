@@ -269,7 +269,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
               height: 50,
               width: 250,
               decoration: interestedController.canAdopt &&
-                      ("user/$widget.animal.user" == authController.user.docID)
+                      ("user/$widget.animal.user" != authController.user.docID)
                   ? BoxDecoration(
                       color: const Color(0xffF5A900), borderRadius: BorderRadius.circular(20))
                   : BoxDecoration(
@@ -277,7 +277,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
               margin: const EdgeInsets.only(top: 15, bottom: 15),
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: interestedController.canAdopt &&
-                      ("user/$widget.animal.user" == authController.user.docID)
+                      ("user/$widget.animal.user" != authController.user.docID)
                   ? TextButton(
                       onPressed: () async {
                         final docInterested =

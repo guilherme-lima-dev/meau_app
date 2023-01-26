@@ -59,6 +59,23 @@ class InterestedController extends ChangeNotifier {
     notifyListeners();
   }
 
+  removeThisInterested(docInterested) async {
+    var collectionRef = FirebaseFirestore.instance
+        .collection('interested')
+        .where('interestedId', isEqualTo: "user/$docInterested");
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await collectionRef.get();
+
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
+
+    interestedsList.forEach((element) {
+      FirebaseFirestore.instance.collection('interested').doc(element.animalId).delete();
+    });
+  }
+
   removeAllofthisanimal(docAnimal) async {
     var collectionRef = FirebaseFirestore.instance
         .collection('interested')

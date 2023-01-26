@@ -19,8 +19,7 @@ class ListInterestedSreen extends StatefulWidget {
 class _ListInterestedSreenState extends State<ListInterestedSreen> {
   @override
   void initState() {
-    final interestedController =
-        Provider.of<InterestedController>(context, listen: false);
+    final interestedController = Provider.of<InterestedController>(context, listen: false);
     final authController = Provider.of<AuthController>(context, listen: false);
 
     interestedController.setLoading();
@@ -57,10 +56,8 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
               itemCount: interestedController.interesteds.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  padding: const EdgeInsets.only(
-                      left: 10, right: 10, top: 10, bottom: 10),
-                  margin: const EdgeInsets.only(
-                      bottom: 10, top: 10, left: 10, right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10, top: 10, left: 10, right: 10),
                   color: const Color(0xfffee29b),
                   child: Column(
                     children: [
@@ -78,16 +75,14 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                     color: const Color(0xfffee29b),
                                     borderRadius: BorderRadius.circular(15),
                                   ),
-                                  child: interestedController.interesteds[index]
-                                              .animal!.photo !=
+                                  child: interestedController.interesteds[index].animal!.photo ==
                                           null //Alterar aqui para == null
                                       ? Container(
                                           height: 120,
                                           width: 120,
                                           decoration: BoxDecoration(
                                             color: const Color(0xfff1f2f2),
-                                            borderRadius:
-                                                BorderRadius.circular(15),
+                                            borderRadius: BorderRadius.circular(15),
                                           ),
                                           child: const Icon(pets))
                                       : Container(
@@ -95,15 +90,11 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                           width: 120,
                                           decoration: BoxDecoration(
                                             color: const Color(0xfffee29b),
-                                            borderRadius:
-                                                BorderRadius.circular(15),
+                                            borderRadius: BorderRadius.circular(15),
                                           ),
                                           child: FutureBuilder<File>(
-                                            future: animalController.getFile(
-                                                interestedController
-                                                    .interesteds[index]
-                                                    .animal!
-                                                    .photo),
+                                            future: animalController.getFile(interestedController
+                                                .interesteds[index].animal!.photo),
                                             builder: (context, snapshot) {
                                               if (!snapshot.hasData) {
                                                 return Container();
@@ -115,9 +106,7 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                               Container(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  interestedController
-                                          .interesteds[index].animal!.name ??
-                                      "",
+                                  interestedController.interesteds[index].animal!.name ?? "",
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     color: Color(0xff434343),
@@ -138,16 +127,14 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                     color: const Color(0xfffee29b),
                                     borderRadius: BorderRadius.circular(15),
                                   ),
-                                  child: interestedController.interesteds[index]
-                                              .animal!.photo !=
+                                  child: interestedController.interesteds[index].animal!.photo ==
                                           null //Alterar aqui para == null
                                       ? Container(
                                           height: 120,
                                           width: 120,
                                           decoration: BoxDecoration(
                                             color: const Color(0xfff1f2f2),
-                                            borderRadius:
-                                                BorderRadius.circular(15),
+                                            borderRadius: BorderRadius.circular(15),
                                           ),
                                           child: const Icon(person))
                                       : Container(
@@ -155,15 +142,11 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                           width: 120,
                                           decoration: BoxDecoration(
                                             color: const Color(0xfffee29b),
-                                            borderRadius:
-                                                BorderRadius.circular(15),
+                                            borderRadius: BorderRadius.circular(15),
                                           ),
                                           child: FutureBuilder<File>(
-                                            future: animalController.getFile(
-                                                interestedController
-                                                    .interesteds[index]
-                                                    .interested!
-                                                    .photo),
+                                            future: animalController.getFile(interestedController
+                                                .interesteds[index].interested!.photo),
                                             builder: (context, snapshot) {
                                               if (!snapshot.hasData) {
                                                 return Container();
@@ -175,8 +158,7 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                               Container(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  interestedController
-                                      .interesteds[index].interested!.name,
+                                  interestedController.interesteds[index].interested!.name,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     color: Color(0xff434343),
@@ -188,97 +170,92 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                           ),
                         ],
                       ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              height: 50,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFF00FF00),
-                                  borderRadius: BorderRadius.circular(20)),
-                              margin:
-                                  const EdgeInsets.only(top: 15, bottom: 15),
-                              child: TextButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    loadingButtonAccept = true;
-                                  });
-                                  print("NOTIFICAR INTERESSADO");
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                        Container(
+                          height: 50,
+                          width: 120,
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF00FF00),
+                              borderRadius: BorderRadius.circular(20)),
+                          margin: const EdgeInsets.only(top: 15, bottom: 15),
+                          child: TextButton(
+                            onPressed: () async {
+                              setState(() {
+                                loadingButtonAccept = true;
+                              });
 
-                                  print("TROCAR DONO");
-                                  print(
-                                      "APAGAR TODOS OS INTERESSADOS NESSE ANIMAL");
+                              //Trocar dono
+                              animalController.changeOwner(
+                                  interestedController.interesteds[index].animal!.id!,
+                                  interestedController.interesteds[index].interested);
 
-                                  setState(() {
-                                    loadingButtonAccept = false;
-                                  });
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                    content: Text(
-                                        'Já estamos finalizando o processo de adoção, aguarde!'),
-                                  ));
-                                },
-                                child: loadingButtonAccept
-                                    ? const CircularProgressIndicator(
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                                Colors.white),
-                                        strokeWidth: 3,
-                                      )
-                                    : const Text(
-                                        "Aceitar",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 25),
-                                      ),
-                              ),
-                            ),
-                            Container(
-                              height: 50,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFFFF0000),
-                                  borderRadius: BorderRadius.circular(20)),
-                              margin:
-                                  const EdgeInsets.only(top: 15, bottom: 15),
-                              child: TextButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    loadingButtonAccept = true;
-                                  });
-                                  print("NOTIFICAR INTERESSADO");
-                                  print("APAGAR ESSE REGISTRO DE INTERESSE");
+                              //Apagar todos os interessados nesse animal
+                              interestedController.removeAllofthisanimal(
+                                  interestedController.interesteds[index].animal!.id!);
 
-                                  setState(() {
-                                    loadingButtonAccept = false;
-                                  });
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                    content: Text(
-                                        'Tudo bem, vamos continuar procurando!'),
-                                  ));
-                                },
-                                child: loadingButtonAccept
-                                    ? const CircularProgressIndicator(
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                                Colors.white),
-                                        strokeWidth: 3,
-                                      )
-                                    : const Text(
-                                        "Recusar",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 25),
-                                      ),
-                              ),
-                            ),
-                          ])
+                              //Notificar interessado
+
+                              setState(() {
+                                loadingButtonAccept = false;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content:
+                                    Text('Já estamos finalizando o processo de adoção, aguarde!'),
+                              ));
+                            },
+                            child: loadingButtonAccept
+                                ? const CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    strokeWidth: 3,
+                                  )
+                                : const Text(
+                                    "Aceitar",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25),
+                                  ),
+                          ),
+                        ),
+                        Container(
+                          height: 50,
+                          width: 120,
+                          decoration: BoxDecoration(
+                              color: const Color(0xFFFF0000),
+                              borderRadius: BorderRadius.circular(20)),
+                          margin: const EdgeInsets.only(top: 15, bottom: 15),
+                          child: TextButton(
+                            onPressed: () async {
+                              setState(() {
+                                loadingButtonAccept = true;
+                              });
+                              print("NOTIFICAR INTERESSADO");
+                              print("APAGAR ESSE REGISTRO DE INTERESSE");
+
+                              setState(() {
+                                loadingButtonAccept = false;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text('Tudo bem, vamos continuar procurando!'),
+                              ));
+                            },
+                            child: loadingButtonAccept
+                                ? const CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    strokeWidth: 3,
+                                  )
+                                : const Text(
+                                    "Recusar",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25),
+                                  ),
+                          ),
+                        ),
+                      ])
                     ],
                   ),
                 );
