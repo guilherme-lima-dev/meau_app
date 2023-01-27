@@ -30,7 +30,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
 
     interestedController.setLoading();
 
-    interestedController.verifyExistance(authController.user.docID, widget.animal.id);
+    interestedController.verifyExistance(widget.animal.id, authController.user.docID);
 
     interestedController.setLoading();
 
@@ -286,6 +286,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                           loadingButtonAdopt = true;
                         });
                         interested = Interested(
+                          docId: docInterested.id,
                           animalId: "animal/${widget.animal.id}",
                           ownerId: widget.animal.user,
                           interestedId: "user/${authController.user.docID}",

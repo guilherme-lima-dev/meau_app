@@ -38,7 +38,7 @@ class InterestedController extends ChangeNotifier {
     notifyListeners();
   }
 
-  verifyExistance(docInterested, docAnimal) async {
+  verifyExistance(docAnimal, docInterested) async {
     var collectionRef = FirebaseFirestore.instance
         .collection('interested')
         .where('interestedId', isEqualTo: "user/$docInterested")
@@ -59,7 +59,7 @@ class InterestedController extends ChangeNotifier {
     notifyListeners();
   }
 
-  removeThisInterested(docInterested, docAnimal) async {
+  removeThisInterested(docAnimal, docInterested) async {
     var collectionRef = FirebaseFirestore.instance
         .collection('interested')
         .where('interestedId', isEqualTo: "user/$docInterested")
@@ -73,7 +73,7 @@ class InterestedController extends ChangeNotifier {
     var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
 
     interestedsList.forEach((element) {
-      FirebaseFirestore.instance.collection('interested').doc(element.animalId).delete();
+      FirebaseFirestore.instance.collection('interested').doc(element.docId).delete();
     });
   }
 
@@ -90,12 +90,10 @@ class InterestedController extends ChangeNotifier {
 
     var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
 
-    print('1-------------------');
     interestedsList.forEach((element) {
-      print(element.animalId);
+      FirebaseFirestore.instance.collection('interested').doc(element.docId).delete();
     });
-    print('2-------------------');
-
+    interesteds.clear();
     notifyListeners();
   }
 

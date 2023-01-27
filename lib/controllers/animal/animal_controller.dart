@@ -41,10 +41,6 @@ class AnimalController extends ChangeNotifier {
   }
 
   changeOwner(docAnimal, docNewOwner) {
-    print("+++++++++++++++++++++++++++++++++++++++");
-    print(docAnimal);
-    print(docNewOwner);
-    print("+++++++++++++++++++++++++++++++++++++++");
     FirebaseFirestore.instance
         .collection('animal')
         .doc(docAnimal)
