@@ -3,13 +3,15 @@ import 'package:meau/model/animal.dart';
 import 'package:meau/model/user.dart';
 
 class Interested {
+  String? docId;
   String? animalId;
   String? ownerId;
   String? interestedId;
 
-  Interested({this.animalId, this.ownerId, this.interestedId});
+  Interested({this.docId, this.animalId, this.ownerId, this.interestedId});
 
   Interested.fromJson(Map<dynamic, dynamic> json) {
+    docId = json['docId'];
     animalId = json['animalId'];
     ownerId = json['ownerId'];
     interestedId = json['interestedId'];
@@ -17,6 +19,7 @@ class Interested {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['docId'] = docId;
     data['animalId'] = animalId;
     data['ownerId'] = ownerId;
     data['interestedId'] = interestedId;

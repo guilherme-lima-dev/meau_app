@@ -234,6 +234,10 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                               print("NOTIFICAR INTERESSADO");
                               print("APAGAR ESSE REGISTRO DE INTERESSE");
 
+                              interestedController.removeThisInterested(
+                                  interestedController.interesteds[index].animal!.id!,
+                                  interestedController.interesteds[index].interested?.docID);
+
                               setState(() {
                                 loadingButtonAccept = false;
                               });
