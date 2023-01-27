@@ -49,6 +49,8 @@ class AnimalController extends ChangeNotifier {
         .collection('animal')
         .doc(docAnimal)
         .update({'user': "user/$docNewOwner"});
+    animals.clear();
+    notifyListeners();
   }
 
   Future<void> getUserAnimals(docID) async {

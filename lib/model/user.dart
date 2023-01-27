@@ -26,13 +26,16 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-        token: json['idToken'], email: json['email'], uid: json['localId']);
+    return User(token: json['idToken'], email: json['email'], uid: json['localId']);
   }
 
   factory User.fromJsonTwo(Map<String, dynamic>? json) {
     return User(
-        name: json!['name'], photo: json['photo'], tokenNotification: json['token_notification'], uid: json['uid_user']);
+        name: json!['name'],
+        photo: json['photo'],
+        tokenNotification: json['token_notification'],
+        docID: json['docId'],
+        uid: json['uid_user']);
   }
 
   Map<String, dynamic> toJson() => {

@@ -59,10 +59,11 @@ class InterestedController extends ChangeNotifier {
     notifyListeners();
   }
 
-  removeThisInterested(docInterested) async {
+  removeThisInterested(docInterested, docAnimal) async {
     var collectionRef = FirebaseFirestore.instance
         .collection('interested')
-        .where('interestedId', isEqualTo: "user/$docInterested");
+        .where('interestedId', isEqualTo: "user/$docInterested")
+        .where('animalId', isEqualTo: "animal/$docAnimal");
     // Get docs from collection reference
     QuerySnapshot querySnapshot = await collectionRef.get();
 
@@ -76,12 +77,11 @@ class InterestedController extends ChangeNotifier {
     });
   }
 
-  removeAllofthisanimal(docAnimal) async {
-    print("##########docAnimal###########");
-    print(docAnimal);
+  removeAllInterestedInThisAnimal(docAnimal) async {
     var collectionRef = FirebaseFirestore.instance
         .collection('interested')
         .where('animalId', isEqualTo: "animal/$docAnimal");
+
     // Get docs from collection reference
     QuerySnapshot querySnapshot = await collectionRef.get();
 
@@ -90,10 +90,13 @@ class InterestedController extends ChangeNotifier {
 
     var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
 
+    print('1-------------------');
     interestedsList.forEach((element) {
       print(element.animalId);
-      FirebaseFirestore.instance.collection('interested').doc(element.animalId).delete();
     });
+    print('2-------------------');
+
+    notifyListeners();
   }
 
   addInterested(InterestedWithModels? interestedWithModels) {

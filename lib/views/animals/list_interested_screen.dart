@@ -183,16 +183,16 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                               setState(() {
                                 loadingButtonAccept = true;
                               });
-                              print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                              print(interestedController.interesteds[index].interested?.uid);
+
+                              print(interestedController.interesteds[index].interested?.docID);
                               // //Trocar dono
                               animalController.changeOwner(
                                   interestedController.interesteds[index].animal!.id!,
-                                  interestedController.interesteds[index].interested?.uid);
+                                  interestedController.interesteds[index].interested?.docID);
 
                               // //Apagar todos os interessados nesse animal
-                              // interestedController.removeAllofthisanimal(
-                              //     interestedController.interesteds[index].animal!.id!);
+                              interestedController.removeAllInterestedInThisAnimal(
+                                  interestedController.interesteds[index].animal!.id!);
 
                               // //Notificar interessado
 
