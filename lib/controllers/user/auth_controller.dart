@@ -18,17 +18,12 @@ class AuthController extends ChangeNotifier {
 
   AuthController(this.service);
 
-  // getUser() async{
-  //   user = await service.getUser(token);
-  //   notifyListeners();
-  // }
-
   setLoading() {
     loading = !loading;
     notifyListeners();
   }
 
-  setTokenNotification(token){
+  setTokenNotification(token) {
     tokenNotification = token;
     notifyListeners();
   }
@@ -53,8 +48,7 @@ class AuthController extends ChangeNotifier {
         docId = querySnapshot.docs.first.id;
       });
 
-      final gsReference =
-          FirebaseStorage.instance.ref("files/$image").child("file/");
+      final gsReference = FirebaseStorage.instance.ref("files/$image").child("file/");
 
       var img = await gsReference.getDownloadURL();
 
@@ -122,6 +116,14 @@ class AuthController extends ChangeNotifier {
 
   setUser(User user) {
     this.user = user;
+    notifyListeners();
+  }
+
+  logout() async {
+    await service.logout();
+    authenticated = false;
+    token = '';
+    user = User();
     notifyListeners();
   }
 }

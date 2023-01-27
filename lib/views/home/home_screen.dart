@@ -15,7 +15,12 @@ class HomeScreen extends StatelessWidget {
       drawer: authController.authenticated ? const CustomDrawer() : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: authController.authenticated
-          ? null
+          ? FloatingActionButton(
+              onPressed: () {
+                authController.logout();
+              },
+              child: const Icon(Icons.logout),
+            )
           : FloatingActionButton.extended(
               onPressed: () {
                 Navigator.push(

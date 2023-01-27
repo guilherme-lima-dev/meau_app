@@ -18,11 +18,12 @@ class AuthService {
 
   Future<dynamic> register(Map register) async {
     try {
-      final body =
-          await client.post(Endpoints.urlRegister, json.encode(register));
+      final body = await client.post(Endpoints.urlRegister, json.encode(register));
       return body;
     } catch (e) {
       return null;
     }
   }
+
+  logout() {}
 }
