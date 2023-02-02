@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meau/chat/homepage.dart';
 import 'package:meau/views/animals/list_all_animals_screen.dart';
 import 'package:meau/views/animals/list_interested_screen.dart';
 import 'package:meau/views/animals/register_animal_screen.dart';
@@ -65,6 +66,15 @@ class CustomDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const RegisterAnimalScreen()));
+            },
+          ),
+          ListTile(
+            title: const Text('Chat'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyHomePage()));
             },
           ),
         ],

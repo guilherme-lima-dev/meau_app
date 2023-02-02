@@ -837,7 +837,6 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                         temperament: temperamentText,
                         photo: basename(photoController.photoAnimal!.path),
                         user: "user/${authController.user.docID}");
-                    print(animal.toJson());
                     await docAnimal.set(animal.toJson());
                     _formKey.currentState?.reset();
                     setState(() {

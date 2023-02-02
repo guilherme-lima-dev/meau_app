@@ -18,17 +18,12 @@ class AuthController extends ChangeNotifier {
 
   AuthController(this.service);
 
-  // getUser() async{
-  //   user = await service.getUser(token);
-  //   notifyListeners();
-  // }
-
   setLoading() {
     loading = !loading;
     notifyListeners();
   }
 
-  setTokenNotification(token){
+  setTokenNotification(token) {
     tokenNotification = token;
     notifyListeners();
   }
@@ -48,33 +43,44 @@ class AuthController extends ChangeNotifier {
           .where("uid_user", isEqualTo: res['localId'])
           .get()
           .then((QuerySnapshot querySnapshot) {
-        name = querySnapshot.docs.first.get('name');
+        name = querySnapshot.docs.first.get('name') ?? "";
         image = querySnapshot.docs.first.get('photo') ?? "";
         docId = querySnapshot.docs.first.id;
       });
 
-      final gsReference =
-          FirebaseStorage.instance.ref("files/$image").child("file/");
+      final gsReference = FirebaseStorage.instance.ref("files/$image").child("file/");
+      var errIMG = false;
+      var img = '';
+      try{
+        img = await gsReference.getDownloadURL();
+      }catch(e){
+        print("Erro na imagem");
+        print(e);
+        errIMG = true;
+      }
 
-      var img = await gsReference.getDownloadURL();
+      File file = File('');
+      print("EERRO na ImG?");
+      print(errIMG);
+      if(!errIMG){
+        final Response response = await Dio().get<List<int>>(
+          img,
+          options: Options(
+            responseType: ResponseType.bytes,
+          ),
+        );
 
-      final Response response = await Dio().get<List<int>>(
-        img,
-        options: Options(
-          responseType: ResponseType.bytes,
-        ),
-      );
+        /// Get App local storage
+        final Directory appDir = await getApplicationDocumentsDirectory();
 
-      /// Get App local storage
-      final Directory appDir = await getApplicationDocumentsDirectory();
+        /// Generate Image Name
+        final String imageName = "${user.uid}.jpg";
 
-      /// Generate Image Name
-      final String imageName = "${user.uid}.jpg";
+        /// Create Empty File in app dir & fill with new image
+        file = File(join(appDir.path, imageName));
 
-      /// Create Empty File in app dir & fill with new image
-      final File file = File(join(appDir.path, imageName));
-
-      file.writeAsBytesSync(response.data as List<int>);
+        file.writeAsBytesSync(response.data as List<int>);
+      }
 
       user = User(
           docID: docId,
@@ -85,11 +91,12 @@ class AuthController extends ChangeNotifier {
           image: file,
           tokenNotification: tokenNotification);
 
+      debugPrint("============================================================");
       debugPrint("TOKEN IN MODEL");
       debugPrint(user.tokenNotification);
       debugPrint("============================================================");
       var doc = FirebaseFirestore.instance.collection('user').doc(user.docID);
-      await doc.update({"token_notification": user.tokenNotification});
+      await doc.update({"token_notification": user.tokenNotification, 'date_time': DateTime.now()});
 
       authenticated = true;
     } else {
@@ -122,6 +129,14 @@ class AuthController extends ChangeNotifier {
 
   setUser(User user) {
     this.user = user;
+    notifyListeners();
+  }
+
+  logout() async {
+    await service.logout();
+    authenticated = false;
+    token = '';
+    user = User();
     notifyListeners();
   }
 }

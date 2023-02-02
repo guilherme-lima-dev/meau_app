@@ -4,7 +4,6 @@ class Endpoints {
   // static const key = "AIzaSyAZgfhDKG7MwqCKnWunYFe9WiXdr6i-W_E"; // meau-472b4
 
   static const urlAuth =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}";
-  static const urlRegister =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}";
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=$key";
+  static const urlRegister = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=$key";
 }

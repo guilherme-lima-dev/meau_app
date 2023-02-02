@@ -9,6 +9,7 @@ class InterestedController extends ChangeNotifier {
   final User interested = User();
   final Animal animal = Animal();
   bool loading = false;
+  bool canAdopt = true;
   List<InterestedWithModels> interesteds = [];
 
   getAll(docOwner) async {
@@ -21,29 +22,82 @@ class InterestedController extends ChangeNotifier {
     // Get data from docs and convert map to List
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
 
-    var interestedsList = allData.map((e) => Interested.fromJson(e as Map))
-        .toList();
+    var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
 
     InterestedWithModels interestedWithModels = InterestedWithModels();
 
-    List<Future<
-        InterestedWithModels?>> futureInterestedListWithModel = interestedsList
-        .map((e) => interestedWithModels.fromDocs(e)).toList();
+    List<Future<InterestedWithModels?>> futureInterestedListWithModel =
+        interestedsList.map((e) => interestedWithModels.fromDocs(e)).toList();
 
-    if(futureInterestedListWithModel.length > interesteds.length){
-      futureInterestedListWithModel.forEach((e){
-          e.then((value) => addInterested(value));
+    if (futureInterestedListWithModel.length > interesteds.length) {
+      futureInterestedListWithModel.forEach((e) {
+        e.then((value) => addInterested(value));
       });
     }
 
-
-
     notifyListeners();
-
-
   }
 
-  addInterested(InterestedWithModels? interestedWithModels){
+  verifyExistance(docAnimal, docInterested) async {
+    var collectionRef = FirebaseFirestore.instance
+        .collection('interested')
+        .where('interestedId', isEqualTo: "user/$docInterested")
+        .where('animalId', isEqualTo: "animal/$docAnimal");
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await collectionRef.get();
+
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
+
+    if (interestedsList.isNotEmpty) {
+      canAdopt = false;
+    } else {
+      canAdopt = true;
+    }
+    notifyListeners();
+  }
+
+  removeThisInterested(docAnimal, docInterested) async {
+    var collectionRef = FirebaseFirestore.instance
+        .collection('interested')
+        .where('interestedId', isEqualTo: "user/$docInterested")
+        .where('animalId', isEqualTo: "animal/$docAnimal");
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await collectionRef.get();
+
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
+
+    interestedsList.forEach((element) {
+      FirebaseFirestore.instance.collection('interested').doc(element.docId).delete();
+    });
+  }
+
+  removeAllInterestedInThisAnimal(docAnimal) async {
+    var collectionRef = FirebaseFirestore.instance
+        .collection('interested')
+        .where('animalId', isEqualTo: "animal/$docAnimal");
+
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await collectionRef.get();
+
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
+
+    interestedsList.forEach((element) {
+      FirebaseFirestore.instance.collection('interested').doc(element.docId).delete();
+    });
+    interesteds.clear();
+    notifyListeners();
+  }
+
+  addInterested(InterestedWithModels? interestedWithModels) {
     interesteds.add(interestedWithModels!);
     notifyListeners();
   }
@@ -51,5 +105,4 @@ class InterestedController extends ChangeNotifier {
   setLoading() {
     loading = !loading;
   }
-
 }
