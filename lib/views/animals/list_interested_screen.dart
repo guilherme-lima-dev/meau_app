@@ -107,32 +107,39 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                                   BorderRadius.circular(15),
                                             ),
                                             child: const Icon(person))
-                                        : Container(
-                                            height: 120,
-                                            width: 120,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 0.7),
-                                              color: const Color(0xffffffff),
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                            ),
-                                            child: FutureBuilder<File>(
-                                              future: animalController.getFile(
-                                                  interestedController
-                                                      .interesteds[index]
-                                                      .interested!
-                                                      .photo),
-                                              builder: (context, snapshot) {
-                                                if (!snapshot.hasData) {
-                                                  return Container();
-                                                } // or some other placeholder
-                                                return Image.file(
-                                                    snapshot.data!);
-                                              },
-                                            ),
-                                          )),
+                                        : FutureBuilder<File>(
+                                            future: animalController.getFile(
+                                                interestedController
+                                                    .interesteds[index]
+                                                    .interested!
+                                                    .photo),
+                                            builder: (context, snapshot) {
+                                              return Container(
+                                                height: 120,
+                                                width: 120,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 0.7),
+                                                  color:
+                                                      const Color(0xffffffff),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  image: !snapshot.hasData
+                                                      ? const DecorationImage(
+                                                          image: AssetImage(
+                                                              'assets/icone-pata.png'),
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : DecorationImage(
+                                                          image: FileImage(
+                                                              snapshot.data!),
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                ),
+                                              );
+                                            })),
                                 Container(
                                   alignment: Alignment.topLeft,
                                   child: Text(
@@ -177,32 +184,38 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                                   BorderRadius.circular(15),
                                             ),
                                             child: const Icon(pets))
-                                        : Container(
-                                            height: 120,
-                                            width: 120,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 0.7),
-                                              color: const Color(0xffffffff),
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                            ),
-                                            child: FutureBuilder<File>(
-                                              future: animalController.getFile(
-                                                  interestedController
-                                                      .interesteds[index]
-                                                      .animal!
-                                                      .photo),
-                                              builder: (context, snapshot) {
-                                                if (!snapshot.hasData) {
-                                                  return Container();
-                                                } // or some other placeholder
-                                                return Image.file(
-                                                    snapshot.data!);
-                                              },
-                                            ),
-                                          )),
+                                        : FutureBuilder<File>(
+                                        future: animalController.getFile(
+                                            interestedController
+                                                .interesteds[index]
+                                                .animal!
+                                                .photo),
+                                        builder: (context, snapshot) {
+                                            return Container(
+                                                height: 120,
+                                                width: 120,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 0.7),
+                                                  color: const Color(0xffffffff),
+                                                  borderRadius:
+                                                      BorderRadius.circular(100),
+                                                  image: !snapshot.hasData
+                                                      ? const DecorationImage(
+                                                    image: AssetImage(
+                                                        'assets/icone-pata.png'),
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                      : DecorationImage(
+                                                    image: FileImage(
+                                                        snapshot.data!),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              );
+                                          }
+                                        )),
                                 Container(
                                   alignment: Alignment.topLeft,
                                   child: Text(
