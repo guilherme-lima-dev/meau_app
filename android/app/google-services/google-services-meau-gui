@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "410991661507",
-    "project_id": "meau-6c661",
-    "storage_bucket": "meau-6c661.appspot.com"
+    "project_number": "685346267561",
+    "project_id": "meau-gui",
+    "storage_bucket": "meau-gui.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:410991661507:android:94377342a379aefba06d76",
+        "mobilesdk_app_id": "1:685346267561:android:8f835c080d9a596dfe24b8",
         "android_client_info": {
           "package_name": "com.example.meau"
         }
       },
       "oauth_client": [
         {
-          "client_id": "410991661507-lt30prljrb0ej159vkha6jrcj2v9eb9k.apps.googleusercontent.com",
+          "client_id": "685346267561-k09lbhi9pif8jc73saoj5q1ebjsto3d8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCwlIf_shZlYIDlf8x3ooW-Y-29S0TslHI"
+          "current_key": "AIzaSyAkVSpch45fzhKjotWQfVawq9ngBuUnoxc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "410991661507-lt30prljrb0ej159vkha6jrcj2v9eb9k.apps.googleusercontent.com",
+              "client_id": "685346267561-k09lbhi9pif8jc73saoj5q1ebjsto3d8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
