@@ -88,11 +88,12 @@ class _ChatPageState extends State<ChatPage> {
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.docs.isNotEmpty) {
+
                         List<QueryDocumentSnapshot?> allData = snapshot
                             .data!.docs
                             .where((element) =>
-                                element['users'].contains(widget.id))
-                            .toList(); //&& contains uid user todo
+                                element['users'].contains(widget.id) && element['users'].contains(authController.user.docID))
+                            .toList();
                         QueryDocumentSnapshot? data =
                             allData.isNotEmpty ? allData.first : null;
                         if (data != null) {
