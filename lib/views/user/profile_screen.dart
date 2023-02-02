@@ -91,7 +91,7 @@ class _AddPersonalDataState extends State<AddPersonalData> {
                           CircleAvatar(
                             backgroundColor: Colors.white70,
                             minRadius: 60.0,
-                            child: photoController.photoUser != null
+                            child: photoController.photoUser != null && photoController.photoUser?.isAbsolute == true
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: Image.file(

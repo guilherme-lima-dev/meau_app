@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:meau/chat/comps/widgets.dart';
 
 import '../chatpage.dart';
@@ -17,6 +19,9 @@ class AnimatedDialog extends StatefulWidget {
 }
 
 class _AnimatedDialogState extends State<AnimatedDialog> {
+  final firestore = FirebaseFirestore.instance;
+  final controller = TextEditingController();
+  String search = '';
   bool show = false;
   @override
   Widget build(BuildContext context) {
@@ -48,29 +53,43 @@ class _AnimatedDialogState extends State<AnimatedDialog> {
               )),
           child: widget.width == 0 ? null : !show ? null :  Column(
             children: [
-              ChatWidgets.searchField(),
+              ChatWidgets.searchField(
+                onChange: (value){
+                  setState(() {
+                    search = value;
+                  });
+                }
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ListView.builder(
-                    itemCount: 2,
-                    itemBuilder: (context, i) {
-                      return ChatWidgets.card(
-                        title: 'John Doe',
-                        time: '04:40',
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const ChatPage(
-                                  id: '',
-                                );
-                              },
-                            ),
+                  child: StreamBuilder(
+                    stream: firestore.collection('user').snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
+                      List data = !snapshot.hasData ? [] : snapshot.data!.docs.where((element) => element['name'].toString().contains(search) || element['name'].toString().contains(search)).toList();
+                      return ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (context, i) {
+                          return ChatWidgets.card(
+                            title: data[i]['name'],
+                            time: DateFormat('EEE HH:mm').format(DateTime.now()),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ChatPage(
+                                      id: data[i].id.toString(),
+                                      name: data[i]['name']
+                                    );
+                                  },
+                                ),
+                              );
+                            },
                           );
                         },
                       );
-                    },
+                    }
                   ),
                 ),
               ),

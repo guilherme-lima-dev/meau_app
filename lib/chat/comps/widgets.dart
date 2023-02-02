@@ -32,14 +32,14 @@ class ChatWidgets {
     );
   }
 
-  static Widget circleProfile({onTap}) {
+  static Widget circleProfile({onTap, name}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: InkWell(
         onTap: onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
+          children: [
             CircleAvatar(
               radius: 25,
               backgroundColor: Colors.white,
@@ -49,15 +49,15 @@ class ChatWidgets {
                 color: Colors.grey,
               ),
             ),
-            SizedBox(width: 50,child: Center(child: Text('John',style: TextStyle(height: 1.5,fontSize: 12,color: Colors.white, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,)))
+            SizedBox(width: 50,child: Center(child: Text(name,style: TextStyle(height: 1.5,fontSize: 12,color: Colors.white, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,)))
           ],
         ),
       ),
     );
   }
 
-  static Widget messagesCard(i, message, time) {
-    bool check = i % 2 == 0;
+  static Widget messagesCard(bool check, message, time) {
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(

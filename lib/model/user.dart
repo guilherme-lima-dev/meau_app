@@ -32,8 +32,8 @@ class User {
   factory User.fromJsonTwo(Map<String, dynamic>? json) {
     return User(
         name: json!['name'],
-        photo: json['photo'],
-        tokenNotification: json['token_notification'],
+        photo: json['photo'] ?? '',
+        tokenNotification: json['token_notification'] ?? '',
         docID: json['docId'],
         uid: json['uid_user']);
   }

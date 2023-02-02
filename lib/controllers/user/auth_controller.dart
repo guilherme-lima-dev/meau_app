@@ -43,7 +43,7 @@ class AuthController extends ChangeNotifier {
           .where("uid_user", isEqualTo: res['localId'])
           .get()
           .then((QuerySnapshot querySnapshot) {
-        name = querySnapshot.docs.first.get('name');
+        name = querySnapshot.docs.first.get('name') ?? "";
         image = querySnapshot.docs.first.get('photo') ?? "";
         docId = querySnapshot.docs.first.id;
       });
@@ -96,7 +96,7 @@ class AuthController extends ChangeNotifier {
       debugPrint(user.tokenNotification);
       debugPrint("============================================================");
       var doc = FirebaseFirestore.instance.collection('user').doc(user.docID);
-      await doc.update({"token_notification": user.tokenNotification});
+      await doc.update({"token_notification": user.tokenNotification, 'date_time': DateTime.now()});
 
       authenticated = true;
     } else {
