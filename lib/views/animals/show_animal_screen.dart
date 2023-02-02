@@ -26,16 +26,13 @@ class _ShowAnimalState extends State<ShowAnimal> {
 
   @override
   void initState() {
-    final interestedController =
-        Provider.of<InterestedController>(context, listen: false);
+    final interestedController = Provider.of<InterestedController>(context, listen: false);
     final authController = Provider.of<AuthController>(context, listen: false);
-    final animalController =
-        Provider.of<AnimalController>(context, listen: false);
+    final animalController = Provider.of<AnimalController>(context, listen: false);
 
     interestedController.setLoading();
 
-    interestedController.verifyExistance(
-        widget.animal.id, authController.user.docID);
+    interestedController.verifyExistance(widget.animal.id, authController.user.docID);
 
     interestedController.setLoading();
 
@@ -60,8 +57,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
     final coursePrice = Container(
       padding: const EdgeInsets.all(7.0),
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(5.0)),
+          border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(5.0)),
       child: Text(
         "${widget.animal.sex![0].toString().toUpperCase()}${widget.animal.sex.toString().substring(1).toLowerCase()}",
         style: TextStyle(color: Colors.white),
@@ -81,21 +77,21 @@ class _ShowAnimalState extends State<ShowAnimal> {
                 color: Colors.white,
                 size: 40.0,
               ),
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
               Text(
                 "${widget.animal.species![0].toString().toUpperCase()}${widget.animal.species.toString().substring(1).toLowerCase()}",
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: MediaQuery.of(context).size.width * 0.05),
+                    color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.05),
               ),
             ],
           ),
           SizedBox(height: 15.0),
           Text(
             widget.animal.name ?? "",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width * 0.09),
+            style:
+                TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.09),
           ),
           SizedBox(height: 15.0),
           Row(
@@ -162,22 +158,18 @@ class _ShowAnimalState extends State<ShowAnimal> {
                       padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color:
-                                  widget.animal.health?.contains("Castrado") ==
-                                          true
-                                      ? Colors.green
-                                      : Colors.red,
+                              color: widget.animal.health?.contains("Castrado") == true
+                                  ? Colors.green
+                                  : Colors.red,
                               width: 1.5),
                           borderRadius: BorderRadius.circular(5.0)),
                       child: Text(
                         "Castrado",
                         style: TextStyle(
                             color: Colors.white,
-                            decoration:
-                                widget.animal.health?.contains("Castrado") ==
-                                        true
-                                    ? TextDecoration.none
-                                    : TextDecoration.lineThrough),
+                            decoration: widget.animal.health?.contains("Castrado") == true
+                                ? TextDecoration.none
+                                : TextDecoration.lineThrough),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -190,9 +182,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                       padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color: widget.animal.health
-                                          ?.contains("Vermifugado") ==
-                                      true
+                              color: widget.animal.health?.contains("Vermifugado") == true
                                   ? Colors.green
                                   : Colors.red,
                               width: 1.5),
@@ -201,11 +191,9 @@ class _ShowAnimalState extends State<ShowAnimal> {
                         "Vermifugado",
                         style: TextStyle(
                             color: Colors.white,
-                            decoration:
-                                widget.animal.health?.contains("Vermifugado") ==
-                                        true
-                                    ? TextDecoration.none
-                                    : TextDecoration.lineThrough),
+                            decoration: widget.animal.health?.contains("Vermifugado") == true
+                                ? TextDecoration.none
+                                : TextDecoration.lineThrough),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -218,22 +206,18 @@ class _ShowAnimalState extends State<ShowAnimal> {
                       padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color:
-                                  widget.animal.health?.contains("Vacinado") ==
-                                          true
-                                      ? Colors.green
-                                      : Colors.red,
+                              color: widget.animal.health?.contains("Vacinado") == true
+                                  ? Colors.green
+                                  : Colors.red,
                               width: 1.5),
                           borderRadius: BorderRadius.circular(5.0)),
                       child: Text(
                         "Vacinado",
                         style: TextStyle(
                             color: Colors.white,
-                            decoration:
-                                widget.animal.health?.contains("Vacinado") ==
-                                        true
-                                    ? TextDecoration.none
-                                    : TextDecoration.lineThrough),
+                            decoration: widget.animal.health?.contains("Vacinado") == true
+                                ? TextDecoration.none
+                                : TextDecoration.lineThrough),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -263,10 +247,11 @@ class _ShowAnimalState extends State<ShowAnimal> {
               return Container(
                   padding: EdgeInsets.only(left: 10.0),
                   height: MediaQuery.of(context).size.height * 0.5,
+                  width: MediaQuery.of(context).size.width,
                   decoration: new BoxDecoration(
                     image: new DecorationImage(
                       image: new FileImage(snapshot.data! as File),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitHeight,
                     ),
                   ));
             }),
@@ -296,7 +281,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
 
     final bottomContentText = Text(
       widget.animal.about ?? "",
-      style: TextStyle(fontSize: 18.0),
+      style: TextStyle(fontSize: 16.0),
     );
     final readButton = Container(
         padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -304,8 +289,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
         child: TextButton(
           onPressed: () => {},
           style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all(Color.fromRGBO(245, 169, 0, 1.0)),
+            backgroundColor: MaterialStateProperty.all(Color.fromRGBO(245, 169, 0, 1.0)),
           ),
           child: Text("Adotar", style: TextStyle(color: Colors.white)),
         ));
@@ -317,68 +301,55 @@ class _ShowAnimalState extends State<ShowAnimal> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height * 0.01),
+                padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
                 child: Row(
                   children: [
                     Text(
                       "Doenças: ",
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       widget.animal.illness.toString().isNotEmpty == true
-                          ? widget.animal.illness
-                                  ?.split(';')
-                                  .join(',')
-                                  .substring(
-                                      0,
-                                      (widget.animal.illness
-                                          ?.toString()
-                                          .lastIndexOf(';'))) ??
+                          ? widget.animal.illness?.split(';').join(',')
+                              // .substring(
+                              //     0,
+                              //     (widget.animal.illness
+                              //         ?.toString()
+                              //         .lastIndexOf(';'))
+                              // )
+                              ??
                               "Nenhuma"
                           : "Nenhuma",
-                      style: TextStyle(fontSize: 18.0),
+                      style: TextStyle(fontSize: 16.0),
                     )
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height * 0.01),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
                 child: Row(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Temperamento: ",
-                          style: TextStyle(
-                              fontSize: 16.0, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          widget.animal.temperament.toString().isNotEmpty ==
-                                  true
-                              ? widget.animal.temperament
-                                      ?.split(';')
-                                      .join(',')
-                                      .substring(
-                                          0,
-                                          (widget.animal.temperament
-                                              ?.toString()
-                                              .lastIndexOf(';'))) ??
-                                  "Nada a dizer"
-                              : "Nada a dizer",
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                      ],
+                    Text(
+                      "Temperamento: ",
+                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height * 0.01),
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.01),
+                child: Text(
+                  widget.animal.temperament.toString().isNotEmpty == true
+                      ? widget.animal.temperament?.split(';').join(',').substring(
+                              0, (widget.animal.temperament?.toString().lastIndexOf(';'))) ??
+                          "Nada a dizer"
+                      : "Nada a dizer",
+                  style: TextStyle(fontSize: 16.0),
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
                 child: Row(
                   children: [
                     Column(
@@ -386,16 +357,14 @@ class _ShowAnimalState extends State<ShowAnimal> {
                       children: [
                         Text(
                           "Exigencias do doador: ",
-                          style: TextStyle(
-                              fontSize: 16.0, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                         ),
                         if (widget.animal.requirements?.accompaniment == 'one')
                           const Text(
                             "Tempo de acompanhamento: Um mês",
                             style: TextStyle(fontSize: 16),
                           ),
-                        if (widget.animal.requirements?.accompaniment ==
-                            'three')
+                        if (widget.animal.requirements?.accompaniment == 'three')
                           const Text(
                             "Tempo de acompanhamento: Três meses",
                             style: TextStyle(fontSize: 16),
@@ -429,8 +398,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                 children: [
                   Text(
                     "Prazer, sou ${widget.animal.name}: ",
-                    style: TextStyle(
-                        fontSize: 16.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -440,57 +408,58 @@ class _ShowAnimalState extends State<ShowAnimal> {
                 height: 50,
                 width: 250,
                 decoration: interestedController.canAdopt &&
-                    ("user/$widget.animal.user" != authController.user.docID)
+                        ("user/$widget.animal.user" != authController.user.docID)
                     ? BoxDecoration(
-                    color: const Color(0xffF5A900), borderRadius: BorderRadius.circular(20))
+                        color: const Color(0xffF5A900), borderRadius: BorderRadius.circular(20))
                     : BoxDecoration(
-                    color: const Color(0xff909090), borderRadius: BorderRadius.circular(20)),
+                        color: const Color(0xff909090), borderRadius: BorderRadius.circular(20)),
                 margin: const EdgeInsets.only(top: 15, bottom: 15),
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: interestedController.canAdopt &&
-                    ("user/$widget.animal.user" != authController.user.docID)
+                        ("user/$widget.animal.user" != authController.user.docID)
                     ? TextButton(
-                  onPressed: () async {
-                    final docInterested =
-                    FirebaseFirestore.instance.collection('interested').doc();
-                    setState(() {
-                      loadingButtonAdopt = true;
-                    });
-                    interested = Interested(
-                      docId: docInterested.id,
-                      animalId: "animal/${widget.animal.id}",
-                      ownerId: widget.animal.user,
-                      interestedId: "user/${authController.user.docID}",
-                    );
-                    print(interested.toJson());
-                    await docInterested.set(interested.toJson());
-                    await animalController.sendNotification(widget.animal.user, widget.animal);
-                    setState(() {
-                      loadingButtonAdopt = false;
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text(
-                          'Informamos o dono do animal, em breve vocês estarão em contato'),
-                    ));
-                  },
-                  child: loadingButtonAdopt
-                      ? const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    strokeWidth: 3,
-                  )
-                      : const Text(
-                    "Adotar",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
-                  ),
-                )
+                        onPressed: () async {
+                          final docInterested =
+                              FirebaseFirestore.instance.collection('interested').doc();
+                          setState(() {
+                            loadingButtonAdopt = true;
+                          });
+                          interested = Interested(
+                            docId: docInterested.id,
+                            animalId: "animal/${widget.animal.id}",
+                            ownerId: widget.animal.user,
+                            interestedId: "user/${authController.user.docID}",
+                          );
+                          print(interested.toJson());
+                          await docInterested.set(interested.toJson());
+                          await animalController.sendNotification(
+                              widget.animal.user, widget.animal);
+                          setState(() {
+                            loadingButtonAdopt = false;
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                                'Informamos o dono do animal, em breve vocês estarão em contato'),
+                          ));
+                        },
+                        child: loadingButtonAdopt
+                            ? const CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                strokeWidth: 3,
+                              )
+                            : const Text(
+                                "Adotar",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+                              ),
+                      )
                     : const Text(
-                  "Você já sinalizou interesse por esse animal",
-                  textAlign: TextAlign.center,
-                  style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-                ),
+                        "Você já sinalizou interesse por esse animal",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
               )
             ],
           ),
