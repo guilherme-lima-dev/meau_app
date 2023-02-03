@@ -5,8 +5,8 @@ import 'package:meau/model/interested.dart';
 import 'package:meau/model/user.dart';
 
 class InterestedController extends ChangeNotifier {
-  final User owner = User();
-  final User interested = User();
+  final User owner = const User();
+  final User interested = const User();
   final Animal animal = Animal();
   bool loading = false;
   bool canAdopt = true;
@@ -30,9 +30,9 @@ class InterestedController extends ChangeNotifier {
         interestedsList.map((e) => interestedWithModels.fromDocs(e)).toList();
 
     if (futureInterestedListWithModel.length > interesteds.length) {
-      futureInterestedListWithModel.forEach((e) {
+      for (var e in futureInterestedListWithModel) {
         e.then((value) => addInterested(value));
-      });
+      }
     }
 
     notifyListeners();
@@ -72,9 +72,9 @@ class InterestedController extends ChangeNotifier {
 
     var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
 
-    interestedsList.forEach((element) {
+    for (var element in interestedsList) {
       FirebaseFirestore.instance.collection('interested').doc(element.docId).delete();
-    });
+    }
   }
 
   removeAllInterestedInThisAnimal(docAnimal) async {
@@ -90,9 +90,9 @@ class InterestedController extends ChangeNotifier {
 
     var interestedsList = allData.map((e) => Interested.fromJson(e as Map)).toList();
 
-    interestedsList.forEach((element) {
+    for (var element in interestedsList) {
       FirebaseFirestore.instance.collection('interested').doc(element.docId).delete();
-    });
+    }
     interesteds.clear();
     notifyListeners();
   }

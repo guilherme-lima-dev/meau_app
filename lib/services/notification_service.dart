@@ -26,7 +26,7 @@ class NotificationService {
   late FlutterLocalNotificationsPlugin localNotificationsPlugin;
   late AndroidNotificationDetails androidDetails;
   final IHttpClient client;
-  final DioClient dioClient = new DioClient();
+  final DioClient dioClient = DioClient();
 
   NotificationService(this.client) {
     localNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -124,7 +124,7 @@ class NotificationService {
     // String token =
     //     "AAAAgDdzT0I:APA91bF1eJdwLIBETqdB-6FT12Fv80uI5PthNxUvEk0Now7OZyWxaPhd9f2LEV2SGsfhT7yyEekKjDoERXmnCqVijK1hxQaAd7JdMP16I1QiO_JznftoJ2HZwgIhMOuIqMmykOEYbpFR";
 
-    var res = await dioClient.post(
+    await dioClient.post(
         "https://fcm.googleapis.com/fcm/send",
         {
           'notification': <String, dynamic>{'body': message, 'title': title},

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
 import 'package:meau/components/app_bar_component.dart';
@@ -12,14 +11,13 @@ class ListAllAnimalsScreen extends StatefulWidget {
   const ListAllAnimalsScreen({Key? key}) : super(key: key);
 
   @override
-  _ListAllAnimalsScreenState createState() => _ListAllAnimalsScreenState();
+  State<ListAllAnimalsScreen> createState() => _ListAllAnimalsScreenState();
 }
 
 class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
   @override
   void initState() {
-    final animalcontroller =
-        Provider.of<AnimalController>(context, listen: false);
+    final animalcontroller = Provider.of<AnimalController>(context, listen: false);
     animalcontroller.setLoading();
     animalcontroller.getAnimals();
     animalcontroller.setLoading();
@@ -44,13 +42,12 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
               itemCount: animalController.animals.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ShowAnimal(
-                              animal: animalController
-                                  .animals[index])),
+                          builder: (context) =>
+                              ShowAnimal(animal: animalController.animals[index])),
                     );
                   },
                   child: Padding(
@@ -58,49 +55,46 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
                     child: Card(
                       elevation: 5,
                       child: FutureBuilder<Object>(
-                          future: animalController
-                              .getFile(animalController.animals[index].photo),
+                          future: animalController.getFile(animalController.animals[index].photo),
                           builder: (context, snapshot) {
                             return !snapshot.hasData
                                 ? FillImageCard(
                                     width: MediaQuery.of(context).size.width * 1,
                                     heightImage: 140,
-                                    imageProvider:
-                                        const AssetImage('assets/icone-pata.png'),
+                                    imageProvider: const AssetImage('assets/icone-pata.png'),
                                     tags: [
                                       _tag(animalController.animals[index].sex ?? "", () {}),
                                       _tag(animalController.animals[index].porte ?? "", () {}),
                                       _tag(animalController.animals[index].age ?? "", () {})
                                     ],
                                     title: _title(title: animalController.animals[index].name),
-                                    description: _content(description: animalController.animals[index].about),
+                                    description: _content(
+                                        description: animalController.animals[index].about),
                                   )
                                 : FillImageCard(
                                     width: MediaQuery.of(context).size.width * 1,
                                     heightImage: MediaQuery.of(context).size.height * 0.3,
-                                    imageProvider:
-                                        FileImage(snapshot.data! as File),
+                                    imageProvider: FileImage(snapshot.data! as File),
                                     tags: [
                                       _tag(animalController.animals[index].sex ?? "", () {}),
                                       _tag(animalController.animals[index].porte ?? "", () {}),
                                       _tag(animalController.animals[index].age ?? "", () {})
                                     ],
                                     title: _title(title: animalController.animals[index].name),
-                                    description: _content(description: animalController.animals[index].about),
+                                    description: _content(
+                                        description: animalController.animals[index].about),
                                   );
                           }),
                     ),
                   ),
                 );
-
               }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            margin:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.02),
+            margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.02),
             child: FloatingActionButton.extended(
               // backgroundColor: Colors.red,
               isExtended: true,
@@ -122,12 +116,10 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(
-                right: MediaQuery.of(context).size.width * 0.02),
+            margin: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.02),
             child: FloatingActionButton.extended(
               // backgroundColor: Colors.green,
-              label: const Text("Meus pets",
-                  style: TextStyle(color: Colors.white)),
+              label: const Text("Meus pets", style: TextStyle(color: Colors.white)),
               icon: Icon(
                 Icons.pets,
                 size: MediaQuery.of(context).size.width * 0.1,
@@ -135,8 +127,7 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
               ),
               onPressed: () async {
                 animalController.setLoading();
-                await animalController
-                    .getUserAnimals(authController.user.docID);
+                await animalController.getUserAnimals(authController.user.docID);
                 animalController.setLoading();
                 animalController.setTodos(false);
               },
@@ -161,38 +152,37 @@ class _ListAllAnimalsScreenState extends State<ListAllAnimalsScreen> {
     );
   }
 
-  Widget _footer({Color? color}) {
-    return Row(
-      children: [
-        CircleAvatar(
-          backgroundImage: AssetImage(
-            'assets/avatar.png',
-          ),
-          radius: 12,
-        ),
-        const SizedBox(
-          width: 4,
-        ),
-        Expanded(
-            child: Text(
-          'Super user',
-          style: TextStyle(color: color),
-        )),
-        IconButton(onPressed: () {}, icon: Icon(Icons.share))
-      ],
-    );
-  }
+  // Widget _footer({Color? color}) {
+  //   return Row(
+  //     children: [
+  //       const CircleAvatar(
+  //         backgroundImage: AssetImage(
+  //           'assets/avatar.png',
+  //         ),
+  //         radius: 12,
+  //       ),
+  //       const SizedBox(
+  //         width: 4,
+  //       ),
+  //       Expanded(
+  //           child: Text(
+  //         'Super user',
+  //         style: TextStyle(color: color),
+  //       )),
+  //       IconButton(onPressed: () {}, icon: const Icon(Icons.share))
+  //     ],
+  //   );
+  // }
 
   Widget _tag(String tag, VoidCallback onPressed) {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6), color: Colors.green),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Colors.green),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         child: Text(
           tag,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     );

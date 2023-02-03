@@ -36,45 +36,34 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('Meu perfil'),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AddPersonalData()));
+                  context, MaterialPageRoute(builder: (context) => const AddPersonalData()));
             },
           ),
           ListTile(
             title: const Text('Lista de animais'),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ListAllAnimalsScreen()));
+                  context, MaterialPageRoute(builder: (context) => const ListAllAnimalsScreen()));
             },
           ),
           ListTile(
             title: const Text('Interessados'),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ListInterestedSreen()));
+                  context, MaterialPageRoute(builder: (context) => const ListInterestedSreen()));
             },
           ),
           ListTile(
             title: const Text('Cadastro de animais'),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RegisterAnimalScreen()));
+                  context, MaterialPageRoute(builder: (context) => const RegisterAnimalScreen()));
             },
           ),
           ListTile(
             title: const Text('Chat'),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MyHomePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const MyHomePage()));
             },
           ),
         ],

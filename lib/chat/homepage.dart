@@ -76,8 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         const Spacer(),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                           child: Text(
                             'Recent Users',
                             style: Styles.h1(),
@@ -88,35 +87,29 @@ class _MyHomePageState extends State<MyHomePage> {
                           height: 80,
                           child: StreamBuilder(
                               stream: firestore.collection('rooms').snapshots(),
-                              builder: (context,
-                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 List data = !snapshot.hasData
                                     ? []
                                     : snapshot.data!.docs
                                         .where((element) => element['users']
                                             .toString()
-                                            .contains(
-                                                authController.user.docID))
+                                            .contains(authController.user.docID))
                                         .toList();
                                 return ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: data.length,
                                   itemBuilder: (context, i) {
                                     List users = data[i]['users'];
-                                    var friend = users.where((element) =>
-                                        element != authController.user.docID);
+                                    var friend = users
+                                        .where((element) => element != authController.user.docID);
                                     var user = friend.isNotEmpty
                                         ? friend.first
                                         : users
-                                            .where((element) =>
-                                                element ==
-                                                authController.user.docID)
+                                            .where(
+                                                (element) => element == authController.user.docID)
                                             .first;
                                     return FutureBuilder(
-                                        future: firestore
-                                            .collection('user')
-                                            .doc(user)
-                                            .get(),
+                                        future: firestore.collection('user').doc(user).get(),
                                         builder: (context, AsyncSnapshot snap) {
                                           return !snap.hasData
                                               ? Container()
@@ -126,9 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       MaterialPageRoute(
                                                         builder: (context) {
                                                           return ChatPage(
-                                                              id: user,
-                                                              name: snap.data[
-                                                                  'name']);
+                                                              id: user, name: snap.data['name']);
                                                         },
                                                       ),
                                                     );
@@ -151,73 +142,55 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                           child: Text(
                             'Contacts',
-                            style: Styles.h1()
-                                .copyWith(color: const Color(0xffF5A900)),
+                            style: Styles.h1().copyWith(color: const Color(0xffF5A900)),
                           ),
                         ),
                         Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
                             child: StreamBuilder(
-                                stream:
-                                    firestore.collection('rooms').snapshots(),
-                                builder: (context,
-                                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                                  var authController =
-                                      context.watch<AuthController>();
+                                stream: firestore.collection('rooms').snapshots(),
+                                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                  var authController = context.watch<AuthController>();
                                   List data = !snapshot.hasData
                                       ? []
                                       : snapshot.data!.docs
                                           .where((element) => element['users']
                                               .toString()
-                                              .contains(
-                                                  authController.user.docID))
+                                              .contains(authController.user.docID))
                                           .toList();
                                   return ListView.builder(
                                     itemCount: data.length,
                                     itemBuilder: (context, i) {
                                       List users = data[i]['users'];
-                                      var friend = users.where((element) =>
-                                          element != authController.user.docID);
+                                      var friend = users
+                                          .where((element) => element != authController.user.docID);
                                       var user = friend.isNotEmpty
                                           ? friend.first
                                           : users
-                                              .where((element) =>
-                                                  element ==
-                                                  authController.user.docID)
+                                              .where(
+                                                  (element) => element == authController.user.docID)
                                               .first;
                                       print(user);
                                       return FutureBuilder(
-                                          future: firestore
-                                              .collection('user')
-                                              .doc(user)
-                                              .get(),
-                                          builder:
-                                              (context, AsyncSnapshot snap) {
+                                          future: firestore.collection('user').doc(user).get(),
+                                          builder: (context, AsyncSnapshot snap) {
                                             return !snap.hasData
                                                 ? Container()
                                                 : ChatWidgets.card(
                                                     title: snap.data['name'],
-                                                    subtitle: data[i]
-                                                        ['last_message'],
-                                                    time: DateFormat('HH:mm a')
-                                                        .format(data[i][
-                                                                'last_message_time']
-                                                            .toDate()),
+                                                    subtitle: data[i]['last_message'],
+                                                    time: DateFormat('HH:mm a').format(
+                                                        data[i]['last_message_time'].toDate()),
                                                     onTap: () {
-                                                      Navigator.of(context)
-                                                          .push(
+                                                      Navigator.of(context).push(
                                                         MaterialPageRoute(
                                                           builder: (context) {
                                                             return ChatPage(
-                                                                id: user,
-                                                                name: snap.data[
-                                                                    'name']);
+                                                                id: user, name: snap.data['name']);
                                                           },
                                                         ),
                                                       );

@@ -31,24 +31,19 @@ class MyApp extends StatelessWidget {
         Provider<NotificationService>(
           create: (context) => NotificationService(context.read()),
         ),
-        ChangeNotifierProvider<AuthController>(
-            create: (context) => AuthController(context.read())),
-        ChangeNotifierProvider<PhotoController>(
-            create: (context) => PhotoController()),
+        ChangeNotifierProvider<AuthController>(create: (context) => AuthController(context.read())),
+        ChangeNotifierProvider<PhotoController>(create: (context) => PhotoController()),
         Provider<FirebaseMessagingService>(
-          create: (context) =>
-              FirebaseMessagingService(context.read<NotificationService>()),
+          create: (context) => FirebaseMessagingService(context.read<NotificationService>()),
         ),
         ChangeNotifierProvider<AnimalController>(
             create: (context) => AnimalController(context.read())),
-        ChangeNotifierProvider<InterestedController>(
-            create: (context) => InterestedController()),
+        ChangeNotifierProvider<InterestedController>(create: (context) => InterestedController()),
       ],
       child: MaterialApp(
         title: 'Meau',
         theme: ThemeData(
-          primarySwatch: BuildMaterialColorHelper.buildMaterialColor(
-              const Color(0xffF5A900)),
+          primarySwatch: BuildMaterialColorHelper.buildMaterialColor(const Color(0xffF5A900)),
         ),
         home: const MyHomePage(title: 'Hello World!'),
       ),
@@ -62,7 +57,7 @@ class MyHomePage extends StatefulWidget {
   final String? title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -74,16 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   initilizeFirebaseMessaging() async {
-    var token = await Provider.of<FirebaseMessagingService>(context, listen: false)
-        .initialize();
+    var token = await Provider.of<FirebaseMessagingService>(context, listen: false).initialize();
     Provider.of<AuthController>(context, listen: false).setTokenNotification(token);
-
-
   }
 
   checkNotifications() async {
-    await Provider.of<NotificationService>(context, listen: false)
-        .checkForNotifications();
+    await Provider.of<NotificationService>(context, listen: false).checkForNotifications();
   }
 
   @override

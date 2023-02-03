@@ -5,7 +5,6 @@ import 'package:meau/controllers/animal/animal_controller.dart';
 import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/model/interested.dart';
 import 'package:provider/provider.dart';
-import 'package:meau/components/app_bar_component.dart';
 import 'package:meau/model/animal.dart';
 import 'package:meau/controllers/interested/interested_controller.dart';
 
@@ -28,7 +27,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
   void initState() {
     final interestedController = Provider.of<InterestedController>(context, listen: false);
     final authController = Provider.of<AuthController>(context, listen: false);
-    final animalController = Provider.of<AnimalController>(context, listen: false);
+    // final animalController = Provider.of<AnimalController>(context, listen: false);
 
     interestedController.setLoading();
 
@@ -45,22 +44,18 @@ class _ShowAnimalState extends State<ShowAnimal> {
     final interestedController = context.watch<InterestedController>();
     final authController = context.watch<AuthController>();
 
-    final levelIndicator = Container(
-      child: Container(
-        child: LinearProgressIndicator(
-            backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-            value: 3,
-            valueColor: AlwaysStoppedAnimation(Colors.green)),
-      ),
-    );
+    const LinearProgressIndicator(
+        backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
+        value: 3,
+        valueColor: AlwaysStoppedAnimation(Colors.green));
 
-    final coursePrice = Container(
+    Container(
       padding: const EdgeInsets.all(7.0),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(5.0)),
       child: Text(
         "${widget.animal.sex![0].toString().toUpperCase()}${widget.animal.sex.toString().substring(1).toLowerCase()}",
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         textAlign: TextAlign.center,
       ),
     );
@@ -69,15 +64,15 @@ class _ShowAnimalState extends State<ShowAnimal> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 105.0),
+          const SizedBox(height: 105.0),
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.pets,
                 color: Colors.white,
                 size: 40.0,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
@@ -87,20 +82,20 @@ class _ShowAnimalState extends State<ShowAnimal> {
               ),
             ],
           ),
-          SizedBox(height: 15.0),
+          const SizedBox(height: 15.0),
           Text(
             widget.animal.name ?? "",
             style:
                 TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).size.width * 0.09),
           ),
-          SizedBox(height: 15.0),
+          const SizedBox(height: 15.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
                   flex: 3,
                   child: Padding(
-                    padding: EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
                     child: Container(
                       padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
@@ -108,7 +103,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                           borderRadius: BorderRadius.circular(5.0)),
                       child: Text(
                         "${widget.animal.sex![0].toString().toUpperCase()}${widget.animal.sex.toString().substring(1).toLowerCase()}",
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -116,7 +111,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
               Expanded(
                   flex: 3,
                   child: Padding(
-                    padding: EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
                     child: Container(
                       padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
@@ -124,7 +119,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                           borderRadius: BorderRadius.circular(5.0)),
                       child: Text(
                         "${widget.animal.porte![0].toString().toUpperCase()}${widget.animal.porte.toString().substring(1).toLowerCase()}",
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -132,7 +127,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
               Expanded(
                   flex: 3,
                   child: Padding(
-                    padding: EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
                     child: Container(
                       padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
@@ -140,7 +135,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                           borderRadius: BorderRadius.circular(5.0)),
                       child: Text(
                         "${widget.animal.age![0].toString().toUpperCase()}${widget.animal.age.toString().substring(1).toLowerCase()}",
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -153,7 +148,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
               Expanded(
                   flex: 3,
                   child: Padding(
-                    padding: EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
                     child: Container(
                       padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
@@ -177,7 +172,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
               Expanded(
                   flex: 3,
                   child: Padding(
-                    padding: EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
                     child: Container(
                       padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
@@ -201,7 +196,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
               Expanded(
                   flex: 3,
                   child: Padding(
-                    padding: EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
                     child: Container(
                       padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
@@ -235,22 +230,22 @@ class _ShowAnimalState extends State<ShowAnimal> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Container(
-                    padding: EdgeInsets.only(left: 10.0),
+                    padding: const EdgeInsets.only(left: 10.0),
                     height: MediaQuery.of(context).size.height * 0.5,
-                    decoration: new BoxDecoration(
-                      image: new DecorationImage(
-                        image: new AssetImage('assets/icone-pata.png'),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/icone-pata.png'),
                         fit: BoxFit.cover,
                       ),
                     ));
               }
               return Container(
-                  padding: EdgeInsets.only(left: 10.0),
+                  padding: const EdgeInsets.only(left: 10.0),
                   height: MediaQuery.of(context).size.height * 0.5,
                   width: MediaQuery.of(context).size.width,
-                  decoration: new BoxDecoration(
-                    image: new DecorationImage(
-                      image: new FileImage(snapshot.data! as File),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: FileImage(snapshot.data! as File),
                       fit: BoxFit.fitHeight,
                     ),
                   ));
@@ -258,9 +253,9 @@ class _ShowAnimalState extends State<ShowAnimal> {
         SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.5,
-            padding: EdgeInsets.all(40.0),
+            padding: const EdgeInsets.all(40.0),
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(color: Color.fromRGBO(58, 66, 86, .9)),
+            decoration: const BoxDecoration(color: Color.fromRGBO(58, 66, 86, .9)),
             child: Center(
               child: topContentText,
             ),
@@ -273,7 +268,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
             onTap: () {
               Navigator.pop(context);
             },
-            child: Icon(Icons.arrow_back, color: Colors.white),
+            child: const Icon(Icons.arrow_back, color: Colors.white),
           ),
         )
       ],
@@ -281,22 +276,22 @@ class _ShowAnimalState extends State<ShowAnimal> {
 
     final bottomContentText = Text(
       widget.animal.about ?? "",
-      style: TextStyle(fontSize: 16.0),
+      style: const TextStyle(fontSize: 16.0),
     );
-    final readButton = Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
+    Container(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
         width: MediaQuery.of(context).size.width,
         child: TextButton(
           onPressed: () => {},
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Color.fromRGBO(245, 169, 0, 1.0)),
+            backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(245, 169, 0, 1.0)),
           ),
-          child: Text("Adotar", style: TextStyle(color: Colors.white)),
+          child: const Text("Adotar", style: TextStyle(color: Colors.white)),
         ));
     final bottomContent = SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(40.0),
+        padding: const EdgeInsets.all(40.0),
         child: Center(
           child: Column(
             children: <Widget>[
@@ -304,7 +299,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                 padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01),
                 child: Row(
                   children: [
-                    Text(
+                    const Text(
                       "Doenças: ",
                       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
@@ -320,7 +315,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                               ??
                               "Nenhuma"
                           : "Nenhuma",
-                      style: TextStyle(fontSize: 16.0),
+                      style: const TextStyle(fontSize: 16.0),
                     )
                   ],
                 ),
@@ -329,7 +324,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
                 child: Row(
                   children: [
-                    Text(
+                    const Text(
                       "Temperamento: ",
                       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
@@ -344,7 +339,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                               0, (widget.animal.temperament?.toString().lastIndexOf(';'))) ??
                           "Nada a dizer"
                       : "Nada a dizer",
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                 ),
               ),
 
@@ -355,7 +350,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Exigencias do doador: ",
                           style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                         ),
@@ -398,7 +393,7 @@ class _ShowAnimalState extends State<ShowAnimal> {
                 children: [
                   Text(
                     "Prazer, sou ${widget.animal.name}: ",
-                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

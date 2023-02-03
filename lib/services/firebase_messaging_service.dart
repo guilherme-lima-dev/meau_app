@@ -1,8 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:meau/controllers/user/auth_controller.dart';
 import 'package:meau/services/notification_service.dart';
-import 'package:provider/provider.dart';
 
 class FirebaseMessagingService {
   final NotificationService _notificationService;
@@ -10,8 +8,7 @@ class FirebaseMessagingService {
   FirebaseMessagingService(this._notificationService);
 
   Future<dynamic> initialize() async {
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       badge: true,
       sound: true,
       alert: true,

@@ -1,15 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_card/image_card.dart';
 import 'package:meau/chat/chatpage.dart';
 import 'package:meau/controllers/animal/animal_controller.dart';
 import 'package:meau/controllers/interested/interested_controller.dart';
 import 'package:provider/provider.dart';
-
-import '../../components/app_bar_component.dart';
-import '../../controllers/user/auth_controller.dart';
+import 'package:meau/components/app_bar_component.dart';
+import 'package:meau/controllers/user/auth_controller.dart';
 
 class ListInterestedSreen extends StatefulWidget {
   const ListInterestedSreen({Key? key}) : super(key: key);
@@ -21,8 +17,7 @@ class ListInterestedSreen extends StatefulWidget {
 class _ListInterestedSreenState extends State<ListInterestedSreen> {
   @override
   void initState() {
-    final interestedController =
-        Provider.of<InterestedController>(context, listen: false);
+    final interestedController = Provider.of<InterestedController>(context, listen: false);
     final authController = Provider.of<AuthController>(context, listen: false);
 
     interestedController.setLoading();
@@ -41,7 +36,6 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
     final interestedController = context.watch<InterestedController>();
     final animalController = context.watch<AnimalController>();
     bool loadingButtonAccept = false;
-    bool loadingButtonRefuse = false;
 
     const IconData pets = IconData(0xe4a1, fontFamily: 'MaterialIcons');
     const IconData person = IconData(0xe252, fontFamily: 'MaterialIcons');
@@ -64,18 +58,15 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                       MaterialPageRoute(
                         builder: (context) {
                           return ChatPage(
-                              id: interestedController
-                                  .interesteds[index].interested!.docID
+                              id: interestedController.interesteds[index].interested!.docID
                                   .toString(),
-                              name: interestedController
-                                  .interesteds[index].interested!.name);
+                              name: interestedController.interesteds[index].interested!.name);
                         },
                       ),
                     );
                   },
                   child: Card(
-                    margin: const EdgeInsets.only(
-                        bottom: 10, top: 10, left: 10, right: 10),
+                    margin: const EdgeInsets.only(bottom: 10, top: 10, left: 10, right: 10),
                     elevation: 5,
                     child: Column(
                       children: [
@@ -93,48 +84,36 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                       color: const Color(0xffffffff),
                                       borderRadius: BorderRadius.circular(15),
                                     ),
-                                    child: interestedController
-                                                .interesteds[index]
-                                                .animal!
-                                                .photo ==
+                                    child: interestedController.interesteds[index].animal!.photo ==
                                             null //Alterar aqui para == null
                                         ? Container(
                                             height: 120,
                                             width: 120,
                                             decoration: BoxDecoration(
                                               color: const Color(0xfff1f2f2),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
+                                              borderRadius: BorderRadius.circular(15),
                                             ),
                                             child: const Icon(person))
                                         : FutureBuilder<File>(
-                                            future: animalController.getFile(
-                                                interestedController
-                                                    .interesteds[index]
-                                                    .interested!
-                                                    .photo),
+                                            future: animalController.getFile(interestedController
+                                                .interesteds[index].interested!.photo),
                                             builder: (context, snapshot) {
                                               return Container(
                                                 height: 120,
                                                 width: 120,
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 0.7),
-                                                  color:
-                                                      const Color(0xffffffff),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
+                                                  border:
+                                                      Border.all(color: Colors.black, width: 0.7),
+                                                  color: const Color(0xffffffff),
+                                                  borderRadius: BorderRadius.circular(100),
                                                   image: !snapshot.hasData
                                                       ? const DecorationImage(
-                                                          image: AssetImage(
-                                                              'assets/icone-pata.png'),
+                                                          image:
+                                                              AssetImage('assets/icone-pata.png'),
                                                           fit: BoxFit.cover,
                                                         )
                                                       : DecorationImage(
-                                                          image: FileImage(
-                                                              snapshot.data!),
+                                                          image: FileImage(snapshot.data!),
                                                           fit: BoxFit.cover,
                                                         ),
                                                 ),
@@ -143,8 +122,7 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                 Container(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    interestedController
-                                        .interesteds[index].interested!.name,
+                                    interestedController.interesteds[index].interested!.name,
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Color(0xff434343),
@@ -154,7 +132,7 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                 ),
                               ],
                             ),
-                            Icon(
+                            const Icon(
                               Icons.arrow_forward,
                               color: Colors.black,
                               size: 18,
@@ -170,58 +148,45 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                       color: const Color(0xffffffff),
                                       borderRadius: BorderRadius.circular(15),
                                     ),
-                                    child: interestedController
-                                                .interesteds[index]
-                                                .animal!
-                                                .photo ==
+                                    child: interestedController.interesteds[index].animal!.photo ==
                                             null //Alterar aqui para == null
                                         ? Container(
                                             height: 120,
                                             width: 120,
                                             decoration: BoxDecoration(
                                               color: const Color(0xfff1f2f2),
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
+                                              borderRadius: BorderRadius.circular(15),
                                             ),
                                             child: const Icon(pets))
                                         : FutureBuilder<File>(
-                                        future: animalController.getFile(
-                                            interestedController
-                                                .interesteds[index]
-                                                .animal!
-                                                .photo),
-                                        builder: (context, snapshot) {
-                                            return Container(
+                                            future: animalController.getFile(interestedController
+                                                .interesteds[index].animal!.photo),
+                                            builder: (context, snapshot) {
+                                              return Container(
                                                 height: 120,
                                                 width: 120,
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 0.7),
+                                                  border:
+                                                      Border.all(color: Colors.black, width: 0.7),
                                                   color: const Color(0xffffffff),
-                                                  borderRadius:
-                                                      BorderRadius.circular(100),
+                                                  borderRadius: BorderRadius.circular(100),
                                                   image: !snapshot.hasData
                                                       ? const DecorationImage(
-                                                    image: AssetImage(
-                                                        'assets/icone-pata.png'),
-                                                    fit: BoxFit.cover,
-                                                  )
+                                                          image:
+                                                              AssetImage('assets/icone-pata.png'),
+                                                          fit: BoxFit.cover,
+                                                        )
                                                       : DecorationImage(
-                                                    image: FileImage(
-                                                        snapshot.data!),
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                                          image: FileImage(snapshot.data!),
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                 ),
                                               );
-                                          }
-                                        )),
+                                            })),
                                 Container(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    interestedController
-                                            .interesteds[index].animal!.name ??
-                                        "",
+                                    interestedController.interesteds[index].animal!.name ?? "",
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Color(0xff434343),
@@ -233,123 +198,101 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                             ),
                           ],
                         ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                height: 40,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(20)),
-                                margin:
-                                    const EdgeInsets.only(top: 15, bottom: 15),
-                                child: TextButton(
-                                  onPressed: () async {
-                                    setState(() {
-                                      loadingButtonAccept = true;
-                                    });
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                          Container(
+                            height: 40,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                color: Colors.green, borderRadius: BorderRadius.circular(20)),
+                            margin: const EdgeInsets.only(top: 15, bottom: 15),
+                            child: TextButton(
+                              onPressed: () async {
+                                setState(() {
+                                  loadingButtonAccept = true;
+                                });
 
-                                    print(interestedController
-                                        .interesteds[index].interested?.docID);
-                                    // //Trocar dono
-                                    animalController.changeOwner(
-                                        interestedController
-                                            .interesteds[index].animal!.id!,
-                                        interestedController.interesteds[index]
-                                            .interested?.docID);
+                                print(interestedController.interesteds[index].interested?.docID);
+                                // //Trocar dono
+                                animalController.changeOwner(
+                                    interestedController.interesteds[index].animal!.id!,
+                                    interestedController.interesteds[index].interested?.docID);
 
-                                    // //Apagar todos os interessados nesse animal
-                                    interestedController
-                                        .removeAllInterestedInThisAnimal(
-                                            interestedController
-                                                .interesteds[index]
-                                                .animal!
-                                                .id!);
+                                // //Apagar todos os interessados nesse animal
+                                interestedController.removeAllInterestedInThisAnimal(
+                                    interestedController.interesteds[index].animal!.id!);
 
-                                    // //Notificar interessado
+                                // //Notificar interessado
 
-                                    setState(() {
-                                      loadingButtonAccept = false;
-                                    });
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text(
-                                          'Já estamos finalizando o processo de adoção, aguarde!'),
-                                    ));
-                                  },
-                                  child: loadingButtonAccept
-                                      ? const CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  Colors.white),
-                                          strokeWidth: 3,
-                                        )
-                                      : const Text(
-                                          "Aceitar",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                ),
-                              ),
-                              Container(
-                                height: 40,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(20)),
-                                margin:
-                                    const EdgeInsets.only(top: 15, bottom: 15),
-                                child: TextButton(
-                                  onPressed: () async {
-                                    setState(() {
-                                      loadingButtonAccept = true;
-                                    });
-                                    print("NOTIFICAR INTERESSADO");
-                                    print("APAGAR ESSE REGISTRO DE INTERESSE");
+                                setState(() {
+                                  loadingButtonAccept = false;
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                  content:
+                                      Text('Já estamos finalizando o processo de adoção, aguarde!'),
+                                ));
+                              },
+                              child: loadingButtonAccept
+                                  ? const CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      strokeWidth: 3,
+                                    )
+                                  : const Text(
+                                      "Aceitar",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                            ),
+                          ),
+                          Container(
+                            height: 40,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                color: Colors.red, borderRadius: BorderRadius.circular(20)),
+                            margin: const EdgeInsets.only(top: 15, bottom: 15),
+                            child: TextButton(
+                              onPressed: () async {
+                                setState(() {
+                                  loadingButtonAccept = true;
+                                });
+                                print("NOTIFICAR INTERESSADO");
+                                print("APAGAR ESSE REGISTRO DE INTERESSE");
 
-                                    interestedController.removeThisInterested(
-                                        interestedController
-                                            .interesteds[index].animal!.id!,
-                                        interestedController.interesteds[index]
-                                            .interested?.docID);
+                                interestedController.removeThisInterested(
+                                    interestedController.interesteds[index].animal!.id!,
+                                    interestedController.interesteds[index].interested?.docID);
 
-                                    setState(() {
-                                      loadingButtonAccept = false;
-                                    });
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text(
-                                          'Tudo bem, vamos continuar procurando!'),
-                                    ));
-                                  },
-                                  child: loadingButtonAccept
-                                      ? const CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  Colors.white),
-                                          strokeWidth: 3,
-                                        )
-                                      : const Text(
-                                          "Recusar",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                ),
-                              ),
-                            ]),
+                                setState(() {
+                                  loadingButtonAccept = false;
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                  content: Text('Tudo bem, vamos continuar procurando!'),
+                                ));
+                              },
+                              child: loadingButtonAccept
+                                  ? const CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      strokeWidth: 3,
+                                    )
+                                  : const Text(
+                                      "Recusar",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ),
+                            ),
+                          ),
+                        ]),
                         Center(
                           child: Container(
                             height: 40,
                             width: MediaQuery.of(context).size.width * 0.5,
                             decoration: BoxDecoration(
-                                color: Color(0xffF5A900),
+                                color: const Color(0xffF5A900),
                                 borderRadius: BorderRadius.circular(20)),
                             margin: const EdgeInsets.only(top: 15, bottom: 15),
                             child: TextButton(
@@ -359,14 +302,10 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                     builder: (context) {
                                       return ChatPage(
                                           id: interestedController
-                                              .interesteds[index]
-                                              .interested!
-                                              .docID
+                                              .interesteds[index].interested!.docID
                                               .toString(),
                                           name: interestedController
-                                              .interesteds[index]
-                                              .interested!
-                                              .name);
+                                              .interesteds[index].interested!.name);
                                     },
                                   ),
                                 );
@@ -375,9 +314,7 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
                                 "Enviar mensagem",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
+                                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                             ),
                           ),
@@ -391,54 +328,53 @@ class _ListInterestedSreenState extends State<ListInterestedSreen> {
     );
   }
 
-  Widget _title({String? title, Color? color}) {
-    return Text(
-      title ?? "",
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: color),
-    );
-  }
+  // Widget _title({String? title, Color? color}) {
+  //   return Text(
+  //     title ?? "",
+  //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: color),
+  //   );
+  // }
 
-  Widget _content({String? description, Color? color}) {
-    return Text(
-      description ?? "",
-      style: TextStyle(color: color),
-    );
-  }
+  // Widget _content({String? description, Color? color}) {
+  //   return Text(
+  //     description ?? "",
+  //     style: TextStyle(color: color),
+  //   );
+  // }
 
-  Widget _footer({Color? color}) {
-    return Row(
-      children: [
-        CircleAvatar(
-          backgroundImage: AssetImage(
-            'assets/avatar.png',
-          ),
-          radius: 12,
-        ),
-        const SizedBox(
-          width: 4,
-        ),
-        Expanded(
-            child: Text(
-          'Super user',
-          style: TextStyle(color: color),
-        )),
-        IconButton(onPressed: () {}, icon: Icon(Icons.share))
-      ],
-    );
-  }
+  // Widget _footer({Color? color}) {
+  //   return Row(
+  //     children: [
+  //       const CircleAvatar(
+  //         backgroundImage: AssetImage(
+  //           'assets/avatar.png',
+  //         ),
+  //         radius: 12,
+  //       ),
+  //       const SizedBox(
+  //         width: 4,
+  //       ),
+  //       Expanded(
+  //           child: Text(
+  //         'Super user',
+  //         style: TextStyle(color: color),
+  //       )),
+  //       IconButton(onPressed: () {}, icon: const Icon(Icons.share))
+  //     ],
+  //   );
+  // }
 
-  Widget _tag(String tag, VoidCallback onPressed) {
-    return InkWell(
-      onTap: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6), color: Colors.green),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        child: Text(
-          tag,
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-    );
-  }
+  // Widget _tag(String tag, VoidCallback onPressed) {
+  //   return InkWell(
+  //     onTap: onPressed,
+  //     child: Container(
+  //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Colors.green),
+  //       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+  //       child: Text(
+  //         tag,
+  //         style: const TextStyle(color: Colors.white),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

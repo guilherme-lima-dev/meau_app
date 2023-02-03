@@ -6,7 +6,7 @@ class SuccessRegisterScreen extends StatefulWidget {
   const SuccessRegisterScreen({Key? key}) : super(key: key);
 
   @override
-  _SuccessRegisterScreenState createState() => _SuccessRegisterScreenState();
+  State<SuccessRegisterScreen> createState() => _SuccessRegisterScreenState();
 }
 
 class _SuccessRegisterScreenState extends State<SuccessRegisterScreen> {
@@ -65,9 +65,7 @@ class _SuccessRegisterScreenState extends State<SuccessRegisterScreen> {
                 title: 'Vamos lá',
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()));
+                      context, MaterialPageRoute(builder: (context) => const HomeScreen()));
                 },
               ),
             ),

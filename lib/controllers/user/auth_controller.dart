@@ -10,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 
 class AuthController extends ChangeNotifier {
   final AuthService service;
-  var user = User();
+  var user = const User();
   var token = '';
   var tokenNotification = '';
   var authenticated = false;
@@ -51,9 +51,9 @@ class AuthController extends ChangeNotifier {
       final gsReference = FirebaseStorage.instance.ref("files/$image").child("file/");
       var errIMG = false;
       var img = '';
-      try{
+      try {
         img = await gsReference.getDownloadURL();
-      }catch(e){
+      } catch (e) {
         print("Erro na imagem");
         print(e);
         errIMG = true;
@@ -62,7 +62,7 @@ class AuthController extends ChangeNotifier {
       File file = File('');
       print("EERRO na ImG?");
       print(errIMG);
-      if(!errIMG){
+      if (!errIMG) {
         final Response response = await Dio().get<List<int>>(
           img,
           options: Options(
@@ -136,7 +136,7 @@ class AuthController extends ChangeNotifier {
     await service.logout();
     authenticated = false;
     token = '';
-    user = User();
+    user = const User();
     notifyListeners();
   }
 }

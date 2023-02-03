@@ -28,8 +28,8 @@ class Interested {
 }
 
 class InterestedWithModels {
-  User? owner = User();
-  User? interested = User();
+  User? owner = const User();
+  User? interested = const User();
   Animal? animal = Animal();
 
   InterestedWithModels({this.animal, this.owner, this.interested});

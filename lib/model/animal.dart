@@ -42,9 +42,8 @@ class Animal {
     name = json['name'];
     objective = json['objective'];
     porte = json['porte'];
-    requirements = json['requirements'] != null
-        ? Requirements.fromJson(json['requirements'])
-        : null;
+    requirements =
+        json['requirements'] != null ? Requirements.fromJson(json['requirements']) : null;
     sex = json['sex'];
     species = json['species'];
     temperament = json['temperament'];

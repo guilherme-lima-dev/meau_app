@@ -10,8 +10,7 @@ class ChatPage extends StatefulWidget {
   final String id;
   final String name;
 
-  const ChatPage({Key? key, required this.id, required this.name})
-      : super(key: key);
+  const ChatPage({Key? key, required this.id, required this.name}) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -39,9 +38,7 @@ class _ChatPageState extends State<ChatPage> {
             )),
         elevation: 0,
         centerTitle: true,
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
-        ],
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,11 +55,9 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 const Spacer(),
                 StreamBuilder(
-                    stream:
-                        firestore.collection('user').doc(widget.id).snapshots(),
-                    builder: (context,
-                        AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
-                            snapshot) {
+                    stream: firestore.collection('user').doc(widget.id).snapshots(),
+                    builder:
+                        (context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
                       return !snapshot.hasData
                           ? Container()
                           : Text(
@@ -88,14 +83,12 @@ class _ChatPageState extends State<ChatPage> {
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.docs.isNotEmpty) {
-
-                        List<QueryDocumentSnapshot?> allData = snapshot
-                            .data!.docs
+                        List<QueryDocumentSnapshot?> allData = snapshot.data!.docs
                             .where((element) =>
-                                element['users'].contains(widget.id) && element['users'].contains(authController.user.docID))
+                                element['users'].contains(widget.id) &&
+                                element['users'].contains(authController.user.docID))
                             .toList();
-                        QueryDocumentSnapshot? data =
-                            allData.isNotEmpty ? allData.first : null;
+                        QueryDocumentSnapshot? data = allData.isNotEmpty ? allData.first : null;
                         if (data != null) {
                           roomId = data.id;
                         }
@@ -106,8 +99,7 @@ class _ChatPageState extends State<ChatPage> {
                                     .collection('messages')
                                     .orderBy('datetime', descending: true)
                                     .snapshots(),
-                                builder: (context,
-                                    AsyncSnapshot<QuerySnapshot> snap) {
+                                builder: (context, AsyncSnapshot<QuerySnapshot> snap) {
                                   return !snap.hasData
                                       ? Container()
                                       : ListView.builder(
@@ -119,9 +111,7 @@ class _ChatPageState extends State<ChatPage> {
                                                     authController.user.docID,
                                                 snap.data!.docs[i]['message'],
                                                 DateFormat('HH:mm a').format(
-                                                    snap.data!
-                                                        .docs[i]['datetime']
-                                                        .toDate()));
+                                                    snap.data!.docs[i]['datetime'].toDate()));
                                           },
                                         );
                                 });
@@ -129,13 +119,12 @@ class _ChatPageState extends State<ChatPage> {
                         return Center(
                           child: Text(
                             "Nenhuma conversa encontrada!",
-                            style: Styles.h1()
-                                .copyWith(color: Colors.indigo.shade400),
+                            style: Styles.h1().copyWith(color: Colors.indigo.shade400),
                           ),
                         );
                       }
                     } else {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(
                           color: Colors.amber,
                         ),
@@ -154,15 +143,9 @@ class _ChatPageState extends State<ChatPage> {
                     'sent_by': authController.user.docID,
                     'datetime': DateTime.now(),
                   };
-                  firestore.collection('rooms').doc(roomId).update({
-                    'last_message': controller.text,
-                    'last_message_time': DateTime.now()
-                  });
-                  firestore
-                      .collection('rooms')
-                      .doc(roomId)
-                      .collection('messages')
-                      .add(data);
+                  firestore.collection('rooms').doc(roomId).update(
+                      {'last_message': controller.text, 'last_message_time': DateTime.now()});
+                  firestore.collection('rooms').doc(roomId).collection('messages').add(data);
                 } else {
                   Map<String, dynamic> data = {
                     'message': controller.text.trim(),
