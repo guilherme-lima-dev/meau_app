@@ -80,10 +80,8 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
           });
         },
         style: OutlinedButton.styleFrom(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          side: BorderSide(
-              color: (value == index) ? const Color(0xffF5A900) : Colors.black),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          side: BorderSide(color: (value == index) ? const Color(0xffF5A900) : Colors.black),
         ),
         child: Text(
           text,
@@ -95,8 +93,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
     );
   }
 
-  firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
+  firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -169,13 +166,11 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                               ? "Apadrinhar"
                               : "Ajuda",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 21, color: Color(0xff434343)),
+                      style: const TextStyle(fontSize: 21, color: Color(0xff434343)),
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                     child: TextField(
                       controller: nameController,
                       decoration: const InputDecoration(
@@ -213,8 +208,8 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                     onPressed: () {
                                       _showPicker(context, photoController);
                                     },
-                                    icon: const Icon(Icons.control_point,
-                                        color: Color(0Xff434343))),
+                                    icon:
+                                        const Icon(Icons.control_point, color: Color(0Xff434343))),
                                 const Text(
                                   "Adicionar fotos",
                                   textAlign: TextAlign.center,
@@ -426,8 +421,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (brincalhaoValue) {
                                   temperamentText += "Brincalhão;";
                                 } else {
-                                  temperamentText = temperamentText.replaceAll(
-                                      "Brincalhão;", "");
+                                  temperamentText = temperamentText.replaceAll("Brincalhão;", "");
                                 }
                               });
                             },
@@ -447,8 +441,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (timidoValue) {
                                   temperamentText += "Timido;";
                                 } else {
-                                  temperamentText =
-                                      temperamentText.replaceAll("Timido;", "");
+                                  temperamentText = temperamentText.replaceAll("Timido;", "");
                                 }
                               });
                             },
@@ -468,8 +461,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (calmoValue) {
                                   temperamentText += "Calmo;";
                                 } else {
-                                  temperamentText =
-                                      temperamentText.replaceAll("Calmo;", "");
+                                  temperamentText = temperamentText.replaceAll("Calmo;", "");
                                 }
                               });
                             },
@@ -495,8 +487,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                   if (guardaValue) {
                                     temperamentText += "Guarda;";
                                   } else {
-                                    temperamentText = temperamentText
-                                        .replaceAll("Guarda;", "");
+                                    temperamentText = temperamentText.replaceAll("Guarda;", "");
                                   }
                                 });
                               }),
@@ -515,8 +506,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (amorosoValue) {
                                   temperamentText += "Amoroso;";
                                 } else {
-                                  temperamentText = temperamentText.replaceAll(
-                                      "Amoroso;", "");
+                                  temperamentText = temperamentText.replaceAll("Amoroso;", "");
                                 }
                               });
                             },
@@ -536,8 +526,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (preguicosoValue) {
                                   temperamentText += "Preguiçoso;";
                                 } else {
-                                  temperamentText = temperamentText.replaceAll(
-                                      "Preguiçoso;", "");
+                                  temperamentText = temperamentText.replaceAll("Preguiçoso;", "");
                                 }
                               });
                             },
@@ -571,8 +560,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (vacinadoValue) {
                                   healthText += "Vacinado;";
                                 } else {
-                                  healthText =
-                                      healthText.replaceAll("Vacinado;", "");
+                                  healthText = healthText.replaceAll("Vacinado;", "");
                                 }
                               });
                             },
@@ -592,8 +580,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (vermifugadoValue) {
                                   healthText += "Vermifugado;";
                                 } else {
-                                  healthText =
-                                      healthText.replaceAll("Vermifugado;", "");
+                                  healthText = healthText.replaceAll("Vermifugado;", "");
                                 }
                               });
                             },
@@ -619,8 +606,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (castradoValue) {
                                   healthText += "Castrado;";
                                 } else {
-                                  healthText =
-                                      healthText.replaceAll("Castrado;", "");
+                                  healthText = healthText.replaceAll("Castrado;", "");
                                 }
                               });
                             },
@@ -640,8 +626,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 if (doenteValue) {
                                   healthText += "Doente;";
                                 } else {
-                                  healthText =
-                                      healthText.replaceAll("Doente;", "");
+                                  healthText = healthText.replaceAll("Doente;", "");
                                 }
                               });
                             },
@@ -652,12 +637,10 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     ],
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                     child: TextField(
                       controller: diseaseController,
-                      decoration:
-                          const InputDecoration(labelText: 'Doenças do Animal'),
+                      decoration: const InputDecoration(labelText: 'Doenças do Animal'),
                     ),
                   ),
                   Container(
@@ -792,13 +775,12 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                     child: TextField(
                       maxLines: 8,
                       controller: aboutanimalController,
-                      decoration: const InputDecoration(
-                          labelText: 'Compartilhe a história do animal'),
+                      decoration:
+                          const InputDecoration(labelText: 'Compartilhe a história do animal'),
                     ),
                   ),
                 ],
@@ -807,13 +789,11 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                 height: 50,
                 width: 250,
                 decoration: BoxDecoration(
-                    color: const Color(0xffF5A900),
-                    borderRadius: BorderRadius.circular(20)),
+                    color: const Color(0xffF5A900), borderRadius: BorderRadius.circular(20)),
                 margin: const EdgeInsets.only(bottom: 15),
                 child: TextButton(
                   onPressed: () async {
-                    final docAnimal =
-                        FirebaseFirestore.instance.collection('animal').doc();
+                    final docAnimal = FirebaseFirestore.instance.collection('animal').doc();
                     setState(() {
                       loadingButtonRegister = true;
                     });
@@ -843,26 +823,20 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                       loadingButtonRegister = false;
                     });
                     Timer(const Duration(seconds: 0), () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const SuccessRegisterScreen()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const SuccessRegisterScreen()));
                     });
                   },
                   child: loadingButtonRegister
                       ? const CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           strokeWidth: 3,
                         )
                       : const Text(
                           "Cadastrar",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25),
+                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
                         ),
                 ),
               )
