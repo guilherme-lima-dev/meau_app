@@ -274,9 +274,13 @@ class _ShowAnimalState extends State<ShowAnimal> {
       ],
     );
 
-    final bottomContentText = Text(
-      widget.animal.about ?? "",
-      style: const TextStyle(fontSize: 16.0),
+    final bottomContentText = Row(
+      children: [
+        Text(
+          widget.animal.about ?? "",
+          style: const TextStyle(fontSize: 16.0),
+        ),
+      ],
     );
     Container(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -323,14 +327,15 @@ class _ShowAnimalState extends State<ShowAnimal> {
               Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
                 child: Row(
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       "Temperamento: ",
                       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
+
               Padding(
                 padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.01),
                 child: Text(
@@ -400,62 +405,72 @@ class _ShowAnimalState extends State<ShowAnimal> {
               bottomContentText,
               // readButton,
               Container(
-                height: 50,
-                width: 250,
-                decoration: interestedController.canAdopt &&
-                        ("user/$widget.animal.user" != authController.user.docID)
-                    ? BoxDecoration(
-                        color: const Color(0xffF5A900), borderRadius: BorderRadius.circular(20))
-                    : BoxDecoration(
-                        color: const Color(0xff909090), borderRadius: BorderRadius.circular(20)),
-                margin: const EdgeInsets.only(top: 15, bottom: 15),
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: interestedController.canAdopt &&
-                        ("user/$widget.animal.user" != authController.user.docID)
-                    ? TextButton(
-                        onPressed: () async {
-                          final docInterested =
-                              FirebaseFirestore.instance.collection('interested').doc();
-                          setState(() {
-                            loadingButtonAdopt = true;
-                          });
-                          interested = Interested(
-                            docId: docInterested.id,
-                            animalId: "animal/${widget.animal.id}",
-                            ownerId: widget.animal.user,
-                            interestedId: "user/${authController.user.docID}",
-                          );
-                          print(interested.toJson());
-                          await docInterested.set(interested.toJson());
-                          await animalController.sendNotification(
-                              widget.animal.user, widget.animal);
-                          setState(() {
-                            loadingButtonAdopt = false;
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text(
-                                'Informamos o dono do animal, em breve vocês estarão em contato'),
-                          ));
-                        },
-                        child: loadingButtonAdopt
-                            ? const CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                strokeWidth: 3,
-                              )
-                            : const Text(
-                                "Adotar",
+                  height: 50,
+                  width: 250,
+                  decoration: interestedController.canAdopt &&
+                          (widget.animal.user != "user/${authController.user.docID}")
+                      ? BoxDecoration(
+                          color: const Color(0xffF5A900), borderRadius: BorderRadius.circular(20))
+                      : BoxDecoration(
+                          color: const Color(0xff909090), borderRadius: BorderRadius.circular(20)),
+                  margin: const EdgeInsets.only(top: 15, bottom: 15),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: interestedController.canAdopt &&
+                          (widget.animal.user != "user/${authController.user.docID}")
+                      ? TextButton(
+                          onPressed: () async {
+                            final docInterested =
+                                FirebaseFirestore.instance.collection('interested').doc();
+                            setState(() {
+                              loadingButtonAdopt = true;
+                            });
+                            interested = Interested(
+                              docId: docInterested.id,
+                              animalId: "animal/${widget.animal.id}",
+                              ownerId: widget.animal.user,
+                              interestedId: "user/${authController.user.docID}",
+                            );
+                            print(interested.toJson());
+                            await docInterested.set(interested.toJson());
+                            await animalController.sendNotification(
+                                widget.animal.user, widget.animal);
+                            setState(() {
+                              loadingButtonAdopt = false;
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text(
+                                  'Informamos o dono do animal, em breve vocês estarão em contato'),
+                            ));
+                          },
+                          child: loadingButtonAdopt
+                              ? const CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  strokeWidth: 3,
+                                )
+                              : const Text(
+                                  "Adotar",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25),
+                                ),
+                        )
+                      : (widget.animal.user != "user/${authController.user.docID}")
+                          ? const Text(
+                              "Você já sinalizou interesse por esse animal",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                            )
+                          : const Center(
+                              child: Text(
+                                "Você é o dono desse animal",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+                                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                               ),
-                      )
-                    : const Text(
-                        "Você já sinalizou interesse por esse animal",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-              )
+                            ))
             ],
           ),
         ),
